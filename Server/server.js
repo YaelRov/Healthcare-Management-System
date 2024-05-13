@@ -22,7 +22,7 @@ server.use(cors({
 }));
 
 
-//get parameter to check if to call initialization
+//get parameter to check if to call c
 async function Start() { if (true) await init(); }
 //Start();
 
