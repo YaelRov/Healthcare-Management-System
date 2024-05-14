@@ -1,18 +1,17 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const { MongoClient } = require('mongodb');
 const inquiriesRouter = require('./Routers/inquiries');
 const appointmentsRouter = require('./Routers/appointments');
 const medicalfileRouter = require('./Routers/medicalfile');
 const loginRouter = require('./Routers/login');
 
-//const init = require('./initialization');
-
 const host = process.env.HOST;
 const port = process.env.PORT;
+const mongoUrl = process.env.MONGODB_URL; // Your MongoDB connection URL
+
 const server = express();
-
-
 
 server.use(cors({
     origin: 'http://localhost:3306',
@@ -21,18 +20,28 @@ server.use(cors({
     credentials: true
 }));
 
+// Connect to MongoDB
+let db;
 
-//get parameter to check if to call c
-async function Start() { if (true) await init(); }
-//Start();
+async function connectToMongoDB() {
+    const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+        db = client.db();
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error);
+    }
+}
+
+connectToMongoDB();
 
 server.use(express.json());
 
-server.use('/inquiries', inquiriesRouter);
-server.use('/appointments', appointmentsRouter);
-server.use('/medicalfile', medicalfileRouter);
-server.use('/login', loginRouter);
-
+server.use('/inquiries', inquiriesRouter(db)); // Pass MongoDB instance to routers
+server.use('/appointments', appointmentsRouter(db)); // Pass MongoDB instance to routers
+server.use('/medicalfile', medicalfileRouter(db)); // Pass MongoDB instance to routers
+server.use('/login', loginRouter(db)); // Pass MongoDB instance to routers
 
 server.listen(port, host, () => {
     console.log(`listening to requests at http://${host}:${port}`);

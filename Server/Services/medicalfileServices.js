@@ -1,74 +1,150 @@
-const mysql = require('mysql2/promise');
+const mongoose = require('mongoose');
 
-const pool = mysql.createPool({
-  host: process.env.HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+const mongoose = require('mongoose');
+
+const MedicalFileSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: true,
+    index: true // Add an index for faster lookups by userId
+  },
+  patientName: {
+    type: String,
+    required: true
+  },
+  dateOfBirth: {
+    type: Date,
+    required: true
+  },
+  medicalHistory: {
+    type: String,
+    required: false
+  },
+  allergies: [
+    {
+      type: String,
+      required: false
+    }
+  ],
+  medications: [
+    {
+      name: {
+        type: String,
+        required: true
+      },
+      dosage: {
+        type: String,
+        required: true
+      },
+      frequency: {
+        type: String,
+        required: true
+      }
+    }
+  ],
+  appointments: [
+    {
+      date: {
+        type: Date,
+        required: true
+      },
+      doctor: {
+        type: String,
+        required: true
+      },
+      notes: {
+        type: String,
+        required: false
+      }
+    }
+  ],
+  details: {
+    type: Array,
+    required: false
+  }, // You can keep the "details" array if you need additional unstructured data
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-async function getMedicalFile(patientId) {
+
+const MedicalFile = mongoose.model('MedicalFile', MedicalFileSchema);
+
+async function getMedicalFile(userId) {
   try {
-    const [results, fields] = await pool.query('SELECT * FROM medicalfiles WHERE patientId = ?', [patientId]);
-    console.log(results);
-    console.log(fields);
-    return results;
-  }
-  catch (err) {
-    console.log(err);
+    const medicalFile = await MedicalFile.findOne({ userId });
+    return medicalFile; // return the entire document or specific fields if needed
+  } catch (err) {
+    console.error(err);
     throw err;
   }
 }
 
-async function getAllMedicalFiles() {
-    //להוסיף paging !!!!!!!
-    try {
-      const [results, fields] = await pool.query('SELECT * FROM medicalfiles');
-      console.log(results);
-      console.log(fields);
-      return results;
-    }
-    catch (err) {
-      console.log(err);
-      throw err;
-    }
-  }
+async function getAllMedicalFiles(paginationOptions = {}) {
+  // Implement pagination using Mongoose features like skip and limit
+  // Example with default limit of 10
+  const limit = paginationOptions.limit || 10;
+  const skip = paginationOptions.skip || 0;
 
-async function addDetail(patientId, detail) {
   try {
-    const [results, fields] = await pool.query(
-      'INSERT INTO medicalfiles WHERE patientId = ? (detail) VALUES (?)',
-      [patientId, detail]
+    const medicalFiles = await MedicalFile.find({}, null, { skip, limit });
+    return medicalFiles;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+async function addDetail(userId, detail) {
+  try {
+    const medicalFile = await MedicalFile.findOneAndUpdate(
+      { userId },
+      { $push: { details: detail } },
+      { new: true } // return the updated document
     );
-    console.log(results);
-    console.log(fields);
-    return results;
-  }
-  catch (err) {
-    console.log(err);
+    return medicalFile;
+  } catch (err) {
+    console.error(err);
     throw err;
   }
 }
 
-async function deleteDetail(patientId, detail) {
+async function deleteDetail(userId, detail) {
   try {
-    const [results, fields] = await pool.query('DELETE FROM medicalfiles WHERE patientId = ? && detail = ?', [patientId, detail]);
-    console.log(results);
-    console.log(fields);
-    return results;
-  }
-  catch (err) {
-    console.log(err);
+    const medicalFile = await MedicalFile.findOneAndUpdate(
+      { userId },
+      { $pull: { details: detail } },
+      { new: true } // return the updated document
+    );
+    return medicalFile;
+  } catch (err) {
+    console.error(err);
     throw err;
+  }
+}
+
+async function updateMedicalFile(userId, updateData) {
+  try {
+    const medicalFile = await MedicalFile.findOneAndUpdate(
+      { userId },
+      updateData,
+      { new: true } // return the updated document
+    );
+    return medicalFile;
+  } catch (err) {
+    console.error(err);
+    throw err;ב
   }
 }
 
 module.exports = {
-    getMedicalFile,
-    getAllMedicalFiles,
-    addDetail,
-    deleteDetail
+  getMedicalFile,
+  getAllMedicalFiles,
+  addDetail,
+  deleteDetail,
 };
