@@ -5,7 +5,7 @@ const { MongoClient } = require('mongodb');
 const inquiriesRouter = require('./Routers/inquiries');
 const appointmentsRouter = require('./Routers/appointments');
 const medicalfileRouter = require('./Routers/medicalfile');
-const loginRouter = require('./Routers/login');
+const usersRouter = require('./Routers/users');
 
 const host = process.env.HOST;
 const port = process.env.PORT;
@@ -41,7 +41,7 @@ server.use(express.json());
 server.use('/inquiries', inquiriesRouter(db)); // Pass MongoDB instance to routers
 server.use('/appointments', appointmentsRouter(db)); // Pass MongoDB instance to routers
 server.use('/medicalfile', medicalfileRouter(db)); // Pass MongoDB instance to routers
-server.use('/login', loginRouter(db)); // Pass MongoDB instance to routers
+server.use('/login', usersRouter(db)); // Pass MongoDB instance to routers
 
 server.listen(port, host, () => {
     console.log(`listening to requests at http://${host}:${port}`);
