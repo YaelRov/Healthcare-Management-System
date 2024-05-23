@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 // Define sub-schemas for questions, appointments, and visits
 const InquirySchema = new Schema({
-    //add man//**** *
   _id: { type: Schema.Types.ObjectId, auto: true },
   patientId:{type: Number, required: true},
-  date: { type: Date, required: true },
+  dateInquiry: { type: Date, required: true },
+  dateanswer: { type: Date },
   inquiryText: { type: String, required: true },
   answerText: { type: String },
   files: [{ type: String }], // URLs or paths to files
@@ -72,9 +72,15 @@ const UserSchema = new Schema({
 
 // Create and export the model
 const User = mongoose.model('User', UserSchema);
+const Address = mongoose.model('Address', AddressSchema);
 const Email= mongoose.model('Email', EmailSchema);
+const Inquiry=mongoose.model('Inquiry',InquirySchema);
+const Appointment=mongoose.model('Appointment',AppointmentSchema);
 module.exports = {
     User,
     validateEmail,
-    Email
+    Email,
+    Address,
+    Inquiry,
+    Appointment
   };
