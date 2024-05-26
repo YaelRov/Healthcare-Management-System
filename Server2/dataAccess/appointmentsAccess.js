@@ -2,18 +2,16 @@ const { Appointment } = require('../schema');
 
 async function addAppointment(patientId, date,reason) {
     try {
-     
-
         // Find the user by patientId and push the new inquiry to their inquiries array
         const updatedUser = await User.findOneAndUpdate(
             { idNumber: patientId },
             {
-                $push: {
-                    appointments: {
+                $push:  {
+                    appointments: new Appointment( {
                         patientId,
                         date,
                         reason
-                    }
+                    })
                 }
             },
             { new: true } // Return the updated user document

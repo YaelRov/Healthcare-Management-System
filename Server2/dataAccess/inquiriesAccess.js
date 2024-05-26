@@ -12,13 +12,14 @@ async function addInquiry(patientId, inquiryText, files = [], answerText = null)
             { idNumber: patientId },
             {
                 $push: {
-                    inquiries: {
+                    inquiries: new Inquiry({
+                        
                         dateInquiry: new Date(),
                         inquiryText,
                         answerText,
                         files,
                         status
-                    }
+                    })
                 }
             },
             { new: true } // Return the updated user document
