@@ -1,23 +1,45 @@
 const { Inquiry, User } = require('../schema');
-
+const { default: dataAccess } = require('./dataAccess');
+class inquiryDataAccess extends dataAccess {
+    constructor() {
+        super()
+        mongoose.connect(process.env.MONGODB_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+          })
+            .then(async (connection) => {
+              this.connection = connection.db; // Store the database object
+              // Use the connection to get the specific collection:
+              this.collection = this.connection.collection('users');  // Replace 'users' with your actual collection name
+      
+              console.log('Connected to MongoDB and collection "users"');
+      
+              // Here you can add any collection-specific initialization you need
+            })
+            .catch(err => {
+              console.error('MongoDB connection error:', err);
+              throw err; // Re-throw the error to handle it elsewhere
+            });      
+    }
 
 
 // Function to add a new inquiry for a specific patient
-async function addInquiry(patientId, inquiryText, files = [], answerText = null) {
+//הפרמטרים שמקבלים --- patientId, inquiryText, files = [], answerText = null
+async create(data) {
     try {
-        const status = answerText ? 'answered' : 'pending'; // Determine status based on answerText
+        const status = data.answerText ? 'answered' : 'pending'; // Determine status based on answerText
 
         // Find the user by patientId and push the new inquiry to their inquiries array
         const updatedUser = await User.findOneAndUpdate(
-            { idNumber: patientId },
+            { idNumber: data.patientId },
             {
                 $push: {
                     inquiries: new Inquiry({
                         
                         dateInquiry: new Date(),
-                        inquiryText,
-                        answerText,
-                        files,
+                        inquiryText: data.inquiryText,
+                        answerText: data.answerText,
+                        files: data.files,
                         status
                     })
                 }
@@ -26,7 +48,7 @@ async function addInquiry(patientId, inquiryText, files = [], answerText = null)
         );
 
         if (!updatedUser) {
-            throw new Error(`User with ID ${patientId} not found.`);
+            throw new Error(`User with ID ${data.patientId} not found.`);
         }
 
         return updatedUser.inquiries.slice(-1)[0]; // Return the newly added inquiry
@@ -37,30 +59,31 @@ async function addInquiry(patientId, inquiryText, files = [], answerText = null)
 }
 
 // Function to answer an existing inquiry for a specific patient
-async function answerInquiry(patientId, inquiryId, answerText, files = []) {
+// פרמטרים שלי ---- patientId, inquiryId, answerText, files = []
+async update(data) {
     try {
         const updatedUser = await User.findOneAndUpdate(
             {
-                idNumber: patientId,
-                "inquiries._id": inquiryId // Find the specific inquiry to update
+                idNumber: data.patientId,
+                "inquiries._id": data.inquiryId // Find the specific inquiry to update
             },
             {
                 $set: {
-                    "inquiries.$.answerText": answerText,
+                    "inquiries.$.answerText": data.answerText,
                     "inquiries.$.dateAnswered": new Date(),
                     "inquiries.$.status": 'answered'
                 },
-                $push: { "inquiries.$.files": { $each: files } }
+                $push: { "inquiries.$.files": { $each: data.files } }
             },
             { new: true }
         );
 
         if (!updatedUser) {
-            throw new Error(`Inquiry with ID ${inquiryId} for patient with ID ${patientId} not found.`);
+            throw new Error(`Inquiry with ID ${data.inquiryId} for patient with ID ${data.patientId} not found.`);
         }
 
         // Find the updated inquiry in the array and return it
-        const updatedInquiry = updatedUser.inquiries.find(inquiry => inquiry._id.toString() === inquiryId);
+        const updatedInquiry = updatedUser.inquiries.find(inquiry => inquiry._id.toString() === data.inquiryId);
         return updatedInquiry;
     } catch (err) {
         console.error('Error answering inquiry:', err);
@@ -69,13 +92,13 @@ async function answerInquiry(patientId, inquiryId, answerText, files = []) {
 }
 
 
-
-async function deleteInquiry(patientId,inquiryId) {
+//הפרמטרים שהוא מקבל---- patientId,inquiryId
+async delete(data) {
     try {
         const deletedInquiry = await User.findByIdAndDelete(
             {
-                idNumber: patientId,
-                "inquiries._id": inquiryId // Find the specific inquiry to update
+                idNumber: data.patientId,
+                "inquiries._id": data.inquiryId // Find the specific inquiry to update
             },
         )
    
@@ -89,36 +112,35 @@ async function deleteInquiry(patientId,inquiryId) {
     }
 }
 
-async function updateInquiry(patientId, inquiryId, updateFields) {
-    try {
-        const updatedUser = await User.findOneAndUpdate(
-            {
-                idNumber: patientId,
-                "inquiries._id": inquiryId
-            },
-            { $set: { "inquiries.$": updateFields } },
-            { new: true }
-        );
+// async updateInquiry(patientId, inquiryId, updateFields) {
+//     try {
+//         const updatedUser = await User.findOneAndUpdate(
+//             {
+//                 idNumber: patientId,
+//                 "inquiries._id": inquiryId
+//             },
+//             { $set: { "inquiries.$": updateFields } },
+//             { new: true }
+//         );
 
-        if (!updatedUser) {
-            throw new Error(`Error to delete inquiry`);
-        }
+//         if (!updatedUser) {
+//             throw new Error(`Error to delete inquiry`);
+//         }
 
-        const updatedInquiry = updatedUser.inquiries.find(inquiry => inquiry._id.toString() === inquiryId);
-        return updatedInquiry;
-    } catch (err) {
-        console.error(err);
-        throw err;
-    }
-}
+//         const updatedInquiry = updatedUser.inquiries.find(inquiry => inquiry._id.toString() === inquiryId);
+//         return updatedInquiry;
+//     } catch (err) {
+//         console.error(err);
+//         throw err;
+//     }
+// }
 
-
-async function readInquiry(patientId,inquiryId) {
+//הפרמטרים שאני מקבל ---- patientId,inquiryId
+async getById(id) {
     try {
         const inquiryUser = await User.findById(
             {
-                idNumber: patientId,
-                "inquiries._id": inquiryId // Find the specific inquiry to update
+                idNumber: id,
             },
         )
         if (!inquiryUser) {
@@ -132,11 +154,12 @@ async function readInquiry(patientId,inquiryId) {
 }
 
 
-
-module.exports = {
-    addInquiry,
-    answerInquiry,
-    deleteInquiry,
-    updateInquiry,
-    readInquiry
-};
+    }
+    export default new inquiryDataAccess();
+// module.exports = {
+//     addInquiry,
+//     answerInquiry,
+//     deleteInquiry,
+//     updateInquiry,
+//     readInquiry
+// };
