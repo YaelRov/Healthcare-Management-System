@@ -41,8 +41,8 @@ function generateRandomPassword() {
           passwordHash: null, // Replace with actual password hashing
           profile: 'patient',
           inquiries: [
-            { patientId: 100000000 + i, date: new Date(), inquiryText: 'Question 1', answerText: 'Answer 1', status: 'answered' },
-            { patientId: 100000000 + i,date: new Date(), inquiryText: 'Question 2', status: 'pending' },
+            { patientId: 100000000 + i, dateInquiry: new Date(), inquiryText: 'Question 1', answerText: 'Answer 1', status: 'answered' },
+            { patientId: 100000000 + i,dateInquiry: new Date(), inquiryText: 'Question 2', status: 'pending' },
           ],
           appointments: [
             { patientId: 100000000 + i,date: new Date(), reason: 'General checkup' },

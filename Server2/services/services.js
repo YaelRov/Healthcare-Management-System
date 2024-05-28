@@ -1,12 +1,12 @@
 class Service {
 
-    constructor(dataAccess) {
-        return this.dataAccess = dataAccess;
+    constructor(DataAccess) {
+        return this.DataAccess = DataAccess;
     }
 
     async create(data) {
         try {
-            return this.dataAccess.create(data);
+            return this.DataAccess.create(data);
         }
         catch (err) {
             console.log(err);
@@ -16,7 +16,7 @@ class Service {
     async getAll() {
 
         try {
-           return this.dataAccess.getAll();
+           return this.DataAccess.getAll();
         }
         catch (err) {
             console.log(err);
@@ -25,7 +25,7 @@ class Service {
 
     async getById(id) {
         try {
-            return this.dataAccess.getById(id);
+            return this.DataAccess.getById(id);
         }
         catch (err) {
             return console.log(err);
