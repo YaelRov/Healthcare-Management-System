@@ -17,7 +17,7 @@ class inquiriesServies extends service {
         } catch (err) {
             // 4. Handle errors
             console.error('Error creating inquiry:', err);
-            throw new Error('Failed to create user');
+            throw err;
         }
     }
     async update(data) {
@@ -34,7 +34,7 @@ class inquiriesServies extends service {
         } catch (err) {
             // 4. Handle errors
             console.error('Error updating user:', err);
-            throw new Error('Failed to update inquiry');
+            throw err;
         }
     }
     async getById(userId) {
@@ -45,7 +45,7 @@ class inquiriesServies extends service {
         } catch (err) {
             // 2. Handle errors
             console.error('Error getting inquiries:', err);
-            throw new Error('Failed to get inquiries');
+            throw err;
         }
     }
 
@@ -57,7 +57,7 @@ class inquiriesServies extends service {
         } catch (err) {
             // 2. Handle errors
             console.error('Error deleting user:', err);
-            throw new Error('Failed to delete user');
+            throw err;
         }
     }
 }

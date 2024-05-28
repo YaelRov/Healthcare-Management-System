@@ -38,7 +38,7 @@ class usersDataAccess extends dataAccess {
         password: data.password, profile: data.profile
       }); // Create a new user object
       await user.save(); // Save the user to the database
-      return user;
+      return user._id;
     } catch (err) {
       console.error(err);
       throw err;
@@ -49,7 +49,7 @@ class usersDataAccess extends dataAccess {
     try {
       const deletedUser = await User.findOneAndDelete({ idNumber: data.idNumber });
       if (!deletedUser) {
-        throw new Error(`Error in deleting user`);
+        throw new{name: "Delete failed", message: " Error in deleting user"};
       }
       return deletedUser; // Optionally return the deleted user object
     } catch (err) {
@@ -82,7 +82,7 @@ class usersDataAccess extends dataAccess {
       );
 
       if (!updatedUser) {
-        throw new Error(`Error in updating user.`);
+        throw new {name:"Update failed", message:"Error in updating user."};
       }
 
       return updatedUser;
@@ -96,9 +96,6 @@ class usersDataAccess extends dataAccess {
   async getById(id) {
     try {
       const user = await User.findOne({ idNumber: id });
-      if (!user) {
-        throw new Error(`Error in reading user`);
-      }
       return user;
     } catch (err) {
       console.error(err);

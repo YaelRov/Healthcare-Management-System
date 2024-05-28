@@ -42,9 +42,8 @@ async create(data) {
         );
 
         if (!updatedUser) {
-            throw new Error(`Error to add appointments`);
+            throw new { name: "Create failed", message: "Error in creating appointment." };
         }
-
         return updatedUser.inquiries.slice(-1)[0]; // Return the newly added inquiry
     } catch (err) {
         console.error('Error adding appointment:', err);
@@ -63,7 +62,7 @@ async delete(data) {
         )
    
         if (!deletedAppointment) {
-            throw new Error(`Error delete appointmens`);
+            throw new { name: "Delete failed", message: " Error in deleting appointment" };
         }
         return deletedAppointment;
     } catch (err) {
@@ -84,7 +83,7 @@ async update(data) {
         );
 
         if (!updatedUser) {
-            throw new Error(`Error to delete appointments`);
+            throw new { name: "Update failed", message: "Error in updating appointment." };
         }
 
         const updatedAppointments = updatedUser.appointments.find(appointment => appointment._id.toString() === data.appointmentId);
@@ -103,9 +102,6 @@ async getById(id) {
                 idNumber: id,
             },
         )
-        if (!appointmentUser) {
-            throw new Error(`Error to reading appointments`);
-        }
         return appointmentUser;
     } catch (err) {
         console.error(err);

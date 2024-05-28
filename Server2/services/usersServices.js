@@ -28,7 +28,7 @@ class usersService extends service {
         } catch (err) {
             // 4. Handle errors
             console.error('Error creating user:', err);
-            throw new Error('Failed to create user');
+            throw err;
         }
     }
 
@@ -48,7 +48,7 @@ class usersService extends service {
         } catch (err) {
             // 4. Handle errors
             console.error('Error updating user:', err);
-            throw new Error('Failed to update user');
+            throw err;
         }
     }
     async getById(userId) {
@@ -59,7 +59,7 @@ class usersService extends service {
         } catch (err) {
             // 2. Handle errors
             console.error('Error getting user:', err);
-            throw new Error('Failed to get user');
+            throw err;
         }
     }
 
@@ -71,7 +71,7 @@ class usersService extends service {
         } catch (err) {
             // 2. Handle errors
             console.error('Error deleting user:', err);
-            throw new Error('Failed to delete user');
+            throw err;
         }
     }
 

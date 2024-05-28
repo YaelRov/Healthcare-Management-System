@@ -22,7 +22,7 @@ class appointmentsServies extends service {
         } catch (err) {
             // 4. Handle errors
             console.error('Error creating appointment:', err);
-            throw new Error('Failed to create appointment');
+            throw err;
         }
     }
     async update(data) {
@@ -39,7 +39,7 @@ class appointmentsServies extends service {
         } catch (err) {
             //             // 4. Handle errors
             console.error('Error  updated appointment:', err);
-            throw new Error('Failed to update inquiry');
+            throw err;
         }
     }
     async getById(userId) {
@@ -50,7 +50,7 @@ class appointmentsServies extends service {
         } catch (err) {
             // 2. Handle errors
             console.error('Error getting appoiment:', err);
-            throw new Error('Failed to get appoiment');
+            throw err;
         }
     }
 
@@ -62,7 +62,7 @@ class appointmentsServies extends service {
         } catch (err) {
             // 2. Handle errors
             console.error('Error deleting appoiment:', err);
-            throw new Error('Failed to delete appoiment');
+            throw err;
         }
     }
 }
