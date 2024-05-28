@@ -1,4 +1,4 @@
-class service {
+class Service {
 
     constructor(dataAccess) {
         return this.dataAccess = dataAccess;
@@ -52,4 +52,4 @@ class service {
     }
 }
 
-export default service;
+export default Service;

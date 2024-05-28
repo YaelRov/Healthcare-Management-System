@@ -1,4 +1,4 @@
-class dataAccess{
+class DataAccess{
 
     constructor() {
     }
@@ -30,4 +30,4 @@ class dataAccess{
     // }
 }
 
-export default dataAccess;
+export default DataAccess;

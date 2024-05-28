@@ -11,7 +11,7 @@ class usersService extends service {
     async create(data) {
         try {
             // 1. Validate user data (add more specific validation as needed)
-            if (!data.email || !data.password || !data.firstName || !data.lastName) {
+            if (data.userId||!data.email || !data.password || !data.firstName || !data.lastName) {
                 throw new Error('Missing required fields');
             }
 
