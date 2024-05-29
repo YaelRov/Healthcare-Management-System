@@ -1,10 +1,10 @@
-import Controller from "./controllers.js";
-import inquirysServices from '../services/inquiriesServices.js'
-class inquiryControllers extends Controller {
+const Controller = require('./controllers.js');
+const inquirysServices = require('../services/inquiriesServices.js');
+
+class InquiryControllers extends Controller {
     constructor(Service) {
         super(Service);
     }
-    
 }
 
-export default new inquiryControllers(inquirysServices);
+module.exports = new InquiryControllers(inquirysServices);

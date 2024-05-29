@@ -1,55 +1,47 @@
 class Service {
-
-    constructor(DataAccess) {
-        return this.DataAccess = DataAccess;
+    constructor(dataAccess) {
+        this.dataAccess = dataAccess;
     }
 
     async create(data) {
         try {
-            return this.DataAccess.create(data);
-        }
-        catch (err) {
-            console.log(err);
+            return await this.dataAccess.create(data);
+        } catch (err) {
+            throw err;
         }
     }
 
     async getAll() {
-
         try {
-           return this.DataAccess.getAll();
-        }
-        catch (err) {
-            console.log(err);
+            return await this.dataAccess.getAll();
+        } catch (err) {
+            throw err;
         }
     }
 
     async getById(id) {
         try {
-            return this.DataAccess.getById(id);
-        }
-        catch (err) {
-            return console.log(err);
+            return await this.dataAccess.getById(id);
+        } catch (err) {
+            throw err;
         }
     }
 
-  
     async update(data) {
         try {
-            return this.dataAccess.update(data);
-        }
-        catch (err) {
-            console.log(err);
+            return await this.dataAccess.update(data);
+        } catch (err) {
+            throw err;
         }
     }
 
     async delete(id) {
         try {
-            return this.dataAccess.delete(id);
-        }
-        catch (err) {
-            console.log(err);
+            return await this.dataAccess.delete(id);
+        } catch (err) {
+            throw err;
         }
     }
 }
 
-export default Service;
+module.exports = Service;

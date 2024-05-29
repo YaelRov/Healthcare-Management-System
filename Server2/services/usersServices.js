@@ -1,81 +1,78 @@
-import service from "./services.js";
-import usersAccess from "../dataAccess/usersAccess.js";
+const Service = require("./services.js");
+const usersAccess = require("../dataAccess/usersAccess.js");
 const bcrypt = require('bcrypt');
-const { User, validateEmail, Email, Address } = require('../schema.js');
+const { validateEmail } = require('../schema.js');
 
-class usersService extends service {
+class UsersService extends Service {
     constructor(dataAccess) {
         super(dataAccess);
     }
 
     async create(data) {
         try {
-            // 1. Validate user data (add more specific validation as needed)
-            if (data.userId||!data.email || !data.password || !data.firstName || !data.lastName) {
+            // Validate user data
+            if (!data.email || !data.password || !data.firstName || !data.lastName) {
                 throw new Error('Missing required fields');
             }
 
             if (!validateEmail(data.email)) {
                 throw new Error('Invalid email address');
             }
-            // 2. Hash password
+
+            // Hash password
             const hashedPassword = await bcrypt.hash(data.password, 10);
             data.password = hashedPassword;
 
-            // 3. Create user in database
+            // Create user in database
             const createdUser = await this.dataAccess.create(data);
             return createdUser;
         } catch (err) {
-            // 4. Handle errors
-            console.error('Error creating user:', err);
+            // Handle errors
             throw err;
         }
     }
 
     async update(data) {
         try {
-            // 1. Validate updated fields
+            // Validate updated fields
             if (data.email && !validateEmail(data.email)) {
                 throw new Error('Invalid email address');
             }
 
-            // 2. Check authorization (ensure the user has permission to update)
-            // ... (add your authorization logic here)
+            // Check authorization
+            // Implement authorization logic here
 
-            // 3. Update user in database
-            const updatedUser = await this.dataAccess.update(data); // Update based on ID
+            // Update user in database
+            const updatedUser = await this.dataAccess.update(data);
             return updatedUser;
         } catch (err) {
-            // 4. Handle errors
-            console.error('Error updating user:', err);
+            // Handle errors
             throw err;
         }
     }
+
     async getById(userId) {
         try {
-            // 1. Get user from database
+            // Get user from database
             const user = await this.dataAccess.getById(userId);
             return user;
         } catch (err) {
-            // 2. Handle errors
-            console.error('Error getting user:', err);
+            // Handle errors
             throw err;
         }
     }
 
     async delete(userId) {
         try {
-            // 1. Delete user from database
+            // Delete user from database
             const deletedUser = await this.dataAccess.delete(userId);
             return deletedUser;
         } catch (err) {
-            // 2. Handle errors
-            console.error('Error deleting user:', err);
+            // Handle errors
             throw err;
         }
     }
 
 }
-export default new usersService(usersAccess);
 
-
+module.exports = new UsersService(usersAccess);

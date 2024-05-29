@@ -2,15 +2,10 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
-import inquiriesRouter from './routers/inquiriesRouters';
-import usersRouter from './routers/usersRouters';
-import appointmentsRouter from './routers/appointmentsRouters';
-//import medicalfileRouter from './routers/medicalfilesRouters';
-
-// const inquiriesRouter = require('./Routers/inquiries');
-// const appointmentsRouter = require('./Routers/appointments');
-// const medicalfileRouter = require('./Routers/medicalfile');
-// const usersRouter = require('./Routers/users');
+const inquiriesRouter = require('./routers/inquiriesRouters');
+const usersRouter = require('./routers/usersRouters');
+const appointmentsRouter = require('./routers/appointmentsRouters');
+//const medicalfileRouter = require('./routers/medicalfilesRouters');
 
 const host = process.env.HOST;
 const port = process.env.PORT;
@@ -43,10 +38,10 @@ connectToMongoDB();
 
 server.use(express.json());
 
-server.use('/inquiries', inquiriesRouter(db)); // Pass MongoDB instance to routers
-server.use('/appointments', appointmentsRouter(db)); // Pass MongoDB instance to routers
-// server.use('/medicalfile', medicalfileRouter(db)); // Pass MongoDB instance to routers
-server.use('/login', usersRouter(db)); // Pass MongoDB instance to routers
+server.use('/inquiries', (req, res, next) => inquiriesRouter(db)(req, res, next)); // Pass MongoDB instance to routers
+server.use('/appointments', (req, res, next) => appointmentsRouter(db)(req, res, next)); // Pass MongoDB instance to routers
+//server.use('/medicalfile', (req, res, next) => medicalfileRouter(db)(req, res, next)); // Pass MongoDB instance to routers
+server.use('/login', (req, res, next) => usersRouter(db)(req, res, next)); // Pass MongoDB instance to routers
 
 server.listen(port, host, () => {
     console.log(`listening to requests at http://${host}:${port}`);
