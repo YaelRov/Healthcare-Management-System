@@ -1,3 +1,6 @@
+
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') })
 const mongoose = require('mongoose');
 
 class DataAccess {
@@ -7,10 +10,9 @@ class DataAccess {
 
     async initialize() {
         try {
-            await mongoose.connect(process.env.MONGODB_URL, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            });
+            console.log(process.env.MONGODB_URL);
+            await mongoose.connect(process.env.MONGODB_URL
+            );
             console.log('Connected to MongoDB');
         } catch (error) {
             console.error('Error connecting to MongoDB:', error);

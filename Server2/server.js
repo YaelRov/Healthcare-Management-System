@@ -1,16 +1,21 @@
-const express = require('express');
 require('dotenv').config();
+const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const inquiriesRouter = require('./routers/inquiriesRouters');
 const usersRouter = require('./routers/usersRouters');
 const appointmentsRouter = require('./routers/appointmentsRouters');
 //const medicalfileRouter = require('./routers/medicalfilesRouters');
-
+console.log('Environment variables:', process.env);
 const host = process.env.HOST;
+console.log(process.env.HOST)
+console.log(host)
 const port = process.env.PORT;
+console.log(process.env.PORT)
+console.log(port)
 const mongoUrl = process.env.MONGODB_URL; // Your MongoDB connection URL
-
+console.log(process.env.MONGODB_URL)
+console.log(mongoUrl)
 const server = express();
 
 server.use(cors({
@@ -24,7 +29,7 @@ server.use(cors({
 let db;
 
 async function connectToMongoDB() {
-    const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = new MongoClient(mongoUrl);
     try {
         await client.connect();
         console.log('Connected to MongoDB');
