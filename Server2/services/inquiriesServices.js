@@ -43,15 +43,27 @@ class InquiriesService extends Service {
 
     async getById(userId) {
         try {
+            console.log("inquiriesServies getById");
             // Get inquiries by user ID from database
             const inquiries = await this.dataAccess.getById(userId);
             return inquiries;
         } catch (err) {
             // Handle errors
+            console.log("error in inquiriesServies getById")
             throw err;
         }
     }
-
+    async getAll() { // New getAll function
+        try {
+            console.log("inquiriesServies getAll");
+            const allInquiries = await this.dataAccess.getAll();
+            return allInquiries;
+        } catch (err) {
+            console.log("error in inquiriesServies getAll");
+            throw err; 
+        }
+    }
+    
     async delete(userId) {
         try {
             // Delete inquiry from database

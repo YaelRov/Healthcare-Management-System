@@ -35,6 +35,7 @@ class InquiryDataAccess extends DataAccess {
     }
 
     async update(data) {
+        console.log(data);
         try {
             const updatedUser = await User.findOneAndUpdate(
                 {
@@ -98,7 +99,21 @@ class InquiryDataAccess extends DataAccess {
             throw err;
         }
     }
-}
+     }
+//     async getAll(patientId) {
+//         try {
+//           const user = await User.findOne({ idNumber: patientId });
+//           if (user) {
+//             return user.inquiries;
+//           } else {
+//             throw new Error(`User with ID ${patientId} not found`);
+//           }
+//         } catch (err) {
+//           console.error("Error getting all inquiries:", err);
+//           throw err;
+//         }
+//       }
+// }
 
 module.exports = new InquiryDataAccess();
 

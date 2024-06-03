@@ -85,7 +85,37 @@ class AppointmentDataAccess extends DataAccess {
             throw err;
         }
     }
+
+
+// async getAll(model) {
+//     try {
+//       const allItems = await model.find({}); // find all documents from the model
+//       return allItems;
+//     } catch (error) {
+//       console.error('Error getting all items:', error);
+//       throw error;
+//     }
+//   }
+
+async getAll() {
+    try {
+        // מציאת כל המשתמשים שיש להם תורים
+        const usersWithAppointments = await User.find({ appointments: { $exists: true, $ne: [] } });
+
+        // איסוף כל התורים מכל המשתמשים למערך אחד
+        let allAppointments = [];
+        for (const user of usersWithAppointments) {
+          allAppointments = allAppointments.concat(user.appointments);
+        }
+
+        return allAppointments;
+    } catch (err) {
+        console.error('Error getting all appointments:', err);
+        throw err;
+    }
 }
+
+ }
 
 module.exports = new AppointmentDataAccess();
 

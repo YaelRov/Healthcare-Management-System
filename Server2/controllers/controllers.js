@@ -1,6 +1,8 @@
 class Controllers {
     constructor(service) {
         this.service = service;
+        console.log(service);
+        
     }
 
     async create(req, res, next) {
@@ -22,9 +24,11 @@ class Controllers {
 
     async getAll(req, res, next) {
         try {
+            console.log("CONTROLLERS_getAll");
             const result = await this.service.getAll();
             res.status(200).send(result);
         } catch (err) {
+            console.log("error in controlers getAll")
             console.error(err);
             res.status(500).send('Internal Server Error');
         }
@@ -32,6 +36,7 @@ class Controllers {
 
     async getById(req, res, next) {
         try {
+            console.log("CONTROLLERS_getById")
             const id = req.params.id;
             const result = await this.service.getById(id);
             if (!result) {
@@ -44,6 +49,7 @@ class Controllers {
             if (err.kind === 'ObjectId') {
                 res.status(400).send('Invalid ID');
             } else {
+                console.log("error in controlers getById")
                 res.status(500).send('Internal Server Error');
             }
         }
@@ -51,8 +57,15 @@ class Controllers {
 
     async update(req, res, next) {
         try {
-            const id = req.params.id;
-            const result = await this.service.update(id, req.body);
+            const patientId = parseInt(req.params.patientId); 
+            const inquiryId = req.params.id;
+            const updatedData = {
+                answerText:req.body,
+                patientId: patientId,
+                inquiryId: inquiryId
+              };
+          
+              const result = await this.service.update(updatedData);
             res.status(200).send(`${id} updated successfully`);
         } catch (err) {
             console.error(err);
