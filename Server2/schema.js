@@ -1,10 +1,11 @@
+const { boolean } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Define sub-schemas for questions, appointments, and visits
 const InquirySchema = new Schema({
   _id: { type: Schema.Types.ObjectId, auto: true },
-  patientId:{type: Number, required: true},
+  patientId:{type: Number, required: true,},
   dateInquiry: { type: Date, required: true },
   dateanswer: { type: Date },
   inquiryText: { type: String, required: true },
@@ -40,16 +41,22 @@ var validateEmail = function(email) {
 };
 
 var EmailSchema = new Schema({
-    email: {
-        type: String,
-        trim: true,
-        lowercase: true,
-        unique: true,
-        required: 'Email address is required',
-        validate: [validateEmail, 'Please fill a valid email address'],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
-    }
+  email: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    unique: false, // changed to false 
+    required: 'Email address is required',
+    validate: [validateEmail, 'Please fill a valid email address'],
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+  }
 });
+
+var passwordSchema=new Schema({
+  password:{type: String, required: true},
+  expireDate:{type: Date, required: true},
+   valid: { type: Boolean, required: true }
+})
 
 // Define the main user schema
 const UserSchema = new Schema({
@@ -60,8 +67,8 @@ const UserSchema = new Schema({
   dateOfBirth: { type: Date, required: true },
   address: { type:  AddressSchema, required: true },
   phoneNumber: { type: String, required: true },
-  email: { type: EmailSchema, required: true, unique: true },
-  passwordHash: { type: String }, // Store hashed passwords
+  email: { type: EmailSchema, required: true, unique: false },
+  passwordHash: { type: passwordSchema }, // Store hashed passwords
   profile: { type: String, required: true }, // e.g., 'doctor' or 'patient'
   inquiries: [InquirySchema],
   appointments: [AppointmentSchema],
@@ -76,11 +83,15 @@ const Address = mongoose.model('Address', AddressSchema);
 const Email= mongoose.model('Email', EmailSchema);
 const Inquiry=mongoose.model('Inquiry',InquirySchema);
 const Appointment=mongoose.model('Appointment',AppointmentSchema);
+const Password=mongoose.model('Password',passwordSchema);
 module.exports = {
     User,
     validateEmail,
     Email,
     Address,
     Inquiry,
-    Appointment
+    Appointment,
+    Password
+    
   };
+

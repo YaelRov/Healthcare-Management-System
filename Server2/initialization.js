@@ -1,7 +1,8 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const { User, Email } = require('./schema');
-require('dotenv').config();
 const MONGODB_URL = process.env.MONGODB_URL;
+
 
 async function initialization() {
     try {
@@ -26,7 +27,7 @@ async function initialization() {
                             number: Math.floor(Math.random() * 100) + 1,
                         },
                         phoneNumber: `05${Math.floor(Math.random() * 100000000)}`, // Random phone number
-                        email: new Email({ email: `patient${i + 1}@example.com` }),
+                        email: new Email({ email: `s0583283644@gmail.com` }),
                         passwordHash: null, // Replace with actual password hashing
                         profile: 'patient',
                         inquiries: [
