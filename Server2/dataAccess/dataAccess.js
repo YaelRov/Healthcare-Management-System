@@ -40,7 +40,7 @@ class DataAccess {
         }
     }
 
-    async getById(id, model) {
+    async getByUserId(id, model) {
         try {
             return await model.findById(id);
         } catch (error) {

@@ -10,6 +10,7 @@ class AppointmentDataAccess extends DataAccess {
                 {
                     $push: {
                         appointments: new Appointment({
+                            patientId:data.patientId,
                             date: data.date,
                             reason: data.reason
                         })
@@ -29,11 +30,11 @@ class AppointmentDataAccess extends DataAccess {
         }
     }
 
-    async delete(data) {
+    async delete(userId,id) {
         try {
             const deletedAppointment = await User.findOneAndUpdate(
-                { idNumber: data.patientId },
-                { $pull: { appointments: { _id: data.appointmentId } } },
+                { idNumber: userId },
+                { $pull: { appointments: { _id: id } } },
                 { new: true }
             );
 
@@ -72,7 +73,7 @@ class AppointmentDataAccess extends DataAccess {
         }
     }
 
-    async getById(id) {
+    async getByUserId(id) {
         try {
             const user = await User.findOne({ idNumber: id });
             if (user) {
@@ -85,36 +86,37 @@ class AppointmentDataAccess extends DataAccess {
             throw err;
         }
     }
+    async getAll() {
+        try {
+            // Find all patients (users with role "patient")
+            const patients = await User.find({ profile: "patient" }).exec(); // Changed to use "profile" instead of "role"
 
+            // Extract appointments from each patient
+            const allAppointments = patients.flatMap(patient => patient.appointments); // Assuming patient.inquiries is an array
 
-// async getAll(model) {
-//     try {
-//       const allItems = await model.find({}); // find all documents from the model
-//       return allItems;
-//     } catch (error) {
-//       console.error('Error getting all items:', error);
-//       throw error;
-//     }
-//   }
-
-async getAll() {
-    try {
-        // מציאת כל המשתמשים שיש להם תורים
-        const usersWithAppointments = await User.find({ appointments: { $exists: true, $ne: [] } });
-
-        // איסוף כל התורים מכל המשתמשים למערך אחד
-        let allAppointments = [];
-        for (const user of usersWithAppointments) {
-          allAppointments = allAppointments.concat(user.appointments);
+            return allAppointments;
+        } catch (err) {
+            throw err; // Rethrow the error to be handled by the controller
         }
-
-        return allAppointments;
-    } catch (err) {
-        console.error('Error getting all appointments:', err);
-        throw err;
     }
-}
-
+    async getByItemId(patientId, appointmentId) {
+        try {
+          const user = await User.findOne({ idNumber: patientId }); // Use idNumber
+          if (user) {
+            const appointment = user.appointments.find(appointment => appointment._id.toString() === appointmentId);
+            if (!appointment) {
+              throw new Error(`Appointment with ID ${appointmentId} not found for patient ${patientId}`);
+            }
+            return appointment;
+          } else {
+            throw { name: "User not found", message: "No user found with the given id." };
+          }
+        } catch (err) {
+          console.error('Error getting appointments by user id:', err);
+          throw err;
+        }
+      }
+      
  }
 
 module.exports = new AppointmentDataAccess();

@@ -1,20 +1,23 @@
 const Service = require("./services.js");
 const inquiriesAccess = require("../dataAccess/inquiriesAccess.js");
 
-class InquiriesService extends Service {
-    constructor(dataAccess) {
-        super(dataAccess);
-    }
-
+class InquiriesService 
+{
     async create(data) {
         try {
-            // Validate inquiry data
-            if (!data.idNumber || !data.dateInquiry || !data.inquiryText) {
+            if (!data.patientId||!data.inquiryText ) {
                 throw new Error('Missing required fields');
             }
+            const fullDataObj={
+                ...data,
+                status: 'question',
+                dateInquiry: new Date(), 
+            }
+            // Validate inquiry data
+          
 
             // Create inquiry in database
-            const createdInquiry = await this.dataAccess.create(data);
+            const createdInquiry = await inquiriesAccess.create(fullDataObj);
             return createdInquiry;
         } catch (err) {
             // Handle errors
@@ -24,6 +27,7 @@ class InquiriesService extends Service {
 
     async update(data) {
         try {
+  
             // Validate updated fields
             if (!data.answerText) {
                 throw new Error('Missing answerText');
@@ -33,7 +37,7 @@ class InquiriesService extends Service {
             // Implement authorization logic here
 
             // Update inquiry in database
-            const updatedInquiry = await this.dataAccess.update(data);
+            const updatedInquiry = await inquiriesAccess.update(data);
             return updatedInquiry;
         } catch (err) {
             // Handle errors
@@ -41,11 +45,11 @@ class InquiriesService extends Service {
         }
     }
 
-    async getById(userId) {
+    async getByUserId(userId) {
         try {
             console.log("inquiriesServies getById");
             // Get inquiries by user ID from database
-            const inquiries = await this.dataAccess.getById(userId);
+            const inquiries = await inquiriesAccess.getByUserId(userId);
             return inquiries;
         } catch (err) {
             // Handle errors
@@ -56,18 +60,30 @@ class InquiriesService extends Service {
     async getAll() { // New getAll function
         try {
             console.log("inquiriesServies getAll");
-            const allInquiries = await this.dataAccess.getAll();
+            const allInquiries = await inquiriesAccess.getAll();
             return allInquiries;
         } catch (err) {
             console.log("error in inquiriesServies getAll");
             throw err; 
         }
     }
+    async getByItemId(userId,id) {
+        try {
+            console.log("inquiriesServies getByIdInquriresId");
+            // Get inquiries by user ID from database
+            const inquiries = await inquiriesAccess.getByItemId(userId,id);
+            return inquiries;
+        } catch (err) {
+            // Handle errors
+            console.log("error in inquiriesServies getById")
+            throw err;
+        }
+    }
     
-    async delete(userId) {
+    async delete(userId,id) {
         try {
             // Delete inquiry from database
-            const deletedInquiry = await this.dataAccess.delete(userId);
+            const deletedInquiry = await inquiriesAccess.delete(userId,id);
             return deletedInquiry;
         } catch (err) {
             // Handle errors

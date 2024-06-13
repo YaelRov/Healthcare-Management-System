@@ -1,47 +1,68 @@
-const mongoose = require('mongoose');
+
 const { User } = require('../schema');
-const DataAccess = require('./dataAccess');
 
-class UsersDataAccess extends DataAccess {
-  constructor() {
-    super();
+
+class UsersDataAccess{  //extends DataAccess {
+  // constructor() {
+  //   super();
+  // }
+
+
+  // async create(data) {
+  //   try {
+  //     return await super.create(data, User);
+  //   } catch (err) {
+  //     console.error(err);
+  //     throw err;
+  //   }
+  // }
+
+  async delete(userId) {
+   try {
+    const deletedUser = await User.findOneAndDelete({ idNumber: userId }); 
+
+    if (!deletedUser) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+    return deletedUser; 
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    throw err; 
+  }
   }
 
-  async create(data) {
-    try {
-      return await super.create(data, User);
+  // async update(id, data) {
+  //   try {
+  //     return await super.update(id, data, User);
+  //   } catch (err) {
+  //     console.error(err);
+  //     throw err;
+  //   }
+  // }
+
+  async getByUserId(id) {
+     try {
+      const user = await User.findOne({ idNumber: userId }).select('-passwordHash'); 
+        if (user) {
+            return user;
+        } else {
+            throw { name: "User not found", message: "No user found with the given id." };
+        }
     } catch (err) {
-      console.error(err);
-      throw err;
+        console.error('Error getting inquiries by user id:', err);
+        throw err;
     }
   }
 
-  async delete(id) {
+  async getAll() {
     try {
-      return await super.delete(id, User);
+        // Find all patients (users with role "patient")
+        const patients = await User.find({ profile: "patient" }).exec(); // Changed to use "profile" instead of "role"
+        return patients;
     } catch (err) {
-      console.error(err);
-      throw err;
+        throw err; // Rethrow the error to be handled by the controller
     }
-  }
-
-  async update(id, data) {
-    try {
-      return await super.update(id, data, User);
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  }
-
-  async getById(id) {
-    try {
-      return await super.getById(id, User);
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  }
+}
 }
 
 module.exports = new UsersDataAccess();
