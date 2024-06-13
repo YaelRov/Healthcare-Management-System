@@ -1,26 +1,44 @@
 const loginAccess = require("../dataAccess/loginAccess.js");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const { update } = require("./inquiriesServices.js");
+const { UTF16 } = require("mysql/lib/protocol/constants/charsets.js");
 require('dotenv').config(); // Load environment variables from .env file
 
-class loginService {  
-    async getByUserId(userId) {
+class loginService {
+
+    async getByUserId(userId, password) {
         try {
-            
-        } catch (err) {
+            const validationResult = await loginAccess.getByUserId(userId, password);
+            if (validationResult.success)   
+{
+    const userWithoutPassword = validationResult.user.toObject();
+delete userWithoutPassword.passwordHash;
+  validationResult.user=userWithoutPassword;
+  return validationResult;
+}
+
+            else {
+                throw new Error(validationResult.message)
+            }
+        }
+        catch (err) {
             console.error(err);
+            throw err;
         }
     }
+
 
     async getPsw(userId) {
         try {
             const email = await loginAccess.getEmail(userId);
             const newPassword = this.generatePassword();
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-            const newPasswordSchema={
-                password:hashedPassword,
-                expireDate:new Date(new Date().getTime() + 10 * 60 * 1000),
-                valid:"true", 
+            const newPasswordSchema = {
+                password: hashedPassword,
+                expireDate: new Date(new Date().getTime() + 10 * 60 * 1000),
+                valid: "true",
+                failedAttempts: 0
             }
             await loginAccess.updatePassword(userId, newPasswordSchema);
             await this.sendEmail(email, newPassword);
@@ -32,9 +50,9 @@ class loginService {
             } else if (err.message === 'Failed to send email') {
                 return { status: 500, message: 'Failed to send email with new password' };
             }
-            return { status: 500, message: 'Internal Server Error' }; 
+            return { status: 500, message: 'Internal Server Error' };
         }
-        
+
     }
 
     generatePassword() {
@@ -50,7 +68,7 @@ class loginService {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user : process.env.EMAIL_USER,
+                user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
             }
         });

@@ -1,7 +1,13 @@
 require('dotenv').config();
+console.log('Current working directory:', __dirname);
+console.log('Contents of .env file:', process.env);
 const mongoose = require('mongoose');
 const { User, Email } = require('./schema');
-const MONGODB_URL = process.env.MONGODB_URL;
+// const MONGODB_URL = process.env.MONGODB_URL;
+const MONGODB_URL = "mongodb://localhost:27017/Clinic";
+
+console.log(process.env.HOST);
+
 
 
 async function initialization() {

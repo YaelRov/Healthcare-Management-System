@@ -42,7 +42,7 @@ class UsersDataAccess{  //extends DataAccess {
 
   async getByUserId(id) {
      try {
-        const user = await User.findOne({ idNumber: id });
+      const user = await User.findOne({ idNumber: userId }).select('-passwordHash'); 
         if (user) {
             return user;
         } else {

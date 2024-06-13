@@ -55,7 +55,8 @@ var EmailSchema = new Schema({
 var passwordSchema=new Schema({
   password:{type: String, required: true},
   expireDate:{type: Date, required: true},
-   valid: { type: Boolean, required: true }
+   valid: { type: Boolean, required: true },
+   failedAttempts:{type:Number,required: true}
 })
 
 // Define the main user schema
