@@ -15,6 +15,7 @@ class loginService {
     const userWithoutPassword = validationResult.user.toObject();
 delete userWithoutPassword.passwordHash;
   validationResult.user=userWithoutPassword;
+  console.log(validationResult);
   return validationResult;
 }
 

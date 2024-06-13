@@ -34,7 +34,7 @@ class loginControllers {
     
           // Handle different validation results
           if (result.success) {
-            res.status(200).send(result.user); // Send user details if success
+            res.status(200).send(result); // Send user details if success
           } else {
             // Determine the appropriate status code based on the message
             const statusCode = result.message === 'Incorrect password' ? 401 : // Unauthorized

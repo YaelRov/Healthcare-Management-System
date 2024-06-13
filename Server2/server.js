@@ -20,7 +20,7 @@ const mongoUrl = process.env.MONGODB_URL; // Your MongoDB connection URL
 const server = express();
 
 server.use(cors({
-    origin: 'http://localhost:3030',
+    origin: ['http://localhost:3030','http://localhost:5174'],
     methods: ['GET', 'PUT','POST',  'DELETE','CREATE','UPDATE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

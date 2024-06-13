@@ -10,6 +10,7 @@ import AddPatient from './components/addPatient/AddPatient';
 import Medicalfiles from './components/medicalfiles/Medicalfiles';
 import MyProfile from './components/myProfile/MyProfile';
 import Appointments from './components/appointments/Appointments';
+import LogIn from './components/login/LogIn';
  import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -23,9 +24,9 @@ export default function MyClinic() {
         <Route path="*" element={<h1>error</h1>} />
         <Route path="/" element={<FirstPageNav />}>
           <Route path="" element={<Welcome />} />
-          {/* <Route path="login" element={<LogIn />} /> */}
+          <Route path="login" element={<LogIn />} />
         </Route>
-        <Route path="/users/:id" element={<NavBar />} >
+        <Route path="/:id" element={<NavBar />} >
           <Route index element={<Home />} />
           <Route path="myProfile"  >
             <Route index element={<MyProfile />} />
@@ -45,4 +46,3 @@ export default function MyClinic() {
     </>
   )
 }
-
