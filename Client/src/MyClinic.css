@@ -1,42 +1,83 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* navbar container */
+.navbar {
+  display: flex;
+  justify-content: center; /* Center navbar items horizontally */
+  align-items: center; /* Center navbar items vertically */
+  padding: 1rem 2rem;
+  background-color: #edf6f9; /* Light blue background color */
+  position: fixed;
+  top: 0;
+  width: 100%; /* Set width to 100% for full-width navbar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* link styles */
+.links {
+  text-decoration: none;
+  color: #006d77; /* Dark blue text color */
+  margin-right: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.links:hover {
+  background-color: #e29578; /* Light pink background on hover */
+  color: #fff; /* White text on hover for better contrast */
+}
+
+/* active link styles */
+.links.active {
+  /* Inherit styles from activeStyle object defined in your React component */
+  /* fontWeight: bold; */
+  text-decoration: underline;
+  color: red;
+}
+
+/* Profile container */
+.profile-container {
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile title */
+.profile-title {
   text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Profile details */
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Profile item */
+.profile-item {
+  font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Edit button */
+.edit-button {
+  background-color: #e29578; /* Light pink from your color palette */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.card {
-  padding: 2em;
+.edit-button:hover {
+  background-color: #d7896b; /* Slightly darker pink on hover */
 }
 
-.read-the-docs {
-  color: #888;
-}
+

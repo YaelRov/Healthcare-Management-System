@@ -1,5 +1,6 @@
 import React from 'react'
 import { Outlet, NavLink, useNavigate } from "react-router-dom"
+import styles from './NavBar.module.css';
 
 
 export default function NavBar() {
@@ -25,7 +26,7 @@ export default function NavBar() {
                         style={({ isActive }) => isActive ? activeStyle : null}
                         className='links'
                     >
-                        my Profile!
+                        my profile
                     </NavLink>
                     <NavLink
                         to="inquiries"
@@ -46,26 +47,26 @@ export default function NavBar() {
                         style={({ isActive }) => isActive ? activeStyle : null}
                         className='links'
                     >
-                        medicalfiles
+                        medical files
                     </NavLink>
                     <NavLink
                         to="addPatient"//*
                         style={({ isActive }) => isActive ? activeStyle : null}
                         className='links'
                     >
-                        addPatient
+                        add patient
                     </NavLink>
                     <NavLink
                         to="home"
                         style={({ isActive }) => isActive ? activeStyle : null}
                         className='links'
-                    >Home </NavLink>
+                    >home </NavLink>
                     <NavLink
                         to="/login"
                         onClick={logOutFunc}
                         style={({ isActive }) => isActive ? activeStyle : null}
                         className='links'
-                    > Log Out</NavLink>
+                    > log out</NavLink>
                 </nav>
             </header>
             <Outlet />

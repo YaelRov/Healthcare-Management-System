@@ -1,27 +1,24 @@
-.links {
-    color: rgb(43, 226, 128);
-    padding: 10;
-    margin: 5;
-    background-color: rgb(198, 136, 148);
-    font-weight: bold;
-    color: #fff;
+/* navbar container */
+.navbar {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #f9f9f9;
-    /* max-width: 300px; */
-    margin: 0 auto;
-    width: 100%;
-    margin-bottom: 10px;
-    background-color: rgba(131, 89, 110, 0.9);
-}
-
-h1 {
-    background-color: rgb(184, 115, 115);
-}
-
-.linky {
-    padding: 30;
-    margin: 30;
-    color: darkslategrey;
-}
+    padding: 1rem 2rem;
+    background-color: #F0F0F0;
+  }
+  
+  /* link styles */
+  .links {
+    text-decoration: none;
+    color: black;
+    margin-right: 1rem;
+    font-size: 1rem;
+  }
+  
+  /* active link styles */
+  .links.active {
+    /* Inherits styles from activeStyle object defined in your React component */
+    /* fontWeight: bold; */
+    text-decoration: underline;
+    color: red;
+  }
