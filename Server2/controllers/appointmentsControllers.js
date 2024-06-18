@@ -7,8 +7,8 @@ class AppointmentControllers extends Controller {
     }
     async create(req, res, next) {
         try {
-         const id = req.params.patientId;
-            const result = appointmentsServices.create(id,req.body);
+            const id = req.params.patientId;
+            const result = appointmentsServices.create(id, req.body);
             res.status(201).send(result);
         } catch (err) {
             console.error(err);
@@ -24,8 +24,20 @@ class AppointmentControllers extends Controller {
 
     async getAll(req, res, next) {
         try {
-            const result = await appointmentsServices.getAll();
-            res.status(200).send(result);
+
+
+            let result = await appointmentsServices.getAll();
+            if (req.session.profile == 0) {
+                result = result.flatMap(app => 
+                    app.map(appointment => appointment.date)
+                  );
+                  console.log(result);
+            }
+          
+                res.status(200).send(result);
+            
+
+
         } catch (err) {
             console.log("error in appointments getAll")
             console.error(err);
@@ -53,12 +65,11 @@ class AppointmentControllers extends Controller {
         }
     }
 
-    async getByItemId(req, res,next)
-    {
+    async getByItemId(req, res, next) {
         try {
             const userId = req.params.patientId;
-            const id=req.params.id;
-            const result = await appointmentsServices.getByItemId(userId,id);
+            const id = req.params.id;
+            const result = await appointmentsServices.getByItemId(userId, id);
             if (!result) {
                 res.status(404).send('Not found');
             } else {
@@ -76,9 +87,9 @@ class AppointmentControllers extends Controller {
     }
     async update(req, res, next) {
         try {
-            const patientId = req.params.patientId; 
+            const patientId = req.params.patientId;
             const id = req.params.id;
-              const result = await appointmentsServices.update(patientId, id,req.body);
+            const result = await appointmentsServices.update(patientId, id, req.body);
             res.status(200).send(`${id} updated successfully`);
         } catch (err) {
             console.error(err);
@@ -94,9 +105,9 @@ class AppointmentControllers extends Controller {
 
     async delete(req, res, next) {
         try {
-            const userId=req.params.patientId;
+            const userId = req.params.patientId;
             const id = req.params.id;
-            const result = await appointmentsServices.delete(userId,id);
+            const result = await appointmentsServices.delete(userId, id);
             res.status(200).send(`${id} deleted successfully`);
         } catch (err) {
             console.error(err);

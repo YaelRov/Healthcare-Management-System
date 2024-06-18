@@ -40,30 +40,49 @@ class UsersDataAccess{  //extends DataAccess {
   //   }
   // }
 
-  async getByUserId(id) {
-     try {
-      const user = await User.findOne({ idNumber: userId }).select('-passwordHash'); 
-        if (user) {
-            return user;
-        } else {
-            throw { name: "User not found", message: "No user found with the given id." };
-        }
-    } catch (err) {
-        console.error('Error getting inquiries by user id:', err);
-        throw err;
-    }
-  }
+  // async getByUserId(id) {
+  //    try {
+  //     const user = await User.findOne({ idNumber: userId }).select('-passwordHash'); 
+  //       if (user) {
+  //           return user;
+  //       } else {
+  //           throw { name: "User not found", message: "No user found with the given id." };
+  //       }
+  //   } catch (err) {
+  //       console.error('Error getting inquiries by user id:', err);
+  //       throw err;
+  //   }
+  // }
 
-  async getAll() {
-    try {
-        // Find all patients (users with role "patient")
-        const patients = await User.find({ profile: "patient" }).exec(); // Changed to use "profile" instead of "role"
-        return patients;
-    } catch (err) {
-        throw err; // Rethrow the error to be handled by the controller
+//   async getAll() {
+//     try {
+//         // Find all patients (users with role "patient")
+//         const patients = await User.find({ profile: "patient" }).exec(); // Changed to use "profile" instead of "role"
+//         return patients;
+//     } catch (err) {
+//         throw err; // Rethrow the error to be handled by the controller
+//     }
+// }
+
+
+async getProfile(userId) {
+  try {
+    const user = await User.findOne({ idNumber: userId }).select('profile'); // אחזר רק את השדה profile
+
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
     }
+
+    return { profile: user.profile }; // החזר רק את הערך של profile
+  } catch (err) {
+    console.error('Error getting user profile:', err);
+    throw err;
+  }
 }
+
 }
+
+
 
 module.exports = new UsersDataAccess();
 

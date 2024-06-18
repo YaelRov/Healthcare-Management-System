@@ -27,6 +27,7 @@ class loginControllers {
         try {
           const id = req.params.userId; // Get userId from params
           const password = req.body.password; // Get password from request body
+          console.log(`profile= ${req.session.profile}`);
         if (!id || !password) {
             return res.status(400).json({ success: false, message: 'User ID and password are required' });
         }

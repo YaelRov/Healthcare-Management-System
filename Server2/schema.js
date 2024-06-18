@@ -70,7 +70,7 @@ const UserSchema = new Schema({
   phoneNumber: { type: String, required: true },
   email: { type: EmailSchema, required: true, unique: false },
   passwordHash: { type: passwordSchema }, // Store hashed passwords
-  profile: { type: String, required: true }, // e.g., 'doctor' or 'patient'
+  profile: { type: Number, required: true }, // e.g., 'doctor' or 'patient'
   inquiries: [InquirySchema],
   appointments: [AppointmentSchema],
   visits: [VisitSchema]

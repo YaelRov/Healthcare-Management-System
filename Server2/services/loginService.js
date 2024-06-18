@@ -82,8 +82,9 @@ delete userWithoutPassword.passwordHash;
             Please note that the password is valid for 10 minutes only.\n`
         };
         try {
-            await transporter.sendMail(mailOptions);
+            // await transporter.sendMail(mailOptions);
             console.log('Email sent successfully!');
+            console.log(`password is: ${newPassword}`);
         } catch (error) {
             console.error('Failed to send email:', error);
         }

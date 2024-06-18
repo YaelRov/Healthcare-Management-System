@@ -6,7 +6,7 @@ const { User, Email } = require('./schema');
 // const MONGODB_URL = process.env.MONGODB_URL;
 const MONGODB_URL = "mongodb://localhost:27017/Clinic";
 
-console.log(process.env.HOST);
+// console.log(process.env.HOST);
 
 
 
@@ -35,7 +35,7 @@ async function initialization() {
                         phoneNumber: `05${Math.floor(Math.random() * 100000000)}`, // Random phone number
                         email: new Email({ email: `s0583283644@gmail.com` }),
                         passwordHash: null, // Replace with actual password hashing
-                        profile: 'patient',
+                        profile: 0,
                         inquiries: [
                             { patientId: 300000000 + i, dateInquiry: new Date(), inquiryText: 'Question 1', answerText: 'Answer 1', status: 'answered' },
                             { patientId: 300000000 + i, dateInquiry: new Date(), inquiryText: 'Question 2', status: 'pending' },

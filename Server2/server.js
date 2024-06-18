@@ -16,11 +16,15 @@ const port = process.env.PORT;
 console.log(process.env.HOST)
 console.log(host)
 const mongoUrl = process.env.MONGODB_URL; // Your MongoDB connection URL
+const axios = require('axios');
+const userControllers = require('./controllers/usersControllers');
+const session = require('express-session');
+
 
 const server = express();
 
 server.use(cors({
-    origin: ['http://localhost:3030','http://localhost:5174'],
+    origin: ['http://localhost:3030','http://localhost:5174','http://localhost:5173'],
     methods: ['GET', 'PUT','POST',  'DELETE','CREATE','UPDATE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -44,9 +48,69 @@ connectToMongoDB();
 
 server.use(express.json());
 
+// server.use(session({
+//   secret: 'your_secret_key', // סוד להצפנת ה-Session ID
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { 
+//       secure: false, // הגדר ל-true אם אתה משתמש ב-HTTPS
+//       path: '/',
+//   }
+// }));
+
+server.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    httpOnly: true,
+    credentials: true,
+      secure: false, 
+      path: '/',
+      maxAge: 24 * 60 * 60 * 1000 
+  }
+}));
+
+server.use('/login/:userId', async (req, res, next) => {
+
+  const id = req.params.userId;
+  const password = req.body.password;
+   console.log(`id=${id} password=${password}`);
+  try {
+    req.params.id=id;
+      const profileResult = await userControllers.getProfile(req, res, next);
+      req.session.profile = profileResult.profile;
+      // req.profile = profileResult.profile;
+      next();
+  } catch (err) {
+      console.error('Error fetching user profile:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+// Session middleware (unchanged)
+
+
+// Authorization middleware
+function authMiddleware(req, res, next) {
+  console.log(req.session);
+  console.log("authMiddleware");
+  // Check if the request is for the login route
+  if (req.path.startsWith('/login')) {
+      return next(); // Allow login requests to proceed
+  }
+
+  if (req.session.profile!=0&&req.session.profile!=1) {//***************8 */
+      return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next(); 
+}
+
 // הגדרת הראוטרים לאחר חיבור ל-MongoDB
-server.use('/inquiries', inquiriesRouter);
-server.use('/appointments', appointmentsRouter);
+server.use('/appointments', authMiddleware, appointmentsRouter); 
+server.use('/inquiries', authMiddleware, inquiriesRouter);
 //server.use('/medicalfile', medicalfileRouter); 
 server.use('/users', usersRouter);
  server.use('/login', loginRouter);
@@ -54,7 +118,5 @@ server.use('/users', usersRouter);
 
 
 server.listen(port, host, () => {
-    console.log(`listening to requests at http://${host}:${port}`);
-})
-
+    console.log(`listening to requests at http://${host}:${port}`)});
 
