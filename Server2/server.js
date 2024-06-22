@@ -80,7 +80,6 @@ server.use('/login/:userId', async (req, res, next) => {
     req.params.id=id;
       const profileResult = await userControllers.getProfile(req, res, next);
       req.session.profile = profileResult.profile;
-      // req.profile = profileResult.profile;
       next();
   } catch (err) {
       console.error('Error fetching user profile:', err);
@@ -98,11 +97,15 @@ function authMiddleware(req, res, next) {
   console.log(req.session);
   console.log("authMiddleware");
   // Check if the request is for the login route
+  console.log("iii");
+  console.log(req.session);
   if (req.path.startsWith('/login')) {
+    console.log("1");
       return next(); // Allow login requests to proceed
   }
 
   if (req.session.profile!=0&&req.session.profile!=1) {//***************8 */
+    console.log("2");
       return res.status(401).json({ error: 'Unauthorized' });
   }
   next(); 

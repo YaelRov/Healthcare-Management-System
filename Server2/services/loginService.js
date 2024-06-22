@@ -2,7 +2,6 @@ const loginAccess = require("../dataAccess/loginAccess.js");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const { update } = require("./inquiriesServices.js");
-const { UTF16 } = require("mysql/lib/protocol/constants/charsets.js");
 require('dotenv').config(); // Load environment variables from .env file
 
 class loginService {
