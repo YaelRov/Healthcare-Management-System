@@ -7,20 +7,32 @@ const AddAppointment = () => {
   const [date, setDate] = useState(new Date());
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
+  const [appointments, setAppointments] = useState([]);
 
-  // Fetch available appointments when the date changes
+  // Fetch all busy appointments when the component mounts
   useEffect(() => {
-    const fetchAppointments = async () => {
-      const formattedDate = date.toISOString().split('T')[0];
-      const response = await axios.get(`http://localhost:3030/appointments/${formattedDate}`);
-      const bookedSlots = response.data;
-      const allTimeSlots = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
-      const emptySlots = allTimeSlots.filter(slot => !bookedSlots.includes(slot));
-      setAvailableTimeSlots(emptySlots);
+    const fetchAllAppointments = async () => {
+      try {
+        const response = await axios.get('http://localhost:3030/appointments');
+        setAppointments(response.data);
+      } catch (err) {
+        console.error('Error fetching appointments:', err);
+      }
     };
 
-    fetchAppointments();
-  }, [date]);
+    fetchAllAppointments();
+  }, []);
+
+  // Filter available time slots based on the selected date
+  useEffect(() => {
+    const formattedDate = date.toISOString().split('T')[0];
+    const bookedSlots = appointments
+      .filter(appointment => appointment.date === formattedDate)
+      .map(appointment => appointment.timeSlot);
+    const allTimeSlots = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '14:00', '14:30', '15:00', '15:30'];
+    const emptySlots = allTimeSlots.filter(slot => !bookedSlots.includes(slot));
+    setAvailableTimeSlots(emptySlots);
+  }, [date, appointments]);
 
   // Handle date change
   const handleDateChange = (date) => {
@@ -28,35 +40,67 @@ const AddAppointment = () => {
   };
 
   // Handle time slot selection
-  const handleTimeSlotSelect = (e) => {
-    setSelectedTimeSlot(e.target.value);
+  const handleTimeSlotSelect = (slot) => {
+    setSelectedTimeSlot(slot);
   };
 
   // Handle appointment submission
   const handleAppointmentSubmit = async () => {
     const formattedDate = date.toISOString().split('T')[0];
-    await axios.post('http://localhost:3030/appointments', {
-      date: formattedDate,
-      reason: selectedTimeSlot,
-    });
-    alert('Appointment booked successfully!');
+    const confirmBooking = window.confirm(`Are you sure you want to book an appointment on ${formattedDate} at ${selectedTimeSlot}?`);
+    if (confirmBooking) {
+      try {
+        await axios.post('http://localhost:3030/appointments', {
+          date: formattedDate,
+          timeSlot: selectedTimeSlot,
+        });
+        alert('Appointment booked successfully!');
+        // Update appointments state to include the new booking
+        setAppointments(prev => [...prev, { date: formattedDate, timeSlot: selectedTimeSlot }]);
+      } catch (err) {
+        console.error('Error booking appointment:', err);
+      }
+    }
+  };
+
+  // Disable past dates, limit date selection to one month from today, and disable Saturdays
+  const tileDisabled = ({ date, view }) => {
+    if (view === 'month') {
+      const today = new Date();
+      const oneMonthFromToday = new Date();
+      oneMonthFromToday.setMonth(today.getMonth() + 1);
+      return date < today || date > oneMonthFromToday || date.getDay() === 6; // Disable past dates, dates beyond one month, and Saturdays
+    }
+    return false;
   };
 
   return (
     <div>
       <h1>Add Appointment</h1>
-      <Calendar onChange={handleDateChange} value={date} />
+      <Calendar
+        onChange={handleDateChange}
+        value={date}
+        tileDisabled={tileDisabled}
+      />
       <div>
         <h2>Available Time Slots on {date.toDateString()}</h2>
         {availableTimeSlots.length > 0 ? (
-          <select onChange={handleTimeSlotSelect} value={selectedTimeSlot}>
-            <option value="">Select a time slot</option>
+          <div>
             {availableTimeSlots.map((slot, index) => (
-              <option key={index} value={slot}>
+              <button 
+                key={index}
+                onClick={() => handleTimeSlotSelect(slot)}
+                style={{
+                  margin: '5px',
+                  padding: '10px',
+                  backgroundColor: selectedTimeSlot === slot ? 'lightblue' : 'white',
+                  border: '1px solid black',
+                }}
+              >
                 {slot}
-              </option>
+              </button>
             ))}
-          </select>
+          </div>
         ) : (
           <p>No available time slots for this day.</p>
         )}
