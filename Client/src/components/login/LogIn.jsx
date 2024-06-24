@@ -32,6 +32,9 @@ export default function LogIn() {
                 const response = await axios.post(`http://localhost:3030/login/${userId}`, { password: enteredPassword });
                 console.log(response);
                 if (response.data.success) {
+                
+
+                    localStorage.setItem("currentUser", JSON.stringify(response.data.user)); // Save user data to localStorage
                     navigate(`/${userId}/myProfile`);
                 } else {
                     alert("Error: " + response.data.message);

@@ -1,45 +1,57 @@
+
 import React, { useEffect, useState } from 'react';
 
 export default function MyProfile() {
   const [curUser, setCurUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [usersEmail, setUsersEmail] = useState();
-  const [usersPhone, setUsersPhone] = useState();
-  const [usersStreet, setUsersStreet] = useState();
-  const [usersNumber, setUsersNumber] = useState();
-  const [usersCity, setUsersCity] = useState();
+  const [usersEmail, setUsersEmail] = useState("");
+  const [usersPhone, setUsersPhone] = useState("");
+  const [usersStreet, setUsersStreet] = useState("");
+  const [usersNumber, setUsersNumber] = useState("");
+  const [usersCity, setUsersCity] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check if currentUser is not set in localStorage
-    if (!localStorage.getItem("currentUser")) {
-      const initialUser = {
-        idNumber: 300000000,
-        firstName: "Patient1",
-        lastName: "Lastname1",
-        dateOfBirth: new Date("1980-01-14T22:00:00.000+00:00"),
-        address: {
-          city: "Tel Aviv",
-          street: "Dizengoff",
-          number: 69,
-        },
-        phoneNumber: "0526119419",
-        email: "patient1@example.com",
-        profile: "patient",
-        // Add other user data if needed
-      };
-      localStorage.setItem("currentUser", JSON.stringify(initialUser));
-    }
+    const fetchUserData = async () => {
+      setIsLoading(true); // Start loading
+      setError(null);     // Clear any previous error
 
-    const userFromStorage = JSON.parse(localStorage.getItem("currentUser"));
-    setCurUser(userFromStorage);
-    setUsersEmail(userFromStorage.email);
-    setUsersPhone(userFromStorage.phoneNumber);
-    setUsersStreet(userFromStorage.address.street);
-    setUsersNumber(userFromStorage.address.number);
-    setUsersCity(userFromStorage.address.city);
-  }, []);
+      try {
+        console.log("jjj");
+        const userDataString = localStorage.getItem("currentUser");
+        if (userDataString) {
+          const userData = JSON.parse(userDataString);
+          console.log(userData);
+          setCurUser(userData);
+          console.log(curUser);
+          setUsersEmail(userData.email.email);
+          console.log(usersEmail);
+          setUsersPhone(userData.phoneNumber);
+          console.log(usersPhone);
+          setUsersStreet(userData.address?.street || "");
+          console.log(usersStreet)
+          setUsersNumber(userData.address?.number || "");
+          console.log(usersNumber)
+          setUsersCity(userData.address?.city || "");
+          console.log(usersCity)
+        } else {
+          setError("User data not found in local storage.");
+          console.error("User data not found in local storage.");
+        }
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        setError("Error loading user data.");
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    };
 
+     fetchUserData();
+  }); 
+  
   function handleDetailsUpdate() {
+    
     setIsEditing(false);
     updateDetails();
 }
@@ -55,7 +67,7 @@ function updateDetails() {
       .then((response) => response.json())
       .then((json) => console.log(json));
 }
-
+console.log(curUser);
   return (
     curUser && (
       <div className="profile-container">
@@ -102,7 +114,7 @@ function updateDetails() {
               />
               <button onClick={handleDetailsUpdate}>Save✔️</button>
             </>) : (<><p className="profile-item">
-              <b>Email:</b> {curUser.email}
+              <b>Email:</b> {curUser.email.email}
             </p>
               <p className="profile-item">
                 <b>Phone Number:</b> {curUser.phoneNumber}
@@ -110,7 +122,8 @@ function updateDetails() {
               <p className="profile-item">
                 <b>Address:</b>
                 <br />
-                {curUser.address.street}, {curUser.address.number}, {curUser.address.city}
+                {curUser?.address?.street}, {curUser?.address?.number}, {curUser?.address?.city}
+
               </p>
               <button className="edit-button" onClick={() => setIsEditing(true)}>
                 Edit 🖋️
@@ -120,3 +133,5 @@ function updateDetails() {
     )
   );
 }
+
+
