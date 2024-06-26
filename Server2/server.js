@@ -8,6 +8,7 @@ const usersRouter = require('./routers/usersRouters');
 const loginRouter = require('./routers/loginRouter');
 const appointmentsRouter = require('./routers/appointmentsRouters');
 const userControllers = require('./controllers/usersControllers');
+const loginControllers = require('./controllers/loginControllers'); // Import loginControllers
 
 const server = express();
 
@@ -58,10 +59,10 @@ server.post('/login/:userId', async (req, res) => {
   console.log(`userId=${id} password=${password}`);
   try {
     req.params.id = id;
-    const profileResult = await userControllers.getProfile(req, res);
-    if (profileResult && profileResult.profile) {
-      req.session.profile = profileResult.profile;
-      res.status(200).json({ message: 'Login successful', profile: profileResult.profile });
+    const result = await loginControllers.getByUserId(req, res); // Use loginControllers to handle login
+    if (result.success) {
+      req.session.profile = result.profile;
+      res.status(200).json({ message: 'Login successful', profile: result.profile });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -95,3 +96,4 @@ server.use('/login', loginRouter);
 server.listen(port, host, () => {
   console.log(`listening to requests at http://${host}:${port}`);
 });
+

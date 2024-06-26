@@ -1,4 +1,3 @@
-
 const express = require('express');
 const loginControllers = require('../controllers/loginControllers');
 const router = express.Router();
@@ -12,5 +11,3 @@ router.post('/:userId', (req, res, next) => {
 });
 
 module.exports = router;
-
-
