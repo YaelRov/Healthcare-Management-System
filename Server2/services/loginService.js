@@ -1,7 +1,6 @@
 const loginAccess = require("../dataAccess/loginAccess.js");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
-const { update } = require("./inquiriesServices.js");
 require('dotenv').config(); // Load environment variables from .env file
 
 class loginService {
@@ -9,25 +8,20 @@ class loginService {
     async getByUserId(userId, password) {
         try {
             const validationResult = await loginAccess.getByUserId(userId, password);
-            if (validationResult.success)   
-{
-    const userWithoutPassword = validationResult.user.toObject();
-delete userWithoutPassword.passwordHash;
-  validationResult.user=userWithoutPassword;
-  console.log(validationResult);
-  return validationResult;
-}
-
-            else {
-                throw new Error(validationResult.message)
+            if (validationResult.success) {
+                const userWithoutPassword = validationResult.user.toObject();
+                delete userWithoutPassword.passwordHash;
+                validationResult.user = userWithoutPassword;
+                console.log(validationResult);
+                return validationResult;
+            } else {
+                throw new Error(validationResult.message);
             }
-        }
-        catch (err) {
+        } catch (err) {
             console.error(err);
             throw err;
         }
     }
-
 
     async getPsw(userId) {
         try {
@@ -52,7 +46,6 @@ delete userWithoutPassword.passwordHash;
             }
             return { status: 500, message: 'Internal Server Error' };
         }
-
     }
 
     generatePassword() {
@@ -81,11 +74,12 @@ delete userWithoutPassword.passwordHash;
             Please note that the password is valid for 10 minutes only.\n`
         };
         try {
-            // await transporter.sendMail(mailOptions);
+            await transporter.sendMail(mailOptions); // Ensure this line is uncommented
             console.log('Email sent successfully!');
             console.log(`password is: ${newPassword}`);
         } catch (error) {
             console.error('Failed to send email:', error);
+            throw new Error('Failed to send email');
         }
     }
 }
