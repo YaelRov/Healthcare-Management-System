@@ -1,40 +1,33 @@
 
 import React, { useEffect, useState } from 'react';
+import axios from "axios";
 
 export default function MyProfile() {
   const [curUser, setCurUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [usersEmail, setUsersEmail] = useState("");
-  const [usersPhone, setUsersPhone] = useState("");
-  const [usersStreet, setUsersStreet] = useState("");
-  const [usersNumber, setUsersNumber] = useState("");
-  const [usersCity, setUsersCity] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [usersEmail, setUsersEmail] = useState("");
+  // const [usersPhone, setUsersPhone] = useState("");
+  // const [usersStreet, setUsersStreet] = useState("");
+  // const [usersNumber, setUsersNumber] = useState("");
+  // const [usersCity, setUsersCity] = useState("");
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      setIsLoading(true); // Start loading
-      setError(null);     // Clear any previous error
+      // setIsLoading(true); // Start loading
+      // setError(null);     // Clear any previous error
 
       try {
-        console.log("jjj");
         const userDataString = localStorage.getItem("currentUser");
         if (userDataString) {
-          const userData = JSON.parse(userDataString);
-          console.log(userData);
+          const userData = JSON.parse(userDataString)
           setCurUser(userData);
-          console.log(curUser);
-          setUsersEmail(userData.email.email);
-          console.log(usersEmail);
+          setUsersEmail(userData.email.email);    
           setUsersPhone(userData.phoneNumber);
-          console.log(usersPhone);
           setUsersStreet(userData.address?.street || "");
-          console.log(usersStreet)
           setUsersNumber(userData.address?.number || "");
-          console.log(usersNumber)
           setUsersCity(userData.address?.city || "");
-          console.log(usersCity)
         } else {
           setError("User data not found in local storage.");
           console.error("User data not found in local storage.");
@@ -43,31 +36,58 @@ export default function MyProfile() {
         console.error("Error parsing user data:", error);
         setError("Error loading user data.");
       } finally {
-        setIsLoading(false); // Stop loading
+        // setIsLoading(false); // Stop loading
       }
     };
 
      fetchUserData();
-  }); 
+    }, []);
   
   function handleDetailsUpdate() {
-    
+    console.log("handleDetailsUpdate");
     setIsEditing(false);
     updateDetails();
 }
 
-function updateDetails() {
-  fetch(`http://localhost:3030/users/${curUser.idNumber}`, {
-      method: 'PATCH',
-      body: JSON.stringify(updatedObj),
-      headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-      },
-  })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-}
-console.log(curUser);
+const updateDetails = async () => {
+  console.log(curUser);
+ 
+  try {
+    console.log(`http://localhost:3030/users/${curUser.idNumber}`);
+    console.log(`idNumber=${ curUser.idNumber} email=${curUser.email.email} phoneNumber${curUser.phoneNumber}
+      city=${curUser.address.city} number=${curUser.address.number} street${curUser.address.street}
+      `)
+    const response = await axios.put(`http://localhost:3030/users/${curUser.idNumber}`, {
+      idNumber: curUser.idNumber,
+      email: curUser.email.email,
+
+      phoneNumber: curUser.phoneNumber,
+      address: {
+        city:curUser.address.city,
+        number:curUser.address.number,
+        street:curUser.address.street
+        
+      }
+    });
+    
+
+    console.log(`response.status=${response.status}`);
+    if (response.status === 200) { // Check if the request was successful
+      // const updatedUserData = response.data; // Access the updated user data from the response
+
+      // setCurUser(updatedUserData); // Update state with the new data
+      localStorage.setItem("currentUser", JSON.stringify(curUser)); // Save in localStorage
+    } else {
+      // Handle unsuccessful responses here
+      console.error("Error updating user details:", response.data);
+    }
+  } catch (error) {
+    // Handle errors from the network request
+    console.error("Error updating user details:", error);
+  }
+};
+
+
   return (
     curUser && (
       <div className="profile-container">
@@ -87,33 +107,37 @@ console.log(curUser);
             {new Date(curUser.dateOfBirth).toLocaleDateString()}
           </p>
           <>
-            {isEditing ? (<><input
-              type="text"
-              value={usersEmail}
-              onChange={(e) => setUsersEmail(e.target.value)}
-            />
-              <input
-                type="text"
-                value={usersPhone}
-                onChange={(e) => setUsersPhone(e.target.value)}
-              />
-              <input
-                type="text"
-                value={usersStreet}
-                onChange={(e) => setUsersStreet(e.target.value)}
-              />
-              <input
-                type="text"
-                value={usersNumber}
-                onChange={(e) => setUsersNumber(e.target.value)}
-              />
-              <input
-                type="text"
-                value={usersCity}
-                onChange={(e) => setUsersCity(e.target.value)}
-              />
-              <button onClick={handleDetailsUpdate}>Save✔️</button>
-            </>) : (<><p className="profile-item">
+            {isEditing ? (
+              <>
+                <input
+                  type="text"
+                  defaultValue={curUser.email.email} 
+                  
+                  onChange={(e) => setCurUser({ ...curUser, email: { email: e.target.value } })}
+                />
+                 <input
+                  type="text"
+                  defaultValue={curUser.phoneNumber}
+                  onChange={(e) => setCurUser({ ...curUser, phoneNumber: e.target.value })}
+                />
+                  <input
+                  type="text"
+                  defaultValue={curUser.address?.street || ""}
+                  onChange={(e) => setCurUser({ ...curUser, address: { ...curUser.address, street: e.target.value } })}
+                />
+                 <input
+                  type="text"
+                  defaultValue={curUser.address?.number || ""}
+                  onChange={(e) => setCurUser({ ...curUser, address: { ...curUser.address, number: e.target.value } })}
+                />
+                <input
+                  type="text"
+                  defaultValue={curUser.address?.city || ""}
+                  onChange={(e) => setCurUser({ ...curUser, address: { ...curUser.address, city: e.target.value } })}
+                />
+   <button onClick={handleDetailsUpdate}>Save ✔️</button>
+   </>
+            ) : (<><p className="profile-item">
               <b>Email:</b> {curUser.email.email}
             </p>
               <p className="profile-item">

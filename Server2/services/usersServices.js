@@ -24,6 +24,37 @@ class UsersService{
     //     }
     // }
 
+    async update( id,data) {
+        try {
+            const existingUser = await usersAccess.getByUserId( id); 
+            const updatedData = {
+                idNumber:id,
+                email: data.email||existingUser.email,
+                phoneNumber: data.phoneNumber||existingUser.phoneNumber,
+                address: {
+                    city: data.address.city||existingUser.address.city,
+                    street: data.address.street||existingUser.address.street,
+                    number: data.address.number||existingUser.address.number
+                }
+            };
+         
+            // Validate updated fields
+        
+            // Check authorization
+            // Implement authorization logic here
+
+            // Update appointment in database
+            const updatedUser = await usersAccess.update(updatedData);
+            return updatedUser;
+        } catch (err) {
+            // Handle errors
+            throw err;
+        }
+    }
+
+    
+
+
         async getProfile(userId) {
         try {
             // Get user from database
