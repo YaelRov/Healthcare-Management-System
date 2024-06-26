@@ -10,7 +10,7 @@ const AddAppointment = () => {
   const [appointments, setAppointments] = useState([]);
 
   // Fetch the user from local storage
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(sessionStorage.getItem("user"));
   const patientId = user.idNumber;
 
   // Fetch all busy appointments when the component mounts

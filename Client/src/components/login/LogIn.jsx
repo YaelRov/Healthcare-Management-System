@@ -34,7 +34,7 @@ export default function LogIn() {
                 if (response.data.success) {
                 
 
-                    localStorage.setItem("currentUser", JSON.stringify(response.data.user)); // Save user data to localStorage
+                    sessionStorage.setItem("currentUser", JSON.stringify(response.data.user)); // Save user data to sessionStorage
                     navigate(`/${userId}/myProfile`);
                 } else {
                     alert("Error: " + response.data.message);

@@ -6,7 +6,7 @@ export default function Home() {
   const [currentUser, setCurrentUser] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
-    const curUser = JSON.parse(localStorage.getItem("currentUser"));
+    const curUser = JSON.parse(sessionStorage.getItem("currentUser"));
     if (curUser === null || curUser.id != id) {
       window.history.replaceState(null, '', '/');
       navigate('/login', { replace: true });

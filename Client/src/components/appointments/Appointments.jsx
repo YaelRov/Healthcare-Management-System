@@ -12,7 +12,7 @@ export default function Appointments() {
   useEffect(() => {
     const fetchAppointments = () => {
       try {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
         if (currentUser && currentUser.idNumber.toString() === id) {
           setAppointments(currentUser.appointments);
         } else {

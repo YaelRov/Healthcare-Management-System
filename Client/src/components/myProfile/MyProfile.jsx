@@ -19,7 +19,7 @@ export default function MyProfile() {
       // setError(null);     // Clear any previous error
 
       try {
-        const userDataString = localStorage.getItem("currentUser");
+        const userDataString = sessionStorage.getItem("currentUser");
         if (userDataString) {
           const userData = JSON.parse(userDataString)
           setCurUser(userData);
@@ -76,7 +76,7 @@ const updateDetails = async () => {
       // const updatedUserData = response.data; // Access the updated user data from the response
 
       // setCurUser(updatedUserData); // Update state with the new data
-      localStorage.setItem("currentUser", JSON.stringify(curUser)); // Save in localStorage
+      sessionStorage.setItem("currentUser", JSON.stringify(curUser)); // Save in sessionStorage
     } else {
       // Handle unsuccessful responses here
       console.error("Error updating user details:", response.data);

@@ -12,7 +12,7 @@ export default function Inquiries() {
   useEffect(() => {
     const fetchInquiries = () => {
       try {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
         if (currentUser && currentUser.idNumber.toString() === id) {
           setInquiries(currentUser.inquiries);
         } else {

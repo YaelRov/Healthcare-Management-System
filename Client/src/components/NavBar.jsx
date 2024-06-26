@@ -12,7 +12,7 @@ export default function NavBar() {
 
     }
     const logOutFunc = () => {
-        localStorage.removeItem("currentUser");
+        sessionStorage.removeItem("currentUser");
         window.history.replaceState(null, '', '/');
         navigate('/login', { replace: true });
     }
