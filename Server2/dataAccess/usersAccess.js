@@ -31,6 +31,35 @@ class UsersDataAccess{  //extends DataAccess {
   }
   }
 
+  
+  async update(data) {
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+          { idNumber: data.idNumber },
+          {
+              $set: {
+                'email.email': data.email,
+                phoneNumber: data.phoneNumber,
+                'address.city': data.address.city,
+                'address.street': data.address.street,
+                'address.number': data.address.number
+              }
+          },
+          { new: true }
+      );
+
+      if (!updatedUser) {
+          throw { name: "Update failed", message: "Error in updating user." };
+      }
+
+    
+      return updatedUser;
+  } catch (err) {
+      console.error('Error updating appointment:', err.message);
+      throw err;
+  }
+}
+
   // async update(id, data) {
   //   try {
   //     return await super.update(id, data, User);
@@ -40,19 +69,19 @@ class UsersDataAccess{  //extends DataAccess {
   //   }
   // }
 
-  // async getByUserId(id) {
-  //    try {
-  //     const user = await User.findOne({ idNumber: userId }).select('-passwordHash'); 
-  //       if (user) {
-  //           return user;
-  //       } else {
-  //           throw { name: "User not found", message: "No user found with the given id." };
-  //       }
-  //   } catch (err) {
-  //       console.error('Error getting inquiries by user id:', err);
-  //       throw err;
-  //   }
-  // }
+  async getByUserId(id) {
+     try {
+      const user = await User.findOne({ idNumber: id }).select('-passwordHash'); 
+        if (user) {
+            return user;
+        } else {
+            throw { name: "User not found", message: "No user found with the given id." };
+        }
+    } catch (err) {
+        console.error('Error getting inquiries by user id:', err);
+        throw err;
+    }
+  }
 
 //   async getAll() {
 //     try {

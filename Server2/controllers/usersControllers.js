@@ -32,6 +32,35 @@ class userControllers {
     //     }
     // }
 
+    async update(req, res, next) {
+        console.log('Request reached controller:', req.params.id, req.body);
+        try {
+console.log(`email=${req.body.email} phoneNumber=${req.body.phoneNumber}
+    city=${ req.body.address.city} street=${req.body.address.street} number=${req.body.address.number}`)
+            const id = req.params.id;
+            const updatedData = {
+                email: req.body.email,
+                phoneNumber: req.body.phoneNumber,
+                address: {
+                    city: req.body.address.city,
+                    street: req.body.address.street,
+                    number: req.body.address.number
+                }
+            };
+              const result = await usersService.update(id,updatedData);
+            res.status(200).send(`${id} updated successfully`);
+        } catch (err) {
+            console.error(err);
+            if (err.name === "Update failed") {
+                res.status(404).send('Not found: ' + err.message);
+            } else if (err.name === 'ValidationError') {
+                res.status(400).send('Validation error: ' + err.message);
+            } else {
+                res.status(500).send('Internal Server Error');
+            }
+        }
+    }
+
     async getProfile(req, res, next) {
         const id = req.params.id;
         const result = await usersService.getProfile(id);
