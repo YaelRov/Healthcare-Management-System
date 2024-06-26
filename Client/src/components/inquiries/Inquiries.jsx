@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import AddInquiry from "./AddInquiry";
 
@@ -9,12 +8,16 @@ export default function Inquiries() {
   const navigate = useNavigate();
   const { id } = useParams(); // Get the user ID from the URL
 
-  // Fetch the user's inquiries from the server
+  // Fetch the user's inquiries from local storage
   useEffect(() => {
-    const fetchInquiries = async () => {
+    const fetchInquiries = () => {
       try {
-        const response = await axios.get(`http://localhost:3030/inquiries/${id}`);
-        setInquiries(response.data);
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        if (currentUser && currentUser.idNumber.toString() === id) {
+          setInquiries(currentUser.inquiries);
+        } else {
+          console.error("No current user or user ID mismatch.");
+        }
       } catch (err) {
         console.error("Error fetching inquiries:", err);
       }
@@ -41,7 +44,14 @@ export default function Inquiries() {
       {inquiries.length > 0 ? (
         <ul>
           {inquiries.map((inquiry) => (
-            <li key={inquiry.id}>{inquiry.content}</li>
+            <li key={inquiry._id}>
+              <p><strong>Date:</strong> {new Date(inquiry.dateInquiry).toLocaleString()}</p>
+              <p><strong>Question:</strong> {inquiry.inquiryText}</p>
+              {inquiry.answerText && (
+                <p><strong>Answer:</strong> {inquiry.answerText}</p>
+              )}
+              <p><strong>Status:</strong> {inquiry.status}</p>
+            </li>
           ))}
         </ul>
       ) : (

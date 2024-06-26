@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddInquiry() {
-  const [content, setContent] = useState("");
+  const [inquiryText, setInquiryText] = useState("");
   const navigate = useNavigate();
+  const { id } = useParams(); // Get the user ID from the URL
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = JSON.parse(localStorage.getItem("user"));
     try {
-      await axios.post('http://localhost:3030/inquiries', {
-        userId: user.id,
-        content: content
+      await axios.post(`http://localhost:3030/inquiries/${id}`, {
+        inquiryText: inquiryText
       });
       alert('Inquiry added successfully!');
-      navigate('/inquiries'); // Redirect to inquiries page after adding
+      navigate(`/${id}/inquiries`); // Redirect to inquiries page after adding
     } catch (err) {
       console.error('Error adding inquiry:', err);
     }
@@ -26,8 +25,8 @@ export default function AddInquiry() {
       <h1>Add Inquiry</h1>
       <form onSubmit={handleSubmit}>
         <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+          value={inquiryText}
+          onChange={(e) => setInquiryText(e.target.value)}
           required
         />
         <button type="submit">Submit</button>

@@ -9,6 +9,10 @@ const AddAppointment = () => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
   const [appointments, setAppointments] = useState([]);
 
+  // Fetch the user from local storage
+  const user = JSON.parse(localStorage.getItem("user"));
+  const patientId = user.idNumber;
+
   // Fetch all busy appointments when the component mounts
   useEffect(() => {
     const fetchAllAppointments = async () => {
@@ -50,7 +54,7 @@ const AddAppointment = () => {
     const confirmBooking = window.confirm(`Are you sure you want to book an appointment on ${formattedDate} at ${selectedTimeSlot}?`);
     if (confirmBooking) {
       try {
-        await axios.post('http://localhost:3030/appointments', {
+        await axios.post(`http://localhost:3030/appointments/${patientId}`, {
           date: formattedDate,
           timeSlot: selectedTimeSlot,
         });
