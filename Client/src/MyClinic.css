@@ -1,20 +1,43 @@
-/* navbar container */
-.navbar {
-  display: flex;
-  justify-content: center; /* Center navbar items horizontally */
-  align-items: center; /* Center navbar items vertically */
-  padding: 1rem 2rem;
-  background-color: #edf6f9; /* Light blue background color */
-  position: fixed;
-  top: 0;
-  width: 100%; /* Set width to 100% for full-width navbar */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Global styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+  background: url('../images/hands-unrecognizable-female-doctor-writing-form-typing-laptop-keyboard.jpg') no-repeat center center fixed;
+  background-size: cover;
 }
 
-/* link styles */
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Navbar container */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #edf6f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Link styles */
 .links {
   text-decoration: none;
-  color: #006d77; /* Dark blue text color */
+  color: #006d77;
   margin-right: 1rem;
   font-size: 1rem;
   font-weight: bold;
@@ -24,60 +47,157 @@
 }
 
 .links:hover {
-  background-color: #e29578; /* Light pink background on hover */
-  color: #fff; /* White text on hover for better contrast */
-}
-
-/* active link styles */
-.links.active {
-  /* Inherit styles from activeStyle object defined in your React component */
-  /* fontWeight: bold; */
-  text-decoration: underline;
-  color: red;
+  background-color: #e29578;
+  color: #fff;
 }
 
 /* Profile container */
-.profile-container {
-  padding: 1rem 2rem;
-  margin-bottom: 2rem;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 60px; /* to offset the fixed navbar */
 }
 
-/* Profile title */
+.profile-container, .login-box {
+  background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
+  max-width: 600px;
+  width: 100%;
+  margin: 1rem;
+}
+
 .profile-title {
   text-align: center;
   margin-bottom: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
+  color: #006d77;
 }
 
-/* Profile details */
 .profile-details {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-/* Profile item */
 .profile-item {
   font-weight: bold;
+  color: #83c5be;
 }
 
-/* Edit button */
-.edit-button {
-  background-color: #e29578; /* Light pink from your color palette */
+input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #006d77;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #e29578;
   color: #fff;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  width: 100%;
 }
 
-.edit-button:hover {
-  background-color: #d7896b; /* Slightly darker pink on hover */
+button:hover {
+  background-color: #d7896b;
 }
 
+.edit-button {
+  margin-top: 1rem;
+}
 
+/* Login container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  overflow-x: hidden;
+}
+
+/* Login box */
+.login-box {
+  background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
+  width: 300px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Input group */
+.input-group {
+  margin-bottom: 1rem;
+}
+
+/* Input fields */
+input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #83c5be;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #006d77;
+}
+
+/* Buttons */
+button {
+  background-color: #e29578;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #d7896b;
+}
+
+/* Login heading */
+.login-box h2 {
+  margin-bottom: 1rem;
+  color: #006d77;
+}
+
+/* Add this to your existing CSS file */
+.inquiry-container {
+  background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
+}
+
+.inquiry-container p {
+  margin-bottom: 0.5rem;
+}
+
+.inquiry-container p:first-child {
+  margin-top: 0;
+}
+
+.inquiry-container p:last-child {
+  margin-bottom: 0;
+}

@@ -11,11 +11,8 @@ export default function LogIn() {
     const handleSendPassword = async () => {
         if (userId) {
             try {
-                // navigate(`/login/${userId}`);
                 setPasswordSent(true);
-                console.log(userId);
                 await axios.get(`http://localhost:3030/login/${userId}`);
-                console.log("button clicked");
             } catch (error) {
                 console.error("Error sending password:", error);
             }
@@ -28,14 +25,10 @@ export default function LogIn() {
 
         if (enteredPassword.length === 6) {
             try {
-                console.log(`password= ${enteredPassword} userId= ${userId}`);
                 const response = await axios.post(`http://localhost:3030/login/${userId}`, { password: enteredPassword });
-                console.log(response);
                 if (response.data.success) {
-                
-
                     sessionStorage.setItem("currentUser", JSON.stringify(response.data.user)); // Save user data to sessionStorage
-                    navigate(`/${userId}/myProfile`);
+                    navigate(`/${userId}/home`); 
                 } else {
                     alert("Error: " + response.data.message);
                 }
@@ -47,31 +40,30 @@ export default function LogIn() {
     };
 
     return (
-        <div>
-            <div>
-                <label>
-                    User ID:
+        <div className="login-container">
+            <div className="login-box">
+                <h2>Login</h2>
+                <div className="input-group">
+                    <label>User ID:</label>
                     <input
                         type="text"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
                     />
-                </label>
+                </div>
                 <button onClick={handleSendPassword}>Send me password to my email</button>
-            </div>
-            {passwordSent && (
-                <div>
-                    <label>
-                        6-digit Password:
+                {passwordSent && (
+                    <div className="input-group">
+                        <label>6-digit Password:</label>
                         <input
                             type="text"
                             value={password}
                             onChange={handlePasswordChange}
                             maxLength="6"
                         />
-                    </label>
-                </div>
-            )}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

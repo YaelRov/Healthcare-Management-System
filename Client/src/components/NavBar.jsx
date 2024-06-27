@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet, NavLink, useNavigate } from "react-router-dom"
-import styles from './NavBar.module.css';
+
 
 
 export default function NavBar() {
