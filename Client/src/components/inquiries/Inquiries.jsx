@@ -37,28 +37,29 @@ export default function Inquiries() {
 
   return (
     <div className="container">
-      <h1>My Inquiries</h1>
-      {inquiries.length > 0 ? (
-        inquiries.map((inquiry) => (
-          <div key={inquiry._id} className="inquiry-container">
-            <p><strong>Date:</strong> {new Date(inquiry.dateInquiry).toLocaleString()}</p>
-            <p><strong>Question:</strong> {inquiry.inquiryText}</p>
-            {inquiry.answerText && (
-              <p><strong>Answer:</strong> {inquiry.answerText}</p>
-            )}
-            <p><strong>Status:</strong> {inquiry.status}</p>
-          </div>
-        ))
-      ) : (
-        <p>No inquiries found.</p>
-      )}
-      {showAddForm ? (
-        <div>
+      <h1 style={{ marginBottom: "1rem" }}>My Inquiries</h1>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        {inquiries.length > 0 ? (
+          inquiries.map((inquiry) => (
+            <div key={inquiry._id} className="inquiry-container">
+              <p><strong>Date:</strong> {new Date(inquiry.dateInquiry).toLocaleString()}</p>
+              <p><strong>Question:</strong> {inquiry.inquiryText}</p>
+              {inquiry.answerText && (
+                <p><strong>Answer:</strong> {inquiry.answerText}</p>
+              )}
+              <p><strong>Status:</strong> {inquiry.status}</p>
+            </div>
+          ))
+        ) : (
+          <p>No inquiries found.</p>
+        )}
+      </div>
+      <button onClick={handleAddClick} style={{ marginTop: "1rem" }}>Add Inquiry</button>
+      {showAddForm && (
+        <div style={{ marginTop: "1rem" }}>
           <button onClick={handleCancelClick}>❌</button>
           <AddInquiry />
         </div>
-      ) : (
-        <button onClick={handleAddClick}>Add Inquiry</button>
       )}
     </div>
   );
