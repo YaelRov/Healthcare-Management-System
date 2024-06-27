@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,24 +12,20 @@ export default function Home() {
     }
   }, []);
 
-  const handleProfileClick = () => {
-    if (userId) {
-      navigate(`/${userId}/myProfile`);
-    } else {
-      // Handle the case where the user is not logged in (e.g., redirect to login page)
-      console.error("User not logged in");
-      // For example:
-      // navigate('/login');
-    }
-  };
 
   return (
-    <div>
+    <>
       <h1>Welcome to DR Salomon Clinic</h1>
-      <p>For your personal area, click here:</p>
-      <button onClick={handleProfileClick} disabled={!userId}>
-        My Profile
-      </button>
-    </div>
+
+    
+      <div>
+        <h2>About Our Clinic</h2>
+        <p>
+          Welcome to our state-of-the-art clinic, where we provide comprehensive medical services tailored to your needs.
+          Our team of experienced doctors and specialists are dedicated to delivering the highest quality care in a compassionate and supportive environment.
+        </p>
+     
+      </div>
+    </>
   );
 }
