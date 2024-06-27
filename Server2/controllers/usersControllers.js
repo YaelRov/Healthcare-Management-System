@@ -79,7 +79,23 @@ console.log(`email=${req.body.email} phoneNumber=${req.body.phoneNumber}
         }
     }
 
+async create(req,res,next)
+{
+    try {
 
+        const result = usersService.create( req.body);
+        res.status(201).send(result);
+    } catch (err) {
+        console.error(err);
+        if (err.name === 'ValidationError') {
+            res.status(400).send('Validation error: ' + err.message);
+        } else if (err.name === 'MongoError' && err.code === 11000) {
+            res.status(409).send('Duplicate key error: ' + err.message);
+        } else {
+            res.status(500).send('Internal Server Error');
+        }
+    }
+}
 
 
     async delete(req, res, next) {

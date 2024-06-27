@@ -1,6 +1,9 @@
 
 const { User } = require('../schema');
-
+const { MongoClient, ObjectId } = require('mongodb'); // Import ObjectId for _id generation
+const mongoUrl = process.env.MONGODB_URL;
+const dbName = 'Clinic'; // Assuming your database name is 'Clinic'
+const collectionName = 'users'; // Assuming your collection name is 'users'
 
 class UsersDataAccess{  //extends DataAccess {
   // constructor() {
@@ -92,6 +95,64 @@ class UsersDataAccess{  //extends DataAccess {
 //         throw err; // Rethrow the error to be handled by the controller
 //     }
 // }
+// userAccess.js (or your data access layer)
+// ... (שאר הקוד אותו הדבר, כולל connectToMongoDB)
+
+// async  create(data) {
+//   const client = new MongoClient(mongoUrl);
+
+//   try {
+//     await client.connect();
+//     const db = client.db(dbName);
+//     const collection = db.collection(collectionName);
+
+//     // Generate a unique _id for the new user (if needed)
+//     data._id = new ObjectId(); 
+
+//     const result = await collection.insertOne(data);
+//     // return data;
+//     return result.ops[0]; // Return the inserted user document
+//   } catch (error) {
+//     console.error('Error creating user:', error.message);
+//     throw error; // Rethrow the error to handle it in the controller
+//   } finally {
+//     client.close();
+//   }
+// }
+
+async  create(data) {
+  const client = new MongoClient(mongoUrl);
+
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    // Generate a unique _id for the new user (if needed)
+    data._id = new ObjectId(); 
+
+    const result = await collection.insertOne(data);
+    
+    // Return the inserted user document
+    return result.ops[0]; // No need to update inquiries here
+
+  } catch (error) {
+    console.error('Error creating user:', error.message);
+    throw error; // Rethrow the error to handle it in the controller
+  } finally {
+    client.close();
+  }
+}
+
+
+// ... (שאר הפונקציות)
+
+
+
+
+
+
+
 
 
 async getProfile(userId) {

@@ -26,7 +26,7 @@ class loginControllers {
         try {
             const id = req.params.userId; // Get userId from params
             const password = req.body.password; // Get password from request body
-            console.log(`profile= ${req.session.profile}`);
+          
             if (!id || !password) {
                 return res.status(400).json({ success: false, message: 'User ID and password are required' });
             }
@@ -36,7 +36,12 @@ class loginControllers {
             if (result.success) {
                 const profileResult = await userControllers.getProfile(req, res, next); // Use existing getProfile method
                 req.session.profile = profileResult.profile; // Store profile in session
+                console.log(`profile= ${req.session.profile}`);
+                
+                 //return res.status(200).json({ success: true, user: result.user });
+                 return result;
                 res.status(200).send(result); // Send user details if success
+                
             } else {
                 // Determine the appropriate status code based on the message
                 const statusCode = result.message === 'Incorrect password' ? 401 : // Unauthorized

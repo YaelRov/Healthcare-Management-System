@@ -9,7 +9,6 @@ const loginRouter = require('./routers/loginRouter');
 const appointmentsRouter = require('./routers/appointmentsRouters');
 const userControllers = require('./controllers/usersControllers');
 const loginControllers = require('./controllers/loginControllers'); // Import loginControllers
-
 const server = express();
 
 const host = process.env.HOST;
@@ -20,7 +19,7 @@ server.use(cors({
   origin: ['http://localhost:3030', 'http://localhost:5174', 'http://localhost:5173'],
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'CREATE', 'UPDATE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true 
 }));
 
 let db;
@@ -40,17 +39,30 @@ connectToMongoDB();
 
 server.use(express.json());
 
+// server.use(session({
+//   secret: 'your_secret_key',
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { 
+//     httpOnly: true,
+//     secure: false, 
+//     path: '/',
+//     maxAge: 24 * 60 * 60 * 1000, // 24 hours
+//      sameSite: 'lax'
+//   }
+// }));
+
+
 server.use(session({
-  secret: 'your_secret_key',
+  secret: '9e8f423b7a2c5d6e8f9a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f',
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    httpOnly: true,
-    secure: false, 
-    path: '/',
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      httpOnly: true,
+      secure: false, // שנה ל-true אם את משתמשת ב-HTTPS
+      maxAge: 24 * 60 * 60 * 1000 // 24 שעות
   }
-}));
+}))
 
 // Login route
 server.post('/login/:userId', async (req, res) => {
@@ -60,9 +72,13 @@ server.post('/login/:userId', async (req, res) => {
   try {
     req.params.id = id;
     const result = await loginControllers.getByUserId(req, res); // Use loginControllers to handle login
+    console.log(`result=${result}`);
+    // if (result.success) {
+    //   req.session.profile = result.user.profile;
+    //   res.status(200).json({ message: 'Login successful', user: result.user, success:result.success });
     if (result.success) {
-      req.session.profile = result.profile;
-      res.status(200).json({ message: 'Login successful', profile: result.profile });
+      req.session.profile = result.user.profile; // שמירת profile ב-session
+      res.status(200).json({ message: 'Login successful', user: result.user, success: result.success })
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -80,10 +96,10 @@ function authMiddleware(req, res, next) {
   if (req.path === '/login' || req.path.startsWith('/login/')) {
     return next(); // Allow login requests to proceed
   }
-
-  if (!req.session.profile) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+  console.log(`profile=${JSON.stringify(req.session.profile)}`);
+  // if (req.session.profile==null||req.session.profile==undefined) {
+  //   return res.status(401).json({ error: 'Unauthorized' });
+  // }
   next(); 
 }
 

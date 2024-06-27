@@ -2,6 +2,7 @@
 const usersAccess = require("../dataAccess/usersAccess.js");
 const bcrypt = require('bcrypt');
 const { validateEmail } = require('../schema.js');
+const validator = require('validator');
 
 class UsersService{  
     // async getAll() { 
@@ -23,6 +24,29 @@ class UsersService{
     //         throw err;
     //     }
     // }
+
+    async create(data)
+    {
+        try {
+       
+           
+            if ( !data.idNumber || data.profile==null||data.profile==undefined||!data.email||!data.phoneNumber||!data.address||!data.dateOfBirth
+                ||!data.lastName||!data.firstName
+            ) {
+                throw new Error('Missing required fields');
+            }
+            if (!validator.isEmail(data.email)) {
+                throw new Error('Invalid email address');
+              }
+
+            // Create appointment in database
+            const createdUser = await usersAccess.create(data);
+            return createdUser;
+        } catch (err) {
+            // Handle errors
+            throw err;
+        }
+    }
 
     async update( id,data) {
         try {
