@@ -31,6 +31,9 @@ class InquiryControllers{// extends Controller {
 
     async getAll(req, res, next) {
         try {
+            if (!req.session.profile  !== 1) { // Check for profile 1 (doctor)
+                return res.status(403).send('Forbidden - Only doctors can access all inquiries');
+              }
             const result = await inquiriesServices.getAll();
             res.status(200).send(result);
         } catch (err) {
