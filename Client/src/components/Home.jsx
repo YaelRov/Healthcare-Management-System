@@ -1,23 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+
+
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
-  let { id } = useParams();
-  const [currentUser, setCurrentUser] = useState({});
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
-    const curUser = JSON.parse(sessionStorage.getItem("currentUser"));
-    if (curUser === null || curUser.id != id) {
-      window.history.replaceState(null, '', '/');
-      navigate('/login', { replace: true });
+    const storedUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    if (storedUser) {
+      setUserId(storedUser.idNumber);
     }
-    else
-      setCurrentUser(curUser);
-  }, [])
+  }, []);
+
+  const handleProfileClick = () => {
+    if (userId) {
+      navigate(`/${userId}/myProfile`);
+    } else {
+      // Handle the case where the user is not logged in (e.g., redirect to login page)
+      console.error("User not logged in");
+      // For example:
+      // navigate('/login');
+    }
+  };
+
   return (
-    <>
-      <h2>Hello, {currentUser.username}.</h2>
-      <h2>What would you like to see?</h2>
-    </>
-  )
+    <div>
+      <h1>Welcome to DR Salomon Clinic</h1>
+      <p>For your personal area, click here:</p>
+      <button onClick={handleProfileClick} disabled={!userId}>
+        My Profile
+      </button>
+    </div>
+  );
 }
