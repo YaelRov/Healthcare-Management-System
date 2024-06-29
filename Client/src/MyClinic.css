@@ -63,7 +63,7 @@ html, body {
 .profile-container, .login-box {
   background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
   padding: 2rem;
-  border-radius: 10px;
+  border-radius: 0px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
   max-width: 600px;
   width: 100%;
@@ -131,7 +131,7 @@ button:hover {
 .login-box {
   background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
   padding: 2rem;
-  border-radius: 10px;
+  border-radius: 0px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
   width: 300px;
   text-align: center;
@@ -186,7 +186,7 @@ button:hover {
   background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
   padding: 1rem;
   margin-bottom: 1rem;
-  border-radius: 10px;
+  border-radius: 0px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
   width: 100%;
   max-width: 800px; /* Adjust max-width as needed */
