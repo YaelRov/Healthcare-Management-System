@@ -7,7 +7,7 @@ class AppointmentControllers extends Controller {
     }
     async create(req, res, next) {
         try {
-            const id = req.params.patientId;
+            const id = req.params.userId;
             const result = appointmentsServices.create(id, req.body);
             res.status(201).send(result);
         } catch (err) {
@@ -47,7 +47,7 @@ class AppointmentControllers extends Controller {
 
     async getByUserId(req, res, next) {
         try {
-            const id = req.params.patientId;
+            const id = req.params.userId;
             const result = await appointmentsServices.getByUserId(id);
             if (!result) {
                 res.status(404).send('Not found');
@@ -67,7 +67,7 @@ class AppointmentControllers extends Controller {
 
     async getByItemId(req, res, next) {
         try {
-            const userId = req.params.patientId;
+            const userId = req.params.userId;
             const id = req.params.id;
             const result = await appointmentsServices.getByItemId(userId, id);
             if (!result) {
@@ -87,7 +87,7 @@ class AppointmentControllers extends Controller {
     }
     async update(req, res, next) {
         try {
-            const patientId = req.params.patientId;
+            const patientId = req.params.userId;
             const id = req.params.id;
             const result = await appointmentsServices.update(patientId, id, req.body);
             res.status(200).send(`${id} updated successfully`);
@@ -105,7 +105,7 @@ class AppointmentControllers extends Controller {
 
     async delete(req, res, next) {
         try {
-            const userId = req.params.patientId;
+            const userId = req.params.userId;
             const id = req.params.id;
             const result = await appointmentsServices.delete(userId, id);
             res.status(200).send(`${id} deleted successfully`);

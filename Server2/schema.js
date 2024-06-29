@@ -71,9 +71,9 @@ const UserSchema = new Schema({
   email: { type: EmailSchema, required: true, unique: false },
   passwordHash: { type: passwordSchema }, // Store hashed passwords
   profile: { type: Number, required: true }, // e.g., 'doctor' or 'patient'
-  inquiries: [InquirySchema],
-  appointments: [AppointmentSchema],
-  visits: [VisitSchema]
+  inquiries: { type: [InquirySchema], default: [] },
+  appointments: { type: [AppointmentSchema], default: [] },
+  visits: { type: [VisitSchema], default: [] }
 });
 
 

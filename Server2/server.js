@@ -90,6 +90,8 @@ server.post('/login/:userId', async (req, res) => {
 
 // Authorization middleware
 function authMiddleware(req, res, next) {
+  const id = req.params.userId;
+console.log(`id=${id}`);
   console.log(req.session);
   console.log("authMiddleware");
 

@@ -13,14 +13,14 @@ router.use(express.json());
 //     userControllers.getByUserId(req, res, next);
 // });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:userId', (req, res, next) => {
         userControllers.getProfile(req, res, next);
 });
 router.post('/', (req, res, next) => {
     userControllers.create(req, res, next);
 });
 
-router.put('/:id', (req, res, next) => {
+router.put('/:userId', (req, res, next) => {
     console.log('Request reached router:', req.params.id);
     userControllers.update(req, res, next);
 });

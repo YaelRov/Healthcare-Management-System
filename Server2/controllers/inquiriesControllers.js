@@ -31,6 +31,9 @@ class InquiryControllers{// extends Controller {
 
     async getAll(req, res, next) {
         try {
+            if (!req.session.profile  !== 1) { // Check for profile 1 (doctor)
+                return res.status(403).send('Forbidden - Only doctors can access all inquiries');
+              }
             const result = await inquiriesServices.getAll();
             res.status(200).send(result);
         } catch (err) {
@@ -42,7 +45,7 @@ class InquiryControllers{// extends Controller {
 
     async getByUserId(req, res, next) {
         try {
-            const id = req.params.patientId;
+            const id = req.params.userId;
             const result = await inquiriesServices.getByUserId(id);
             if (!result) {
                 res.status(404).send('Not found');
@@ -63,7 +66,7 @@ class InquiryControllers{// extends Controller {
     async getByItemId(req, res,next)
     {
         try {
-            const userId = req.params.patientId;
+            const userId = req.params.userId;
             const id=req.params.id;
             const result = await inquiriesServices.getByItemId(userId,id);
             if (!result) {
@@ -83,7 +86,7 @@ class InquiryControllers{// extends Controller {
     }
     async update(req, res, next) {
         try {
-            const patientId = req.params.patientId; 
+            const patientId = req.params.userId; 
             const id = req.params.id;
             const updatedData = {
                 file: req.body.file ,
@@ -108,7 +111,7 @@ class InquiryControllers{// extends Controller {
     async delete(req, res, next) {
         try {
             const id = req.params.id;
-            const userId=req.params.patientId
+            const userId=req.params.userId
             const result = await inquiriesServices.delete(userId,id);
             res.status(200).send(`${id} deleted successfully`);
         } catch (err) {
