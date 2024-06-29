@@ -30,7 +30,8 @@ export default function MyProfile() {
 
   const updateDetails = async () => {
     try {
-      const response = await axios.put(`http://localhost:3030/users/${curUser.idNumber}`, {
+      const userId=curUser.idNumber;
+      const response = await axios.put(`http://localhost:3030/users/${userId}`, {
         idNumber: curUser.idNumber,
         email: curUser.email.email,
         phoneNumber: curUser.phoneNumber,

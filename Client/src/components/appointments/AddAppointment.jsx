@@ -54,7 +54,7 @@ const AddAppointment = () => {
     const confirmBooking = window.confirm(`Are you sure you want to book an appointment on ${formattedDate} at ${selectedTimeSlot}?`);
     if (confirmBooking) {
       try {
-        await axios.post(`http://localhost:3030/appointments/${patientId}`, {
+        await axios.post(`http://localhost:3030/appointments/${userId}`, {
           date: formattedDate,
           timeSlot: selectedTimeSlot,
         });

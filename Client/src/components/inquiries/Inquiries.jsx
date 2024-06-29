@@ -13,7 +13,7 @@ export default function Inquiries() {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await axios.get(`http://localhost:3030/inquiries/${id}`);
+        const response = await axios.get(`http://localhost:3030/inquiries/${userId}`);
         setInquiries(response.data); // Assuming response.data is an array of inquiries
       } catch (err) {
         console.error("Error fetching inquiries:", err);

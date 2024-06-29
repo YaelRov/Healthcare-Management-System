@@ -10,7 +10,7 @@ export default function AddInquiry() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:3030/inquiries/${id}`, {
+      await axios.post(`http://localhost:3030/inquiries/${userId}`, {
         inquiryText: inquiryText
       });
       alert('Inquiry added successfully!');
