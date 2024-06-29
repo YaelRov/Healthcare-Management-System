@@ -1,10 +1,14 @@
 
 const usersAccess = require("../dataAccess/usersAccess.js");
 const bcrypt = require('bcrypt');
-const { validateEmail } = require('../schema.js');
+const { validateEmail ,Email} = require('../schema.js');
 const validator = require('validator');
+//  const Email = require("mongoose-type-email");
+ 
 
-class UsersService{  
+
+
+class UsersService {
     // async getAll() { 
     //     try {
     //         const allUser = await usersAccess.getAll();
@@ -25,22 +29,34 @@ class UsersService{
     //     }
     // }
 
-    async create(data)
-    {
+    async create(data) {
         try {
-       
-           
-            if ( !data.idNumber || data.profile==null||data.profile==undefined||!data.email||!data.phoneNumber||!data.address||!data.dateOfBirth
-                ||!data.lastName||!data.firstName
+
+
+            if (!data.idNumber || data.profile == null || data.profile == undefined || !data.email || !data.phoneNumber || !data.address || !data.dateOfBirth
+                || !data.lastName || !data.firstName
             ) {
                 throw new Error('Missing required fields');
             }
-            if (!validator.isEmail(data.email)) {
-                throw new Error('Invalid email address');
-              }
+            // if (!validator.isEmail(data.email)) {
+            //     throw new Error('Invalid email address');
+            // }
+            const emailObject = new Email({ email: data.email });
+            // await emailObject.validate(); // This will throw an error if the email is invalid
+        
+            // Update the data object with the validated email object
+            const updatedData = {
+              ...data, // Copy all other fields from data
+              email: emailObject,
+              inquiries:null,
+              appointments:null,
+              visits:null
 
+               // Replace the email string with the Email object
+            };
             // Create appointment in database
-            const createdUser = await usersAccess.create(data);
+            const createdUser = await usersAccess.create(updatedData);
+            console.log(createdUser.idNumber);
             return createdUser;
         } catch (err) {
             // Handle errors
@@ -48,22 +64,22 @@ class UsersService{
         }
     }
 
-    async update( id,data) {
+    async update(id, data) {
         try {
-            const existingUser = await usersAccess.getByUserId( id); 
+            const existingUser = await usersAccess.getByUserId(id);
             const updatedData = {
-                idNumber:id,
-                email: data.email||existingUser.email,
-                phoneNumber: data.phoneNumber||existingUser.phoneNumber,
+                idNumber: id,
+                email: data.email || existingUser.email,
+                phoneNumber: data.phoneNumber || existingUser.phoneNumber,
                 address: {
-                    city: data.address.city||existingUser.address.city,
-                    street: data.address.street||existingUser.address.street,
-                    number: data.address.number||existingUser.address.number
+                    city: data.address.city || existingUser.address.city,
+                    street: data.address.street || existingUser.address.street,
+                    number: data.address.number || existingUser.address.number
                 }
             };
-         
+
             // Validate updated fields
-        
+
             // Check authorization
             // Implement authorization logic here
 
@@ -76,10 +92,10 @@ class UsersService{
         }
     }
 
-    
 
 
-        async getProfile(userId) {
+
+    async getProfile(userId) {
         try {
             // Get user from database
             const profile = await usersAccess.getProfile(userId);
@@ -99,7 +115,7 @@ class UsersService{
         }
     }
 
-   
+
 
 }
 

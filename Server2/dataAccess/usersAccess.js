@@ -1,6 +1,7 @@
 
 const { User } = require('../schema');
-const { MongoClient, ObjectId } = require('mongodb'); // Import ObjectId for _id generation
+const { MongoClient, ObjectId } = require('mongodb'); 
+const mongoose = require('mongoose');// Import ObjectId for _id generation
 const mongoUrl = process.env.MONGODB_URL;
 const dbName = 'Clinic'; // Assuming your database name is 'Clinic'
 const collectionName = 'users'; // Assuming your collection name is 'users'
@@ -98,28 +99,6 @@ class UsersDataAccess{  //extends DataAccess {
 // userAccess.js (or your data access layer)
 // ... (שאר הקוד אותו הדבר, כולל connectToMongoDB)
 
-// async  create(data) {
-//   const client = new MongoClient(mongoUrl);
-
-//   try {
-//     await client.connect();
-//     const db = client.db(dbName);
-//     const collection = db.collection(collectionName);
-
-//     // Generate a unique _id for the new user (if needed)
-//     data._id = new ObjectId(); 
-
-//     const result = await collection.insertOne(data);
-//     // return data;
-//     return result.ops[0]; // Return the inserted user document
-//   } catch (error) {
-//     console.error('Error creating user:', error.message);
-//     throw error; // Rethrow the error to handle it in the controller
-//   } finally {
-//     client.close();
-//   }
-// }
-
 async  create(data) {
   const client = new MongoClient(mongoUrl);
 
@@ -132,10 +111,8 @@ async  create(data) {
     data._id = new ObjectId(); 
 
     const result = await collection.insertOne(data);
-    
-    // Return the inserted user document
-    return result.ops[0]; // No need to update inquiries here
-
+    // return data;
+    return result.ops[0]; // Return the inserted user document
   } catch (error) {
     console.error('Error creating user:', error.message);
     throw error; // Rethrow the error to handle it in the controller
@@ -143,6 +120,101 @@ async  create(data) {
     client.close();
   }
 }
+
+// async  create(data) {
+//   const client = new MongoClient(mongoUrl);
+
+//   try {
+//     await client.connect();
+//     const db = client.db(dbName);
+//     const collection = db.collection(collectionName);
+
+//     // Generate a unique _id for the new user (if needed)
+//     data._id = new ObjectId(); 
+
+//     const result = await collection.insertOne(data);
+    
+//     // Return the inserted user document
+//     return result.ops[0]; // No need to update inquiries here
+
+//   } catch (error) {
+//     console.error('Error creating user:', error.message);
+//     throw error; // Rethrow the error to handle it in the controller
+//   } finally {
+//     client.close();
+//   }
+// }
+
+
+
+// async  create(data) {
+//   try {
+//       mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+//       const db = mongoose.connection;
+
+//       db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+//       db.once('open', async () => {
+//           try {
+//                   await data.save();
+//                   console.log(`Patient created successfully`);
+//           } catch (error) {
+//               console.error('Error initializing users:', error);
+//           } finally {
+//               mongoose.connection.close(); // Close connection when done
+//           }
+//           return data;
+//       });
+
+//   } catch (error) {
+//       console.error('Error initializing users:', error);
+//   }
+// }
+
+
+// async  create(data) {
+//   const client = new MongoClient(mongoUrl);
+
+//   try {
+//     await client.connect();
+//     const db = client.db(dbName);
+//     const collection = db.collection(collectionName);
+
+//     data._id = new ObjectId(); 
+
+//     const result = await collection.insertOne(data);
+//     console.log("Patient created successfully:", result.ops[0]); // Log the created user
+//     return result.ops[0];
+//   } catch (error) {
+//     console.error('Error creating user:', error);
+//     throw error; 
+//   } finally {
+//     client.close();
+//   }
+// }
+
+
+
+
+async  create(data) {
+  try {
+    await mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log('Connected to MongoDB');
+
+    const user = new User(data);
+    const savedUser = await user.save();
+    console.log('User created successfully:', savedUser.idNumber);
+
+    return savedUser;
+  } catch (error) {
+    console.error('Error creating user:', error.message);
+    throw error;
+  } finally {
+    mongoose.connection.close();
+    console.log('MongoDB connection closed');
+  }
+}
+
+
 
 
 // ... (שאר הפונקציות)

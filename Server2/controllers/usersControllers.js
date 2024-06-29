@@ -37,7 +37,7 @@ class userControllers {
         try {
 console.log(`email=${req.body.email} phoneNumber=${req.body.phoneNumber}
     city=${ req.body.address.city} street=${req.body.address.street} number=${req.body.address.number}`)
-            const id = req.params.id;
+            const id = req.params.userId;
             const updatedData = {
                 email: req.body.email,
                 phoneNumber: req.body.phoneNumber,
@@ -62,7 +62,7 @@ console.log(`email=${req.body.email} phoneNumber=${req.body.phoneNumber}
     }
 
     async getProfile(req, res, next) {
-        const id = req.params.id;
+        const id = req.params.userId;
         const result = await usersService.getProfile(id);
         if (!result) {
             res.status(404).send('Not found');
@@ -82,9 +82,9 @@ console.log(`email=${req.body.email} phoneNumber=${req.body.phoneNumber}
 async create(req,res,next)
 {
     try {
-        if (!req.session.profile !== 1) { // Check for profile 1 (doctor)
-            return res.status(403).send('Forbidden - Only doctors can create users');
-        }
+        // if (!req.session.profile !== 1) { // Check for profile 1 (doctor)
+        //     return res.status(403).send('Forbidden - Only doctors can create users');
+        // }
 
         const result = usersService.create( req.body);
         res.status(201).send(result);
