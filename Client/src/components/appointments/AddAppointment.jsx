@@ -8,10 +8,10 @@ const AddAppointment = () => {
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
   const [appointments, setAppointments] = useState([]);
+  const [reason, setReason] = useState(''); // State to manage the reason input
 
   // Fetch the user from local storage
   const user = JSON.parse(sessionStorage.getItem("currentUser"));
-  console.log(user);
   const patientId = user.idNumber;
 
   // Fetch all busy appointments when the component mounts
@@ -22,7 +22,7 @@ const AddAppointment = () => {
         const response = await axios.get("http://localhost:3030/appointments",  {
           withCredentials: true,
           headers: {
-            'user-id': userId // <-- הוספת ה-ID ב-header
+            'user-id': userId
           }
         });
         setAppointments(response.data);
@@ -36,7 +36,7 @@ const AddAppointment = () => {
 
   // Filter available time slots based on the selected date
   useEffect(() => {
-    const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
     const bookedSlots = appointments
       .filter(appointment => appointment.date === formattedDate)
       .map(appointment => appointment.timeSlot);
@@ -47,7 +47,9 @@ const AddAppointment = () => {
 
   // Handle date change
   const handleDateChange = (date) => {
-    setDate(date);
+    // Set the time to midnight in the local time zone to avoid timezone issues
+    const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+    setDate(localDate);
   };
 
   // Handle time slot selection
@@ -55,51 +57,59 @@ const AddAppointment = () => {
     setSelectedTimeSlot(slot);
   };
 
+  // Handle reason input change
+  const handleReasonChange = (e) => {
+    setReason(e.target.value);
+  };
+
   // Handle appointment submission
   const handleAppointmentSubmit = async () => {
-    const formattedDate = date.toISOString().split('T')[0];
-    const confirmBooking = window.confirm(`Are you sure you want to book an appointment on ${formattedDate} at ${selectedTimeSlot}?`);
+    // Ensure the date is set to local midnight to avoid timezone issues
+    const formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+    const formattedDateString = formattedDate.toISOString().split('T')[0];
+
+    const confirmBooking = window.confirm(`Are you sure you want to book an appointment on ${formattedDateString} at ${selectedTimeSlot}?`);
     if (confirmBooking) {
-        try {
-            const user = JSON.parse(sessionStorage.getItem("currentUser"));
-            const userId = user.idNumber;
-            const response = await axios.post(`http://localhost:3030/appointments/${userId}`, {
-                date: formattedDate,
-                timeSlot: selectedTimeSlot,
-            }, {
-                withCredentials: true, // Important for sending cookies
-                headers: {
-                    'User-Id': userId,
-                },
-            });
-    
-            alert('Appointment booked successfully!');
-            // Update appointments state to include the new booking
-            const newAppointment = { date: formattedDate, timeSlot: selectedTimeSlot };
-            setAppointments(prev => [...prev, newAppointment]);
+      try {
+        const user = JSON.parse(sessionStorage.getItem("currentUser"));
+        const userId = user.idNumber;
+        const response = await axios.post(`http://localhost:3030/appointments/${userId}`, {
+          date: formattedDateString,
+          timeSlot: selectedTimeSlot,
+          reason: reason, // Include reason in the request body
+        }, {
+          withCredentials: true, // Important for sending cookies
+          headers: {
+            'User-Id': userId,
+          },
+        });
 
-            // Update the session storage with the new appointment
-            user.appointments.push(newAppointment);
-            sessionStorage.setItem("currentUser", JSON.stringify(user));
+        alert('Appointment booked successfully!');
+        // Update appointments state to include the new booking
+        const newAppointment = { date: formattedDateString, timeSlot: selectedTimeSlot, reason: reason };
+        setAppointments(prev => [...prev, newAppointment]);
 
-            // Refresh the page
-            window.location.reload();
-        } catch (err) {
-            console.error('Error booking appointment:', err);
-        }
+        // Update the session storage with the new appointment
+        user.appointments.push(newAppointment);
+        sessionStorage.setItem("currentUser", JSON.stringify(user));
+
+        // Refresh the page
+        window.location.reload();
+      } catch (err) {
+        console.error('Error booking appointment:', err);
+      }
     }
-};
+  };
 
-
-  // Disable past dates, limit date selection to one month from today, and disable Saturdays
+  // Disable dates before tomorrow and Saturdays
   const tileDisabled = ({ date, view }) => {
-    if (view === 'month') {
-      const today = new Date();
-      const oneMonthFromToday = new Date();
-      oneMonthFromToday.setMonth(today.getMonth() + 1);
-      return date < today || date > oneMonthFromToday || date.getDay() === 6; // Disable past dates, dates beyond one month, and Saturdays
-    }
-    return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to midnight
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1); // Tomorrow's date
+
+    // Disable dates before tomorrow or Saturdays
+    return date < tomorrow || date.getDay() === 6;
   };
 
   return (
@@ -122,9 +132,8 @@ const AddAppointment = () => {
                   margin: '5px',
                   padding: '10px',
                   color: 'black',
-                  backgroundColor: selectedTimeSlot === slot ? '#e29578' : '#ffddd2',//'#d7896b' || #edf6f9
+                  backgroundColor: selectedTimeSlot === slot ? '#d7896b' : '#edf6f9',
                   border: '1px solid black',
-                  
                 }}
               >
                 {slot}
@@ -136,10 +145,21 @@ const AddAppointment = () => {
         )}
       </div>
       {selectedTimeSlot && (
-        <button onClick={handleAppointmentSubmit}>Book Appointment</button>
+        <div>
+          <input 
+            type="text" 
+            value={reason} 
+            onChange={handleReasonChange} 
+            placeholder="Reason for appointment" 
+            style={{ marginBottom: '10px', padding: '5px', width: '100%' }} 
+          />
+          <button onClick={handleAppointmentSubmit}>Book Appointment</button>
+        </div>
       )}
     </div>
   );
 };
 
 export default AddAppointment;
+
+
