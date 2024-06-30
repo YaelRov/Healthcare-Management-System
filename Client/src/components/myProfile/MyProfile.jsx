@@ -30,7 +30,8 @@ export default function MyProfile() {
 
   const updateDetails = async () => {
     try {
-      const userId=curUser.idNumber;
+      const userId = curUser.idNumber;
+
       const response = await axios.put(`http://localhost:3030/users/${userId}`, {
         idNumber: curUser.idNumber,
         email: curUser.email.email,
@@ -40,7 +41,14 @@ export default function MyProfile() {
           number: curUser.address.number,
           street: curUser.address.street
         }
+      }, {
+        withCredentials: true, // Important for sending cookies
+        headers: {
+          'user-id': userId
+        } 
       });
+
+    
 
       if (response.status === 200) {
         sessionStorage.setItem("currentUser", JSON.stringify(curUser));
