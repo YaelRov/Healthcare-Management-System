@@ -88,6 +88,8 @@ class InquiryControllers{// extends Controller {
     }
     async update(req, res, next) {
         try {
+            if(req.session.profile==0)
+                throw new Error('Only doctors can access this information.');
             const patientId = req.params.userId; 
             const id = req.params.id;
             const updatedData = {
@@ -109,7 +111,6 @@ class InquiryControllers{// extends Controller {
             }
         }
     }
-
     async delete(req, res, next) {
         try {
             const id = req.params.id;
