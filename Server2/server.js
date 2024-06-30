@@ -18,7 +18,7 @@ const mongoUrl = process.env.MONGODB_URL;
 server.use(cors({
   origin: ['http://localhost:3030', 'http://localhost:5174', 'http://localhost:5173'],
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'CREATE', 'UPDATE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization','user-id'],
   credentials: true 
 }));
 
@@ -89,21 +89,52 @@ server.post('/login/:userId', async (req, res) => {
 });
 
 // Authorization middleware
-function authMiddleware(req, res, next) {
-  const id = req.params.userId;
-console.log(`id=${id}`);
+// function authMiddleware(req, res, next) {
+//   const id = req.params.userId;
+// console.log(`id=${id}`);
+//   console.log(req.session);
+//   console.log("authMiddleware");
+
+//   if (req.path === '/login' || req.path.startsWith('/login/')) {
+//     return next(); // Allow login requests to proceed
+//   }
+//   console.log(`profile=${JSON.stringify(req.session.profile)}`);
+//   // if (req.session.profile==null||req.session.profile==undefined) {
+//   //   return res.status(401).json({ error: 'Unauthorized' });
+//   // }
+//   next(); 
+// }
+
+async function authMiddleware(req, res, next) {
   console.log(req.session);
   console.log("authMiddleware");
 
   if (req.path === '/login' || req.path.startsWith('/login/')) {
     return next(); // Allow login requests to proceed
   }
-  console.log(`profile=${JSON.stringify(req.session.profile)}`);
-  // if (req.session.profile==null||req.session.profile==undefined) {
-  //   return res.status(401).json({ error: 'Unauthorized' });
-  // }
-  next(); 
+
+  if (req.session.profile == null || req.session.profile == undefined) {
+    // Try to get userId from sessionStorage (on the frontend)
+    const userId = req.headers['user-id']; // Get the userId from the header
+    console.log(`id=${userId}`);
+
+    if (userId) {
+      // Fetch user profile from the database
+      const result = await userControllers.getProfile({ params: { userId: userId } });
+      if (result.profile!=null&&result.profile!=undefined) {
+        req.session.profile = result.profile;
+        return next();
+      }
+    }
+  } else {
+    // User is already authenticated
+    return next();
+  }
+
+  // If all else fails, return unauthorized
+  return res.status(401).json({ error: 'Unauthorized' });
 }
+
 
 // Use authorization middleware for protected routes
 server.use('/appointments', authMiddleware, appointmentsRouter); 

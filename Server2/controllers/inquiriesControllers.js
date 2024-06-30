@@ -9,7 +9,9 @@ class InquiryControllers{// extends Controller {
 //     }
     async create(req, res, next) {
         try {
-            const userId = req.params.patientId; 
+            const userId = req.params.userId;
+            console.log("userId= "+userId) ;
+            console.log("profile2= "+req.session.profile);
             const newData = {
                 patientId: userId, 
                 inquiryText:req.body.inquiryText,

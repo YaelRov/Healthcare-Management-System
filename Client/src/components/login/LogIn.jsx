@@ -12,7 +12,17 @@ export default function LogIn() {
         if (userId) {
             try {
                 setPasswordSent(true);
-                await axios.get(`http://localhost:3030/login/${userId}`);
+                const response = await axios.get(`http://localhost:3030/login/${userId}`,
+
+                    {
+                        withCredentials: true, // Important for sending cookies
+                        headers: {
+                            'user-id': userId,
+                        },
+                    });
+
+                    return response;
+                    
             } catch (error) {
                 console.error("Error sending password:", error);
             }
@@ -25,7 +35,19 @@ export default function LogIn() {
 
         if (enteredPassword.length === 6) {
             try {
-                const response = await axios.post(`http://localhost:3030/login/${userId}`, { password: enteredPassword });
+           
+                const response = await axios.post(`http://localhost:3030/login/${userId}`,
+                {
+                    password: enteredPassword 
+                },
+
+                    {
+                        withCredentials: true, // Important for sending cookies
+                        headers: {
+                            'user-id': userId,
+                        },
+                    });
+
                 if (response.data.success) {
                     sessionStorage.setItem("currentUser", JSON.stringify(response.data.user)); // Save user data to sessionStorage
                     navigate(`/${userId}/home`); 

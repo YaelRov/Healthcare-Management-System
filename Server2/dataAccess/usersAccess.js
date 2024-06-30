@@ -99,27 +99,27 @@ class UsersDataAccess{  //extends DataAccess {
 // userAccess.js (or your data access layer)
 // ... (שאר הקוד אותו הדבר, כולל connectToMongoDB)
 
-async  create(data) {
-  const client = new MongoClient(mongoUrl);
+// async  create(data) {
+//   const client = new MongoClient(mongoUrl);
 
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
+//   try {
+//     await client.connect();
+//     const db = client.db(dbName);
+//     const collection = db.collection(collectionName);
 
-    // Generate a unique _id for the new user (if needed)
-    data._id = new ObjectId(); 
+//     // Generate a unique _id for the new user (if needed)
+//     data._id = new ObjectId(); 
 
-    const result = await collection.insertOne(data);
-    // return data;
-    return result.ops[0]; // Return the inserted user document
-  } catch (error) {
-    console.error('Error creating user:', error.message);
-    throw error; // Rethrow the error to handle it in the controller
-  } finally {
-    client.close();
-  }
-}
+//     const result = await collection.insertOne(data);
+//     // return data;
+//     return result.ops[0]; // Return the inserted user document
+//   } catch (error) {
+//     console.error('Error creating user:', error.message);
+//     throw error; // Rethrow the error to handle it in the controller
+//   } finally {
+//     client.close();
+//   }
+// }
 
 // async  create(data) {
 //   const client = new MongoClient(mongoUrl);
