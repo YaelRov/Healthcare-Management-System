@@ -28,14 +28,14 @@ class AppointmentControllers extends Controller {
 
             let result = await appointmentsServices.getAll();
             if (req.session.profile == 0) {
-                result = result.flatMap(app => 
-                    app.map(appointment => appointment.date)
+                result = result.flatMap(
+                    appointment => appointment.date
                   );
                   console.log(result);
             }
-          
-                res.status(200).send(result);
-            
+
+            res.status(200).send(result);
+
 
 
         } catch (err) {

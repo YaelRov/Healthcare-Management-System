@@ -60,27 +60,36 @@ const AddAppointment = () => {
     const formattedDate = date.toISOString().split('T')[0];
     const confirmBooking = window.confirm(`Are you sure you want to book an appointment on ${formattedDate} at ${selectedTimeSlot}?`);
     if (confirmBooking) {
-      try {
-        const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber;
-        const response = await axios.post(`http://localhost:3030/appointments/${userId}`, {
-          date: formattedDate,
-          timeSlot: selectedTimeSlot,
-        },
-        {
-          withCredentials: true, // Important for sending cookies
-          headers: {
-            'User-Id': userId,
-          },
-        });
+        try {
+            const user = JSON.parse(sessionStorage.getItem("currentUser"));
+            const userId = user.idNumber;
+            const response = await axios.post(`http://localhost:3030/appointments/${userId}`, {
+                date: formattedDate,
+                timeSlot: selectedTimeSlot,
+            }, {
+                withCredentials: true, // Important for sending cookies
+                headers: {
+                    'User-Id': userId,
+                },
+            });
     
-        alert('Appointment booked successfully!');
-        // Update appointments state to include the new booking
-        setAppointments(prev => [...prev, { date: formattedDate, timeSlot: selectedTimeSlot }]);
-      } catch (err) {
-        console.error('Error booking appointment:', err);
-      }
+            alert('Appointment booked successfully!');
+            // Update appointments state to include the new booking
+            const newAppointment = { date: formattedDate, timeSlot: selectedTimeSlot };
+            setAppointments(prev => [...prev, newAppointment]);
+
+            // Update the session storage with the new appointment
+            user.appointments.push(newAppointment);
+            sessionStorage.setItem("currentUser", JSON.stringify(user));
+
+            // Refresh the page
+            window.location.reload();
+        } catch (err) {
+            console.error('Error booking appointment:', err);
+        }
     }
-  };
+};
+
 
   // Disable past dates, limit date selection to one month from today, and disable Saturdays
   const tileDisabled = ({ date, view }) => {
@@ -112,8 +121,8 @@ const AddAppointment = () => {
                 style={{
                   margin: '5px',
                   padding: '10px',
-                  color: selectedTimeSlot === slot ? 'black' : 'white',
-                  //backgroundColor: selectedTimeSlot === slot ? 'blue' : 'green',#d7896b || #edf6f9
+                  color: 'black',
+                  backgroundColor: selectedTimeSlot === slot ? '#e29578' : '#ffddd2',//'#d7896b' || #edf6f9
                   border: '1px solid black',
                   
                 }}

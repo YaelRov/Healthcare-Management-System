@@ -18,7 +18,7 @@ const AppointmentSchema = new Schema({
   _id: { type: Schema.Types.ObjectId, auto: true },
   patientId:{type: Number, required: true},
   date: { type: Date, required: true },
-  reason: { type: String, required: true }
+  reason: { type: String, required: false }
 });
 
 const VisitSchema = new Schema({

@@ -14,7 +14,7 @@ class AppointmentsService {//extends Service {
               }
             //אולי לבדוק אם התאריך לא עבר
             // Validate appointment data
-            if ( !data.date || !data.reason) {
+            if ( !data.date) {
                 throw new Error('Missing required fields');
             }
 

@@ -61,7 +61,7 @@ html, body {
 }
 
 .profile-container, .login-box {
-  background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
+  background-color: rgba(237,246,249, 0.9); /* Adjust opacity as needed */
   padding: 2rem;
   border-radius: 0px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
@@ -129,7 +129,7 @@ button:hover {
 
 /* Login box */
 .login-box {
-  background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
+  background-color: rgba(237,246,249, 0.9); /* Adjust opacity as needed */
   padding: 2rem;
   border-radius: 0px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
@@ -183,7 +183,7 @@ button:hover {
 
 /* Add this to your existing CSS file */
 .inquiry-container {
-  background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
+  background-color: rgba(237,246,249, 0.9); /* Adjust opacity as needed */
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 0px;
