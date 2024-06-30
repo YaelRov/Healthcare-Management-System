@@ -88,23 +88,6 @@ server.post('/login/:userId', async (req, res) => {
   }
 });
 
-// Authorization middleware
-// function authMiddleware(req, res, next) {
-//   const id = req.params.userId;
-// console.log(`id=${id}`);
-//   console.log(req.session);
-//   console.log("authMiddleware");
-
-//   if (req.path === '/login' || req.path.startsWith('/login/')) {
-//     return next(); // Allow login requests to proceed
-//   }
-//   console.log(`profile=${JSON.stringify(req.session.profile)}`);
-//   // if (req.session.profile==null||req.session.profile==undefined) {
-//   //   return res.status(401).json({ error: 'Unauthorized' });
-//   // }
-//   next(); 
-// }
-
 async function authMiddleware(req, res, next) {
   console.log(req.session);
   console.log("authMiddleware");
