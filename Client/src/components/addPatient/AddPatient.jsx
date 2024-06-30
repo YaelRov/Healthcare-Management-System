@@ -50,8 +50,13 @@ export default function AddPatient() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3030/users", formData, { withCredentials: true });
-      if (response.status === 201) { // Assuming your server returns 201 Created on success
+      const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber;
+      const response = await axios.post("http://localhost:3030/users", formData, {
+        withCredentials: true,
+        headers: {
+          'user-id': userId // <-- הוספת ה-ID ב-header
+        }
+      });      if (response.status === 201) { // Assuming your server returns 201 Created on success
         alert("Patient added successfully!");
         navigate("/users"); // Or any other appropriate route
       } else {
@@ -63,7 +68,8 @@ export default function AddPatient() {
   };
 
   return (
-    <div>
+    <div className="container">
+    <div className="profile-container">
       <h1>Add Patient</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -112,6 +118,7 @@ export default function AddPatient() {
         </div>
         <button type="submit">Add Patient</button>
       </form>
+    </div>
     </div>
   );
 }

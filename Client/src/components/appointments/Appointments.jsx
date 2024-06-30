@@ -39,12 +39,12 @@ export default function Appointments() {
   };
 
   return (
-    <div>
-      <h1>My Appointments</h1>
+    <div className="container">
+      <h1 style={{ marginBottom: "1rem" }}>My Appointments</h1>
       {appointments.length > 0 ? (
-        <ul>
+      <ul style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
           {appointments.map((appointment) => (
-            <li key={appointment._id}>
+            <li key={appointment._id} className="inquiry-container">
               <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
               <p><strong>Reason:</strong> {appointment.reason}</p>
             </li>

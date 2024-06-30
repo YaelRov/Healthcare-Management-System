@@ -14,18 +14,15 @@ export default function Home() {
 
 
   return (
-    <>
-      <h1>Welcome to DR Salomon Clinic</h1>
-
-    
-      <div>
-        <h2>About Our Clinic</h2>
-        <p>
+    <div className="container">
+      <div className="profile-container">
+      <h1 className="profile-title">Welcome to Dr. Salomon's Clinic</h1>
+        <h3>
           Welcome to our state-of-the-art clinic, where we provide comprehensive medical services tailored to your needs.
           Our team of experienced doctors and specialists are dedicated to delivering the highest quality care in a compassionate and supportive environment.
-        </p>
+        </h3>
      
       </div>
-    </>
+    </div>
   );
 }

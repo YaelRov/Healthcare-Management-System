@@ -13,7 +13,14 @@ export default function Inquiries() {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await axios.get(`http://localhost:3030/inquiries/${userId}`);
+        const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber;
+        const response = await axios.get(`http://localhost:3030/inquiries/${userId}`,
+          {
+            withCredentials: true, // Important for sending cookies
+            headers: {
+              'User-Id': userId,
+            },
+          });
         setInquiries(response.data); // Assuming response.data is an array of inquiries
       } catch (err) {
         console.error("Error fetching inquiries:", err);
@@ -38,7 +45,7 @@ export default function Inquiries() {
   return (
     <div className="container">
       <h1 style={{ marginBottom: "1rem" }}>My Inquiries</h1>
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
         {inquiries.length > 0 ? (
           inquiries.map((inquiry) => (
             <div key={inquiry._id} className="inquiry-container">

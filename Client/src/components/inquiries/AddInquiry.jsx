@@ -10,10 +10,17 @@ export default function AddInquiry() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:3030/inquiries/${userId}`, {
+      const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber;
+      const response = await axios.post(`http://localhost:3030/inquiries/${userId}`, {
         inquiryText: inquiryText
+      },
+{
+        withCredentials: true, // Important for sending cookies
+        headers: {
+          'user-id': userId,
+        },
       });
-      alert('Inquiry added successfully!');
+alert('Inquiry added successfully!');
       navigate(`/${id}/inquiries`); // Redirect to inquiries page after adding
     } catch (err) {
       console.error('Error adding inquiry:', err);
@@ -29,7 +36,7 @@ export default function AddInquiry() {
           onChange={(e) => setInquiryText(e.target.value)}
           required
         />
-        <button type="submit">Submit</button>
+        <button type="submit">Send</button>
       </form>
     </div>
   );

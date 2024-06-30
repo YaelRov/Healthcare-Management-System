@@ -10,14 +10,21 @@ const AddAppointment = () => {
   const [appointments, setAppointments] = useState([]);
 
   // Fetch the user from local storage
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = JSON.parse(sessionStorage.getItem("currentUser"));
+  console.log(user);
   const patientId = user.idNumber;
 
   // Fetch all busy appointments when the component mounts
   useEffect(() => {
     const fetchAllAppointments = async () => {
       try {
-        const response = await axios.get('http://localhost:3030/appointments');
+        const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber;
+        const response = await axios.get("http://localhost:3030/appointments",  {
+          withCredentials: true,
+          headers: {
+            'user-id': userId // <-- הוספת ה-ID ב-header
+          }
+        });
         setAppointments(response.data);
       } catch (err) {
         console.error('Error fetching appointments:', err);
@@ -54,10 +61,18 @@ const AddAppointment = () => {
     const confirmBooking = window.confirm(`Are you sure you want to book an appointment on ${formattedDate} at ${selectedTimeSlot}?`);
     if (confirmBooking) {
       try {
-        await axios.post(`http://localhost:3030/appointments/${userId}`, {
+        const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber;
+        const response = await axios.post(`http://localhost:3030/appointments/${userId}`, {
           date: formattedDate,
           timeSlot: selectedTimeSlot,
+        },
+        {
+          withCredentials: true, // Important for sending cookies
+          headers: {
+            'User-Id': userId,
+          },
         });
+    
         alert('Appointment booked successfully!');
         // Update appointments state to include the new booking
         setAppointments(prev => [...prev, { date: formattedDate, timeSlot: selectedTimeSlot }]);
@@ -97,8 +112,10 @@ const AddAppointment = () => {
                 style={{
                   margin: '5px',
                   padding: '10px',
-                  backgroundColor: selectedTimeSlot === slot ? 'lightblue' : 'white',
+                  color: selectedTimeSlot === slot ? 'black' : 'white',
+                  //backgroundColor: selectedTimeSlot === slot ? 'blue' : 'green',#d7896b || #edf6f9
                   border: '1px solid black',
+                  
                 }}
               >
                 {slot}
