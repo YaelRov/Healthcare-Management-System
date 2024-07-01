@@ -1,75 +1,100 @@
-import React from 'react'
-import { Outlet, NavLink, useNavigate } from "react-router-dom"
-
-
+import React, { useState, useEffect } from 'react';
+import { Outlet, NavLink, useNavigate, useParams } from "react-router-dom";
 
 export default function NavBar() {
     const navigate = useNavigate();
+    const { id } = useParams(); // Get the user ID from the URL
+
+    const [profile, setProfile] = useState(0);
+
     const activeStyle = {
         fontWeight: "bold",
         textDecoration: "underline",
         color: "red",
+    };
 
-    }
     const logOutFunc = () => {
         sessionStorage.removeItem("currentUser");
         window.history.replaceState(null, '', '/');
         navigate('/login', { replace: true });
-    }
+    };
+
+    useEffect(() => {
+        const getProfile = async () =>  {
+            try {
+                const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+                if (currentUser) {
+                    setProfile(currentUser.profile);
+                } else {
+                    console.error("No current user.");
+                }
+            } catch (err) {
+                console.error("Error getting profile:", err);
+            }
+        };
+
+        getProfile();
+    }, [id]);
 
     return (
         <>
             <header>
                 <nav className='navbar'>
                     <NavLink
-                        to="myProfile"//*
-                        style={({ isActive }) => isActive ? activeStyle : null}
+                        to="myProfile"
+                        style={activeStyle}
                         className='links'
                     >
-                        my profile
+                        My Profile
                     </NavLink>
                     <NavLink
                         to="inquiries"
-                        style={({ isActive }) => isActive ? activeStyle : null}
+                        style={activeStyle}
                         className='links'
                     >
-                        inquiries
+                        Inquiries
                     </NavLink>
                     <NavLink
                         to="appointments"
-                        style={({ isActive }) => isActive ? activeStyle : null}
+                        style={activeStyle}
                         className='links'
                     >
-                        appointment
+                        Appointment
                     </NavLink>
                     <NavLink
                         to="medicalfiles"
-                        style={({ isActive }) => isActive ? activeStyle : null}
+                        style={activeStyle}
                         className='links'
                     >
-                        medical files
+                        Medical Files
                     </NavLink>
-                    <NavLink
-                        to="addPatient"//*
-                        style={({ isActive }) => isActive ? activeStyle : null}
-                        className='links'
-                    >
-                        add patient
-                    </NavLink>
+                    {profile === 1 && (
+                        <NavLink
+                            to="addPatient"
+                            style={activeStyle}
+                            className='links'
+                        >
+                            Add Patient
+                        </NavLink>
+                    )}
                     <NavLink
                         to="home"
-                        style={({ isActive }) => isActive ? activeStyle : null}
+                        style={activeStyle}
                         className='links'
-                    >home </NavLink>
+                    >
+                        Home
+                    </NavLink>
                     <NavLink
                         to="/login"
                         onClick={logOutFunc}
-                        style={({ isActive }) => isActive ? activeStyle : null}
+                        style={activeStyle}
                         className='links'
-                    > log out</NavLink>
+                    >
+                        Log Out
+                    </NavLink>
                 </nav>
             </header>
             <Outlet />
         </>
-    )
+    );
 }
