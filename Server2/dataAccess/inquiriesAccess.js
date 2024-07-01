@@ -114,7 +114,7 @@ class InquiryDataAccess extends DataAccess {
     async getAll() {
     try {
         // Find all patients (users with role "patient")
-        const patients = await User.find({ profile: "patient" }).exec(); // Changed to use "profile" instead of "role"
+        const patients = await User.find({ profile: 0 }).exec(); // Changed to use "profile" instead of "role"
 
         // Extract inquiries from each patient
         const allInquiries = patients.flatMap(patient => patient.inquiries); // Assuming patient.inquiries is an array
