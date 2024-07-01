@@ -33,7 +33,7 @@ class AppointmentControllers extends Controller {
                   );
                   console.log(result);
             }
-
+console.log(`result of allAppointments= ${result}`)
             res.status(200).send(result);
 
 
