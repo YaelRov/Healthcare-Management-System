@@ -7,8 +7,9 @@ export default function Inquiries() {
   const [inquiries, setInquiries] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const navigate = useNavigate();
-  const { id } = useParams(); // Get the user ID from the URL
-
+  const { id } = useParams();
+  const currentUser = JSON.parse(sessionStorage.getItem("currentUser")); // Get the user ID from the URL
+console.log(`profile=${currentUser.profile}`)
   // Fetch the user's inquiries from local storage
   useEffect(() => {
     const fetchInquiries = async () => {
@@ -61,7 +62,10 @@ export default function Inquiries() {
 
   return (
     <div className="container">
-      <h1 style={{ marginBottom: "1rem" }}>My Inquiries</h1>
+      {currentUser.profile==0?(  <h1 style={{ marginBottom: "1rem" }}>My Inquiries</h1>):
+        <h1 style={{ marginBottom: "1rem" }}>All Inquiries</h1>
+      }
+    
       <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
         {inquiries.length > 0 ? (
           inquiries.map((inquiry) => (
@@ -78,7 +82,10 @@ export default function Inquiries() {
           <p>No inquiries found.</p>
         )}
       </div>
-      <button onClick={handleAddClick} style={{ marginTop: "1rem" }}>Add Inquiry</button>
+      {currentUser.profile==0&&
+        <button onClick={handleAddClick} style={{ marginTop: "1rem" }}>Add Inquiry</button>
+      }
+    
       {showAddForm && (
         <div style={{ marginTop: "1rem" }}>
           <button onClick={handleCancelClick}>❌</button>
