@@ -21,8 +21,8 @@ export default function LogIn() {
                         },
                     });
 
-                    return response;
-                    
+                return response;
+
             } catch (error) {
                 console.error("Error sending password:", error);
             }
@@ -35,11 +35,11 @@ export default function LogIn() {
 
         if (enteredPassword.length === 6) {
             try {
-           
+
                 const response = await axios.post(`http://localhost:3030/login/${userId}`,
-                {
-                    password: enteredPassword 
-                },
+                    {
+                        password: enteredPassword
+                    },
 
                     {
                         withCredentials: true, // Important for sending cookies
@@ -50,7 +50,7 @@ export default function LogIn() {
 
                 if (response.data.success) {
                     sessionStorage.setItem("currentUser", JSON.stringify(response.data.user)); // Save user data to sessionStorage
-                    navigate(`/${userId}/home`); 
+                    navigate(`/${userId}/home`);
                 } else {
                     alert("Error: " + response.data.message);
                 }
@@ -82,6 +82,8 @@ export default function LogIn() {
                             value={password}
                             onChange={handlePasswordChange}
                             maxLength="6"
+                            pattern="[0-9]*"
+                            placeholder="Enter 6-digit Password"
                         />
                     </div>
                 )}

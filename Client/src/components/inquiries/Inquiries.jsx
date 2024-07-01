@@ -13,22 +13,39 @@ export default function Inquiries() {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber;
-        const response = await axios.get(`http://localhost:3030/inquiries/${userId}`,
-          {
-            withCredentials: true, // Important for sending cookies
-            headers: {
-              'User-Id': userId,
-            },
-          });
-        setInquiries(response.data); // Assuming response.data is an array of inquiries
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+        const userId = currentUser.idNumber;
+  
+        // Check if the user ID from sessionStorage matches the ID in the URL
+        if (currentUser && userId.toString() === id) {
+          if (currentUser.profile === 0) {
+            // Fetch inquiries for the current user
+            const userInquiries = currentUser.inquiries || [];
+            setInquiries(userInquiries);
+          } else if (currentUser.profile === 1) {
+            // Fetch all inquiries for all users
+            const response = await axios.get(`http://localhost:3030/inquiries`, {
+              withCredentials: true,
+              headers: {
+                'User-Id': userId,
+              },
+            });
+            setInquiries(response.data); // Assuming response.data is an array of inquiries
+          } else {
+            console.error("No such user profile");
+          }
+        } else {
+          console.error("No current user or user ID mismatch.");
+        }
       } catch (err) {
         console.error("Error fetching inquiries:", err);
       }
     };
-
+  
     fetchInquiries();
-  }, [id, showAddForm]);
+  }, [id]);
+  
+
 
   const handleAddClick = () => {
     setShowAddForm(true);
