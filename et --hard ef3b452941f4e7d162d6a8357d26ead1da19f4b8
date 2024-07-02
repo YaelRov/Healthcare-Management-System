@@ -1,0 +1,272 @@
+[33mcommit ef3b452941f4e7d162d6a8357d26ead1da19f4b8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Wed Jul 3 02:24:49 2024 +0300
+
+    client
+
+[33mcommit d0d07c37316f9026a80dd79ed7ca647ae13cea3d[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Wed Jul 3 00:00:18 2024 +0300
+
+    dropp midicalfile
+
+[33mcommit 5fd2751ccf4387f9a7c296c23ecaa49a4d799178[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Tue Jul 2 19:06:01 2024 +0300
+
+    Home Page
+
+[33mcommit d298c42a8260ddb1467d7ff0a0302424ccb571f6[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Tue Jul 2 18:30:23 2024 +0300
+
+    css- navbar links
+
+[33mcommit 8cc9068b5ada76d70d097822c9e9f7e3549e84cf[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Tue Jul 2 18:20:36 2024 +0300
+
+    css- center and add inquiry form
+
+[33mcommit e0b843132c75f121b31f74401ea38029df71c8be[m
+Merge: 9670d84 baa1c6c
+Author: YaelRov <yael223590@gmail.com>
+Date:   Tue Jul 2 15:26:00 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit 9670d84a8ef52eebf0d88eed492f1ea42edf9c69[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Tue Jul 2 15:25:54 2024 +0300
+
+    logo
+
+[33mcommit baa1c6c78a0f2c92bee5873ecda182e5a26a8ad4[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Tue Jul 2 15:11:49 2024 +0300
+
+    AllAppointments
+
+[33mcommit 8a7c73044df2817f71471d8209bea0dce426b474[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Tue Jul 2 14:01:02 2024 +0300
+
+    add appointment time utc
+
+[33mcommit 222e573dd1ffa65e8c80cea7eb7e4add5fff0b04[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Tue Jul 2 12:32:04 2024 +0300
+
+    addPatient
+
+[33mcommit 67ebf00f74e11fbab11ef0465d1736dd1411cdfc[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Mon Jul 1 17:12:46 2024 +0300
+
+    AnswerInquiry
+
+[33mcommit b61683e68ae5b633e93b1fde8c60e63eb80a9c46[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Mon Jul 1 15:08:30 2024 +0300
+
+    inquiries
+
+[33mcommit 008cb8286671a52b3c495a26095efc44bf4b62c7[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Mon Jul 1 15:07:05 2024 +0300
+
+    navbar
+
+[33mcommit 80f1a7313fc9f3c087be69b2f2def4c7178b8489[m
+Merge: 838e901 8eae9a7
+Author: YaelRov <yael223590@gmail.com>
+Date:   Mon Jul 1 14:51:33 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit 8eae9a73711e0162bb45302e427f11abd0190509[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Mon Jul 1 14:51:06 2024 +0300
+
+    allAppointments
+
+[33mcommit 838e90105eab2bf81fccc72e59f6ddb4f1c715b1[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Mon Jul 1 14:50:07 2024 +0300
+
+    !profile
+
+[33mcommit 33d5bfe6a9cacbd691feace615ce20ad130693fb[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Mon Jul 1 14:47:19 2024 +0300
+
+    inquiries
+
+[33mcommit 93c0868dc7dfcca998f087fcc02cc13ce7f5b12c[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Sun Jun 30 23:05:37 2024 +0300
+
+    right date
+
+[33mcommit 895d4fac3ba17c27f72fc708a8f93dba93bed073[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Sun Jun 30 21:42:34 2024 +0300
+
+    updete inquiries
+
+[33mcommit b455ace9650c16cf2030cf135f7be3745d628214[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Sun Jun 30 21:39:55 2024 +0300
+
+    refresh
+
+[33mcommit 12bc0616eff7e734126bcc41013819a8b4efd7ce[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Sun Jun 30 20:30:32 2024 +0300
+
+    without drafts
+
+[33mcommit ed9baf74fe7c30d5166e56d96372c11f8180176e[m
+Merge: 28b64fa d938124
+Author: YaelRov <yael223590@gmail.com>
+Date:   Sun Jun 30 19:59:10 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit 28b64fae47971623185606b3ad5630621a9a4e73[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Sun Jun 30 19:59:04 2024 +0300
+
+    css
+
+[33mcommit d938124c82ad110766fe6072c93f9d2b9193b572[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Sun Jun 30 19:58:23 2024 +0300
+
+    authMiddleware
+
+[33mcommit b53faf282e360ff11a23d677547cfcefc2acba0d[m
+Merge: 220db6d bbd05a0
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Sun Jun 30 00:45:56 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit 220db6d2db51307c571cd0ef417613e23f6dbe03[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Sun Jun 30 00:45:46 2024 +0300
+
+    userId
+
+[33mcommit bbd05a089baa4efc59432d98ef6493ecd0f8e23c[m
+Merge: a0c38ff 775fbb4
+Author: YaelRov <yael223590@gmail.com>
+Date:   Sun Jun 30 00:39:03 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit a0c38ff309aeeb414006d8a8ef7fe8dc5dc4f1cb[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Sun Jun 30 00:38:56 2024 +0300
+
+    css border radius
+
+[33mcommit 775fbb44df07610ac885faab36d47ef7cbcec412[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Sun Jun 30 00:38:10 2024 +0300
+
+    start add patient
+
+[33mcommit 6be7ffdd18fcf65cd4d781cd2972781e58164a9f[m
+Merge: b9b439d 38b5987
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Thu Jun 27 23:12:27 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit b9b439ddf6c81f6293463e5a10aebb65ba7a84ef[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Thu Jun 27 23:08:43 2024 +0300
+
+    The head test
+
+[33mcommit 38b598744feddaf0ffb703804cf2574cb89be60a[m
+Merge: 1e76eb9 c63ecf1
+Author: YaelRov <yael223590@gmail.com>
+Date:   Thu Jun 27 21:09:00 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit 1e76eb976b4de3e0e329cc3e7e63fd59d2de314a[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Thu Jun 27 21:08:13 2024 +0300
+
+    layout
+
+[33mcommit c63ecf1bd107463f382a9c865914c654532d37ca[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Thu Jun 27 21:06:27 2024 +0300
+
+    home2
+
+[33mcommit 6c5368864ce6cc0a95988e79baaa7277388f1b8e[m
+Merge: 189de44 4cde6e2
+Author: YaelRov <yael223590@gmail.com>
+Date:   Thu Jun 27 20:43:49 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit 189de44aa2a31a53ce8975ebf499b3a46def160d[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Thu Jun 27 20:43:40 2024 +0300
+
+    basic css
+
+[33mcommit 4cde6e2b94ef00da774d08c93e5a4bdcdebec4d5[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Thu Jun 27 20:42:58 2024 +0300
+
+    home
+
+[33mcommit ceeb13c7356be27f6e91d8891dcc335c53afd0fb[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Thu Jun 27 17:02:09 2024 +0300
+
+    AddPatient
+
+[33mcommit 62b67bba6711daeab5abf7c7410169c8f17dad34[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Wed Jun 26 15:48:06 2024 +0300
+
+    get before return
+
+[33mcommit cdda575e48912ece0b26c0c32e9e519fdd418198[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Wed Jun 26 15:22:14 2024 +0300
+
+    middleware
+
+[33mcommit bb0516ba1ca58054566569381250bdcad1e1732f[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Wed Jun 26 14:25:48 2024 +0300
+
+    sessionStorage
+
+[33mcommit cd4b5597fcdb43a7105e8e9bcf715696d87e6042[m
+Merge: 810901e d07b01a
+Author: YaelRov <yael223590@gmail.com>
+Date:   Wed Jun 26 14:24:24 2024 +0300
+
+    Merge branch 'main' of https://github.com/YaelRov/Yael_Shulamit
+
+[33mcommit 810901efa5ba1b5a91ee075c4ed25ac26234666e[m
+Author: YaelRov <yael223590@gmail.com>
+Date:   Wed Jun 26 14:24:19 2024 +0300
+
+    fix
+
+[33mcommit d07b01aa0c1372c62be65d9dcf4afdc839b9526e[m
+Author: Shulamit <s0583283644@gmail.com>
+Date:   Wed Jun 26 14:23:39 2024 +0300
+
+    updete users
