@@ -1,5 +1,6 @@
 /* Global styles */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -66,12 +67,13 @@ html, body {
   padding-top: 60px;
 }
 
-.central-container{
+.central-container {
   display: flex;
   flex-direction: column;
 }
 
-.appointments-list, .inquiries-list {
+.appointments-list,
+.inquiries-list {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -80,8 +82,10 @@ html, body {
   gap: 1rem;
 }
 
-.appointment-item, .inquiry-item {
-  flex: 0 1 calc(20% - 1rem); /* Adjust the percentage to fit 5 items per row */
+.appointment-item,
+.inquiry-item {
+  flex: 0 1 calc(20% - 1rem);
+  /* Adjust the percentage to fit 5 items per row */
   box-sizing: border-box;
   padding: 1rem;
   border: 1px solid #ccc;
@@ -90,15 +94,18 @@ html, body {
 }
 
 .inquiry-container {
-  background-color: rgba(237,246,249, 0.9); /* Adjust opacity as needed */
+  background-color: rgba(237, 246, 249, 0.9);
+  /* Adjust opacity as needed */
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  /* Box shadow */
 }
 
 .inquiry-container p {
-  margin: 0.5rem 0; /* Adjust spacing between paragraphs */
+  margin: 0.5rem 0;
+  /* Adjust spacing between paragraphs */
 }
 
 .inquiry-container p:first-child {
@@ -137,7 +144,8 @@ html, body {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
-  resize: vertical; /* Allows users to resize the textarea vertically */
+  resize: vertical;
+  /* Allows users to resize the textarea vertically */
 }
 
 .submit-button {
@@ -157,11 +165,14 @@ html, body {
 
 
 
-.profile-container, .login-box {
-  background-color: rgba(237,246,249, 0.9); /* Adjust opacity as needed */
+.profile-container,
+.login-box {
+  background-color: rgba(237, 246, 249, 0.9);
+  /* Adjust opacity as needed */
   padding: 2rem;
   border-radius: 0px;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  /* Box shadow */
   max-width: 600px;
   width: 100%;
   margin: 1rem;
@@ -226,10 +237,12 @@ button:hover {
 
 /* Login box */
 .login-box {
-  background-color: rgba(237,246,249, 0.9); /* Adjust opacity as needed */
+  background-color: rgba(237, 246, 249, 0.9);
+  /* Adjust opacity as needed */
   padding: 2rem;
   border-radius: 0px;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  /* Box shadow */
   width: 300px;
   text-align: center;
   box-sizing: border-box;
@@ -280,17 +293,21 @@ button:hover {
 
 /* Add this to your existing CSS file */
 .inquiry-container {
-  background-color: rgba(237,246,249, 0.9); /* Adjust opacity as needed */
+  background-color: rgba(237, 246, 249, 0.9);
+  /* Adjust opacity as needed */
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 0px;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; /* Box shadow */
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  /* Box shadow */
   width: 100%;
-  max-width: 800px; /* Adjust max-width as needed */
+  max-width: 800px;
+  /* Adjust max-width as needed */
 }
 
 .inquiry-container p {
-  margin: 0.5rem 0; /* Adjust spacing between paragraphs */
+  margin: 0.5rem 0;
+  /* Adjust spacing between paragraphs */
 }
 
 .inquiry-container p:first-child {
@@ -303,8 +320,9 @@ button:hover {
 
 
 .react-calendar__tile {
-  background-color: rgba(224, 148, 77, 0.15); /* Or any other color you prefer */
-  color:rgb(0, 0, 0)
+  background-color: rgba(224, 148, 77, 0.15);
+  /* Or any other color you prefer */
+  color: rgb(0, 0, 0)
 }
 
 .react-calendar__navigation__label__labelText {
@@ -317,4 +335,3 @@ button:hover {
   color: rgba(224, 148, 77, 0.60);
   font-weight: bold;
 }
-

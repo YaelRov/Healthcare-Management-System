@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 export default function Home() {
-  const [userId, setUserId] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedUser = JSON.parse(sessionStorage.getItem("currentUser"));
-    if (storedUser) {
-      setUserId(storedUser.idNumber);
-    }
-  }, []);
-
-
+ 
   return (
     <div className="container central-container">
       <div className="profile-container">

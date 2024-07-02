@@ -23,17 +23,17 @@ export default function MyClinic() {
         </Route>
         <Route path="/:id" element={<NavBar />}>
           <Route index element={<Home />} />
-       
+
           <Route path="/:id/myProfile" element={<MyProfile />} />
           <Route path="inquiries">
             <Route index element={<Inquiries />} />
-            <Route path="add" element={<AddInquiry />} /> 
+            <Route path="add" element={<AddInquiry />} />
           </Route>
           <Route path="appointments">
             <Route index element={<Appointments />} />
-            <Route path="add" element={<AddAppointment />} /> 
+            <Route path="add" element={<AddAppointment />} />
           </Route>
-   
+
           <Route path="addPatient" element={<AddPatient />} />
           <Route path="home" element={<Home />} />
         </Route>

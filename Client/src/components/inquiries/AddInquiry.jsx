@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddInquiry() {
   const [inquiryText, setInquiryText] = useState("");
-  const navigate = useNavigate();
-  const { id } = useParams(); // Get the user ID from the URL
-  const [inquiries, setInquiries] = useState([]); // State for storing inquiries
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,10 +16,10 @@ export default function AddInquiry() {
         }, {
           withCredentials: true, // Important for sending cookies
           headers: {
-            'User-Id': userId,
+            'user-id': userId,
           },
         });
-  
+
         // Update inquiries state to include the new inquiry
         const newInquiry = {
           _id: response.data._id, // Assuming the response contains the new inquiry's ID
@@ -32,12 +28,11 @@ export default function AddInquiry() {
           inquiryText: inquiryText,
           status: "pending" // Assuming the initial status is "pending"
         };
-        setInquiries(prevInquiries => [...prevInquiries, newInquiry]); // Update state immediately
-  
+
         // Update the session storage with the new inquiry
         user.inquiries.push(newInquiry);
         sessionStorage.setItem("currentUser", JSON.stringify(user));
-  
+
         // Display a success message
         alert('Inquiry added successfully!');
         window.location.reload();
@@ -46,7 +41,7 @@ export default function AddInquiry() {
       }
     }
   };
-  
+
 
   return (
     <div className="add-inquiry-container">

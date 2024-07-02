@@ -42,7 +42,7 @@ export default function LogIn() {
                     },
 
                     {
-                        withCredentials: true, // Important for sending cookies
+                        withCredentials: true,
                         headers: {
                             'user-id': userId,
                         },
@@ -71,6 +71,9 @@ export default function LogIn() {
                         type="text"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
+                        maxLength="9"
+                        pattern="[0-9]*"
+                        placeholder="Enter Your Id Number"
                     />
                 </div>
                 <button onClick={handleSendPassword}>Send me password to my email</button>

@@ -25,7 +25,6 @@ export default function Appointments() {
                 'user-id': userId
               }
             });
-            console.log(`allAppointments=${allAppointments.data}`);
             setAppointments(allAppointments.data);
           } else {
             setAppointments(currentUser.appointments);
@@ -49,40 +48,36 @@ export default function Appointments() {
     setShowAddForm(false);
   };
 
-  const handleAddAppointment = () => {
-    navigate(`/${id}/appointments/add`);
-  };
-
   return (
     <div className="container">
-  {currentUser.profile ? (
-    <h1 style={{ marginBottom: "1rem" }}>All Appointments</h1>
-  ) : (
-    <h1 style={{ marginBottom: "1rem" }}>My Appointments</h1>
-  )}
+      {currentUser.profile ? (
+        <h1 style={{ marginBottom: "1rem" }}>All Appointments</h1>
+      ) : (
+        <h1 style={{ marginBottom: "1rem" }}>My Appointments</h1>
+      )}
 
-  {appointments && appointments.length > 0 ? (
-    <ul className="appointments-list">
-      {appointments.map((appointment) => (
-        <li key={appointment._id} className="appointment-item">
-          <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
-          <p><strong>Reason:</strong> {appointment.reason}</p>
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p>No appointments found.</p>
-  )}
-  {showAddForm ? (
-    <div>
-      <button onClick={handleCancelClick}>❌</button>
-      <AddAppointment />
+      {appointments && appointments.length > 0 ? (
+        <ul className="appointments-list">
+          {appointments.map((appointment) => (
+            <li key={appointment._id} className="appointment-item">
+              <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
+              <p><strong>Reason:</strong> {appointment.reason}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No appointments found.</p>
+      )}
+      {showAddForm ? (
+        <div>
+          <button onClick={handleCancelClick}>❌</button>
+          <AddAppointment />
+        </div>
+      ) : (
+        currentUser.profile === 0 && (
+          <button onClick={handleAddClick}>Add appointment</button>
+        )
+      )}
     </div>
-  ) : (
-    currentUser.profile === 0 && (
-      <button onClick={handleAddClick}>Add appointment</button>
-    )
-  )}
-</div>
   );
 }

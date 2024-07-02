@@ -5,7 +5,7 @@ function AnswerInquiry({ inquiry, onAnswerSubmit, onCancel, userIdToEdit }) {
   const [answerText, setAnswerText] = useState(inquiry.answerText || '');
   const [errorMessage, setErrorMessage] = useState('');
 
-  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ function AnswerInquiry({ inquiry, onAnswerSubmit, onCancel, userIdToEdit }) {
     }
 
     try {
-       const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber; // קבל את ה-userId מה-session storage
+      const userId = JSON.parse(sessionStorage.getItem("currentUser")).idNumber;
 
       const response = await axios.put(`http://localhost:3030/inquiries/${userIdToEdit}/${inquiry._id}`, {
         answerText,
@@ -24,7 +24,7 @@ function AnswerInquiry({ inquiry, onAnswerSubmit, onCancel, userIdToEdit }) {
       }, {
         withCredentials: true,
         headers: {
-          'User-Id': userId,
+          'user-id': userId,
         },
       });
 
@@ -32,7 +32,7 @@ function AnswerInquiry({ inquiry, onAnswerSubmit, onCancel, userIdToEdit }) {
         throw new Error("Server error");
       }
 
-      onAnswerSubmit(inquiry._id, answerText); // קריאה לפונקציה ב-Inquiries.jsx
+      onAnswerSubmit(inquiry._id, answerText);
       setErrorMessage('');
     } catch (err) {
       console.error("Error answering inquiry:", err);
@@ -42,9 +42,9 @@ function AnswerInquiry({ inquiry, onAnswerSubmit, onCancel, userIdToEdit }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <textarea 
-        value={answerText} 
-        onChange={(e) => setAnswerText(e.target.value)} 
+      <textarea
+        value={answerText}
+        onChange={(e) => setAnswerText(e.target.value)}
         placeholder="Enter your answer here"
       />
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* הצגת הודעת שגיאה */}

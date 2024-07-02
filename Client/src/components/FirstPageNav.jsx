@@ -6,8 +6,9 @@ export default function FirstPageNav() {
     return (
         <>
             <nav className='firstPageNav'>
-                <NavLink  to="/login">login</NavLink>
+                <NavLink to="/login">login</NavLink>
             </nav>
             <Outlet />
         </>
-    )}
+    );
+}

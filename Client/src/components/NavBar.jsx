@@ -20,7 +20,7 @@ export default function NavBar() {
     };
 
     useEffect(() => {
-        const getProfile = async () =>  {
+        const getProfile = async () => {
             try {
                 const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
                 if (currentUser) {
@@ -58,13 +58,13 @@ export default function NavBar() {
                     >
                         Appointment
                     </NavLink>
-                   
+
                     {profile === 1 && (
                         <NavLink
                             to="addPatient"
                             className={({ isActive }) => isActive ? "links active" : "links"}
                         >
-                            Add Patient
+                            Add Users
                         </NavLink>
                     )}
                     <NavLink

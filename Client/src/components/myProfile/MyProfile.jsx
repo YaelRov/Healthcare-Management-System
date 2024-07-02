@@ -13,7 +13,7 @@ export default function MyProfile() {
           const userData = JSON.parse(userDataString);
           setCurUser(userData);
         } else {
-          console.error("User data not found in local storage.");
+          console.error("User data not found in session storage.");
         }
       } catch (error) {
         console.error("Error parsing user data:", error);
@@ -45,10 +45,10 @@ export default function MyProfile() {
         withCredentials: true, // Important for sending cookies
         headers: {
           'user-id': userId
-        } 
+        }
       });
 
-    
+
 
       if (response.status === 200) {
         sessionStorage.setItem("currentUser", JSON.stringify(curUser));
