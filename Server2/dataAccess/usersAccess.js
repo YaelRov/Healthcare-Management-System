@@ -42,7 +42,7 @@ class UsersDataAccess{  //extends DataAccess {
           { idNumber: data.idNumber },
           {
               $set: {
-                'email.email': data.email,
+                email: data.email,
                 phoneNumber: data.phoneNumber,
                 'address.city': data.address.city,
                 'address.street': data.address.street,
@@ -197,7 +197,7 @@ class UsersDataAccess{  //extends DataAccess {
 
 async  create(data) {
   try {
-    await mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(mongoUrl); 
     console.log('Connected to MongoDB');
 
     const user = new User(data);
@@ -209,10 +209,12 @@ async  create(data) {
     console.error('Error creating user:', error.message);
     throw error;
   } finally {
-    mongoose.connection.close();
+    // Close the connection using mongoose.connection
+    await mongoose.connection.close(); 
     console.log('MongoDB connection closed');
   }
 }
+
 
 
 

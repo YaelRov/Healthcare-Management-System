@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 
 export default function MyProfile() {
-  const [curUser, setCurUser] = useState(null);
+  const [curUser, setCurUser] = useState(JSON.parse(sessionStorage.getItem("currentUser")));
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {

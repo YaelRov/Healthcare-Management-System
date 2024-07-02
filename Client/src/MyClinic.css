@@ -203,3 +203,21 @@ button:hover {
 .inquiry-container p:last-child {
   margin-bottom: 0;
 }
+
+
+.react-calendar__tile {
+  background-color: rgba(224, 148, 77, 0.15); /* Or any other color you prefer */
+  color:rgb(0, 0, 0)
+}
+
+.react-calendar__navigation__label__labelText {
+  opacity: 1;
+  color: rgba(224, 148, 77, 0.80);
+  font-weight: bold;
+}
+
+.react-calendar__navigation__arrow {
+  color: rgba(224, 148, 77, 0.60);
+  font-weight: bold;
+}
+

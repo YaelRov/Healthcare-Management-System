@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:userId', (req, res, next) => {
-    console.log('Request reached router:', req.params.id);
+    console.log('Request reached router:', req.params.userId);
     userControllers.update(req, res, next);
 });
 

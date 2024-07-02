@@ -67,9 +67,10 @@ class UsersService {
     async update(id, data) {
         try {
             const existingUser = await usersAccess.getByUserId(id);
+            const emailObject = new Email({ email: data.email });
             const updatedData = {
                 idNumber: id,
-                email: data.email || existingUser.email,
+                email: emailObject || existingUser.email,
                 phoneNumber: data.phoneNumber || existingUser.phoneNumber,
                 address: {
                     city: data.address.city || existingUser.address.city,

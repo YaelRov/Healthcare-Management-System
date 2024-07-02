@@ -1,6 +1,7 @@
 const Controller = require('./controllers.js');
 const appointmentsServices = require('../services/appointmentsServices.js');
 
+
 class AppointmentControllers extends Controller {
     constructor(Service) {
         super(Service);

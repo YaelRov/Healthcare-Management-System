@@ -80,7 +80,7 @@ const AddAppointment = () => {
         }, {
           withCredentials: true, // Important for sending cookies
           headers: {
-            'User-Id': userId,
+            'user-Id': userId,
           },
         });
 

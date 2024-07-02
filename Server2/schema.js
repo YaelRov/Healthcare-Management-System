@@ -76,7 +76,7 @@ const UserSchema = new Schema({
   visits: { type: [VisitSchema], default: [] }
 });
 
-
+UserSchema.index({ 'inquiries.patientId': 1 }, { unique: true, sparse: true }); // Add sparse: true
 
 // Create and export the model
 const User = mongoose.model('User', UserSchema);
