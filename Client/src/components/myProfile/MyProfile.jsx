@@ -62,7 +62,7 @@ export default function MyProfile() {
 
   return (
     curUser && (
-      <div className="container">
+      <div className="container central-container">
         <div className="profile-container">
           <h1 className="profile-title">My Profile</h1>
           <div className="profile-details">

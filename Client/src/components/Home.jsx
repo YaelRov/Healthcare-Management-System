@@ -14,7 +14,7 @@ export default function Home() {
 
 
   return (
-    <div className="container">
+    <div className="container central-container">
       <div className="profile-container">
       <h1 className="profile-title">Welcome to Dr. Salomon's Clinic</h1>
         <h3>

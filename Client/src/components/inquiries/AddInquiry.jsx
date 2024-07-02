@@ -49,15 +49,17 @@ export default function AddInquiry() {
   
 
   return (
-    <div>
+    <div className="add-inquiry-container">
       <h1>Add Inquiry</h1>
       <form onSubmit={handleSubmit}>
         <textarea
           value={inquiryText}
           onChange={(e) => setInquiryText(e.target.value)}
           required
+          className="inquiry-textarea"
+          placeholder="Enter your inquiry here..."
         />
-        <button type="submit">Send</button>
+        <button type="submit" className="submit-button">Send</button>
       </form>
     </div>
   );

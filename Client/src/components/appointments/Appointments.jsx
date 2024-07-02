@@ -55,34 +55,34 @@ export default function Appointments() {
 
   return (
     <div className="container">
-      {currentUser.profile ? (
-        <h1 style={{ marginBottom: "1rem" }}>All Appointments</h1>
-      ) : (
-        <h1 style={{ marginBottom: "1rem" }}>My Appointments</h1>
-      )}
+  {currentUser.profile ? (
+    <h1 style={{ marginBottom: "1rem" }}>All Appointments</h1>
+  ) : (
+    <h1 style={{ marginBottom: "1rem" }}>My Appointments</h1>
+  )}
 
-      {appointments && appointments.length > 0 ? (
-        <ul style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-          {appointments.map((appointment) => (
-            <li key={appointment._id} className="inquiry-container">
-              <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
-              <p><strong>Reason:</strong> {appointment.reason}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No appointments found.</p>
-      )}
-      {showAddForm ? (
-        <div>
-          <button onClick={handleCancelClick}>❌</button>
-          <AddAppointment />
-        </div>
-      ) : (
-        currentUser.profile === 0 && (
-          <button onClick={handleAddClick}>Add appointment</button>
-        )
-      )}
+  {appointments && appointments.length > 0 ? (
+    <ul className="appointments-list">
+      {appointments.map((appointment) => (
+        <li key={appointment._id} className="appointment-item">
+          <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
+          <p><strong>Reason:</strong> {appointment.reason}</p>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No appointments found.</p>
+  )}
+  {showAddForm ? (
+    <div>
+      <button onClick={handleCancelClick}>❌</button>
+      <AddAppointment />
     </div>
+  ) : (
+    currentUser.profile === 0 && (
+      <button onClick={handleAddClick}>Add appointment</button>
+    )
+  )}
+</div>
   );
 }

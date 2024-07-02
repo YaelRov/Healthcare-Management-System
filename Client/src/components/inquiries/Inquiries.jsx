@@ -77,60 +77,60 @@ console.log(`profile=${currentUser.profile}`)
 
   return (
     <div className="container">
-      {/* Heading based on user profile */}
-      {currentUser.profile === 0 ? (
-        <h1 style={{ marginBottom: "1rem" }}>My Inquiries</h1>
-      ) : (
-        <h1 style={{ marginBottom: "1rem" }}>All Inquiries</h1>
-      )}
+  {/* Heading based on user profile */}
+  {currentUser.profile === 0 ? (
+    <h1 style={{ marginBottom: "1rem" }}>My Inquiries</h1>
+  ) : (
+    <h1 style={{ marginBottom: "1rem" }}>All Inquiries</h1>
+  )}
 
-      {/* Display inquiries */}
-      <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-        {inquiries.length > 0 ? (
-          inquiries.map((inquiry) => (
-            <div key={inquiry._id} className="inquiry-container">
-              {/* Inquiry details */}
-              <p><strong>Date:</strong> {new Date(inquiry.dateInquiry).toLocaleString()}</p>
-              <p><strong>Question:</strong> {inquiry.inquiryText}</p>
-              {inquiry.answerText && (
-                <p><strong>Answer:</strong> {inquiry.answerText}</p>
-              )}
-              <p><strong>Status:</strong> {inquiry.status}</p>
+  {/* Display inquiries */}
+  <div className="inquiries-list">
+    {inquiries.length > 0 ? (
+      inquiries.map((inquiry) => (
+        <div key={inquiry._id} className="inquiry-item">
+          {/* Inquiry details */}
+          <p><strong>Date:</strong> {new Date(inquiry.dateInquiry).toLocaleString()}</p>
+          <p><strong>Question:</strong> {inquiry.inquiryText}</p>
+          {inquiry.answerText && (
+            <p><strong>Answer:</strong> {inquiry.answerText}</p>
+          )}
+          <p><strong>Status:</strong> {inquiry.status}</p>
 
-              {/* Answer button or AnswerInquiry component for doctors */}
-              {currentUser.profile === 1 && (
-                <div>
-                  {editingInquiry === inquiry._id ? (
-                  <AnswerInquiry
+          {/* Answer button or AnswerInquiry component for doctors */}
+          {currentUser.profile === 1 && (
+            <div>
+              {editingInquiry === inquiry._id ? (
+                <AnswerInquiry
                   inquiry={inquiry}
                   onAnswerSubmit={handleAnswerSubmit}
                   onCancel={() => setEditingInquiry(null)}
-                  userIdToEdit={inquiry.patientId} // העברת userIdToEdit כ-prop
+                  userIdToEdit={inquiry.patientId} // Pass userIdToEdit as prop
                 />
-                  ) : (
-                    <button onClick={() => setEditingInquiry(inquiry._id)}>Answer</button>
-                  )}
-                </div>
+              ) : (
+                <button onClick={() => setEditingInquiry(inquiry._id)}>Answer</button>
               )}
             </div>
-          ))
-        ) : (
-          <p>No inquiries found.</p>
-        )}
-      </div>
-
-      {/* Add Inquiry button for patients (profile 0) */}
-      {currentUser.profile === 0 && (
-        <button onClick={handleAddClick} style={{ marginTop: "1rem" }}>Add Inquiry</button>
-      )}
-
-      {/* AddInquiry form if showAddForm is true */}
-      {showAddForm && (
-        <div style={{ marginTop: "1rem" }}>
-          <button onClick={handleCancelClick}>❌</button>
-          <AddInquiry />
+          )}
         </div>
-      )}
+      ))
+    ) : (
+      <p>No inquiries found.</p>
+    )}
+  </div>
+
+  {/* Add Inquiry button for patients (profile 0) */}
+  {currentUser.profile === 0 && (
+    <button onClick={handleAddClick} style={{ marginTop: "1rem" }}>Add Inquiry</button>
+  )}
+
+  {/* AddInquiry form if showAddForm is true */}
+  {showAddForm && (
+    <div style={{ marginTop: "1rem" }}>
+      <button onClick={handleCancelClick}>❌</button>
+      <AddInquiry />
     </div>
+  )}
+</div>
   );
 }
