@@ -42,53 +42,46 @@ export default function NavBar() {
                 <nav className='navbar'>
                     <NavLink
                         to="myProfile"
-                        style={activeStyle}
-                        className='links'
+                        className={({ isActive }) => isActive ? "links active" : "links"}
                     >
                         My Profile
                     </NavLink>
                     <NavLink
                         to="inquiries"
-                        style={activeStyle}
-                        className='links'
+                        className={({ isActive }) => isActive ? "links active" : "links"}
                     >
                         Inquiries
                     </NavLink>
                     <NavLink
                         to="appointments"
-                        style={activeStyle}
-                        className='links'
+                        className={({ isActive }) => isActive ? "links active" : "links"}
                     >
                         Appointment
                     </NavLink>
                     <NavLink
                         to="medicalfiles"
-                        style={activeStyle}
-                        className='links'
+                        className={({ isActive }) => isActive ? "links active" : "links"}
                     >
                         Medical Files
                     </NavLink>
                     {profile === 1 && (
                         <NavLink
                             to="addPatient"
-                            style={activeStyle}
-                            className='links'
+                            className={({ isActive }) => isActive ? "links active" : "links"}
                         >
                             Add Patient
                         </NavLink>
                     )}
                     <NavLink
                         to="home"
-                        style={activeStyle}
-                        className='links'
+                        className={({ isActive }) => isActive ? "links active" : "links"}
                     >
                         Home
                     </NavLink>
                     <NavLink
                         to="/login"
                         onClick={logOutFunc}
-                        style={activeStyle}
-                        className='links'
+                        className={({ isActive }) => isActive ? "links active" : "links"}
                     >
                         Log Out
                     </NavLink>

@@ -19,7 +19,6 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Navbar container */
 .navbar {
   position: fixed;
   top: 0;
@@ -51,6 +50,14 @@ html, body {
   background-color: #e29578;
   color: #fff;
 }
+
+/* Active link styles */
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: red;
+}
+
 
 .container {
   justify-content: center;
