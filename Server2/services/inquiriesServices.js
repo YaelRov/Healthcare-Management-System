@@ -10,7 +10,7 @@ class InquiriesService
             }
             const fullDataObj={
                 ...data,
-                status: 'question',
+                status: "pending",
                 dateInquiry: new Date(), 
             }
             // Validate inquiry data

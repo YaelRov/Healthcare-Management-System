@@ -58,12 +58,7 @@ export default function NavBar() {
                     >
                         Appointment
                     </NavLink>
-                    <NavLink
-                        to="medicalfiles"
-                        className={({ isActive }) => isActive ? "links active" : "links"}
-                    >
-                        Medical Files
-                    </NavLink>
+                   
                     {profile === 1 && (
                         <NavLink
                             to="addPatient"
