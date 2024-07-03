@@ -76,34 +76,38 @@ export default function Inquiries() {
 
       {/* Display inquiries */}
       <div className="inquiries-list">
-        {inquiries.length > 0 ? (
-          inquiries.map((inquiry) => (
-            <div key={inquiry._id} className="inquiry-item">
-              {/* Inquiry details */}
-              <p><strong>Date:</strong> {new Date(inquiry.dateInquiry).toLocaleString()}</p>
-              <p><strong>Question:</strong> {inquiry.inquiryText}</p>
-              {inquiry.answerText && (
-                <p><strong>Answer:</strong> {inquiry.answerText}</p>
-              )}
-              <p><strong>Status:</strong> {inquiry.status}</p>
+        {inquiries && inquiries.length > 0 ? (
+          <div className="inquiries-list">
+            {inquiries
+              .filter(inquiry => inquiry !== null) // Filter out null values
+              .map(inquiry => (
+                <div key={inquiry._id} className="inquiry-item">
+                  {/* Inquiry details */}
+                  <p><strong>Date:</strong> {new Date(inquiry.dateInquiry).toLocaleString()}</p>
+                  <p><strong>Question:</strong> {inquiry.inquiryText}</p>
+                  {inquiry.answerText && (
+                    <p><strong>Answer:</strong> {inquiry.answerText}</p>
+                  )}
+                  <p><strong>Status:</strong> {inquiry.status}</p>
 
-              {/* Answer button or AnswerInquiry component for doctors */}
-              {currentUser.profile === 1 && (
-                <div>
-                  {editingInquiry === inquiry._id ? (
-                    <AnswerInquiry
-                      inquiry={inquiry}
-                      onAnswerSubmit={handleAnswerSubmit}
-                      onCancel={() => setEditingInquiry(null)}
-                      userIdToEdit={inquiry.patientId} // Pass userIdToEdit as prop
-                    />
-                  ) : (
-                    <button onClick={() => setEditingInquiry(inquiry._id)}>Answer</button>
+                  {/* Answer button or AnswerInquiry component for doctors */}
+                  {currentUser.profile === 1 && (
+                    <div>
+                      {editingInquiry === inquiry._id ? (
+                        <AnswerInquiry
+                          inquiry={inquiry}
+                          onAnswerSubmit={handleAnswerSubmit}
+                          onCancel={() => setEditingInquiry(null)}
+                          userIdToEdit={inquiry.patientId} // Pass userIdToEdit as prop
+                        />
+                      ) : (
+                        <button onClick={() => setEditingInquiry(inquiry._id)}>Answer</button>
+                      )}
+                    </div>
                   )}
                 </div>
-              )}
-            </div>
-          ))
+              ))}
+          </div>
         ) : (
           <p>No inquiries found.</p>
         )}

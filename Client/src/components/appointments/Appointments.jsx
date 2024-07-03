@@ -58,16 +58,19 @@ export default function Appointments() {
 
       {appointments && appointments.length > 0 ? (
         <ul className="appointments-list">
-          {appointments.map((appointment) => (
-            <li key={appointment._id} className="appointment-item">
-              <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
-              <p><strong>Reason:</strong> {appointment.reason}</p>
-            </li>
-          ))}
+          {appointments
+            .filter(appointment => appointment !== null) // Filter out null values
+            .map(appointment => (
+              <li key={appointment._id} className="appointment-item">
+                <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
+                <p><strong>Reason:</strong> {appointment.reason}</p>
+              </li>
+            ))}
         </ul>
       ) : (
         <p>No appointments found.</p>
       )}
+
       {showAddForm ? (
         <div>
           <button onClick={handleCancelClick}>❌</button>
