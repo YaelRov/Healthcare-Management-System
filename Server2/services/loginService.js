@@ -74,7 +74,7 @@ class loginService {
             Please note that the password is valid for 10 minutes only.\n`
         };
         try {
-            await transporter.sendMail(mailOptions); // Ensure this line is uncommented
+            // await transporter.sendMail(mailOptions); // Ensure this line is uncommented
             console.log('Email sent successfully!');
             console.log(`password is: ${newPassword}`);
         } catch (error) {
