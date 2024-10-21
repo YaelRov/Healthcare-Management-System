@@ -31,10 +31,10 @@ class AppointmentControllers extends Controller {
             if (req.session.profile == 0) {
                 result = result.flatMap(
                     appointment => appointment.date
-                  );
-                  console.log(result);
+                );
+                console.log(result);
             }
-console.log(`result of allAppointments= ${result}`)
+            console.log(`result of allAppointments= ${result}`)
             res.status(200).send(result);
 
 

@@ -39,18 +39,6 @@ connectToMongoDB();
 
 server.use(express.json());
 
-// server.use(session({
-//   secret: 'your_secret_key',
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: { 
-//     httpOnly: true,
-//     secure: false, 
-//     path: '/',
-//     maxAge: 24 * 60 * 60 * 1000, // 24 hours
-//      sameSite: 'lax'
-//   }
-// }));
 
 
 server.use(session({

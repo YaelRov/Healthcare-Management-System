@@ -6,15 +6,15 @@ class AppointmentsService {//extends Service {
     //     super(dataAccess);
     // }
 
-    async create(id,data) {
+    async create(id, data) {
         try {
             const newData = {
                 ...data,
-                patientId:id
-              }
+                patientId: id
+            }
             //אולי לבדוק אם התאריך לא עבר
             // Validate appointment data
-            if ( !data.date) {
+            if (!data.date) {
                 throw new Error('Missing required fields');
             }
 
@@ -27,17 +27,17 @@ class AppointmentsService {//extends Service {
         }
     }
 
-    async update(patientId, id,data) {
+    async update(patientId, id, data) {
         try {
-            const existingAppointment = await appointmentAccess.getByItemId(patientId, id); 
+            const existingAppointment = await appointmentAccess.getByItemId(patientId, id);
             const updatedData = {
-                appointmentId:id,
-                patientId:patientId,
+                appointmentId: id,
+                patientId: patientId,
                 reason: data.reason || existingAppointment.reason,
                 date: data.date || existingAppointment.date
-              };
+            };
             // Validate updated fields
-        
+
             // Check authorization
             // Implement authorization logic here
 
@@ -50,12 +50,12 @@ class AppointmentsService {//extends Service {
         }
     }
 
-    
 
-    async delete(userId,id) {
+
+    async delete(userId, id) {
         try {
             // Delete appointment from database
-            const deletedAppointment = await appointmentAccess.delete(userId,id);
+            const deletedAppointment = await appointmentAccess.delete(userId, id);
             return deletedAppointment;
         } catch (err) {
             // Handle errors
@@ -79,13 +79,13 @@ class AppointmentsService {//extends Service {
             return allAppointments;
         } catch (err) {
             console.log("error in appointmentsServices getAll");
-            throw err; 
+            throw err;
         }
     }
-    async getByItemId(userId,id) {
+    async getByItemId(userId, id) {
         try {
             // Get appointments by user ID from database
-            const appointments = await appointmentAccess.getByItemId(userId,id);
+            const appointments = await appointmentAccess.getByItemId(userId, id);
             return appointments;
         } catch (err) {
             // Handle errors
@@ -93,7 +93,7 @@ class AppointmentsService {//extends Service {
             throw err;
         }
     }
-   
+
 }
 
 module.exports = new AppointmentsService(appointmentAccess);

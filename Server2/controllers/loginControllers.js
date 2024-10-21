@@ -26,28 +26,28 @@ class loginControllers {
         try {
             const id = req.params.userId; // Get userId from params
             const password = req.body.password; // Get password from request body
-          
+
             if (!id || !password) {
                 return res.status(400).json({ success: false, message: 'User ID and password are required' });
             }
             const result = await loginService.getByUserId(id, password); // Call the updated service function
-    
+
             // Handle different validation results
             if (result.success) {
                 const profileResult = await userControllers.getProfile(req, res, next); // Use existing getProfile method
                 req.session.profile = profileResult.profile; // Store profile in session
                 console.log(`profile= ${req.session.profile}`);
-                
-                 //return res.status(200).json({ success: true, user: result.user });
-                 return result;
+
+                //return res.status(200).json({ success: true, user: result.user });
+                return result;
                 res.status(200).send(result); // Send user details if success
-                
+
             } else {
                 // Determine the appropriate status code based on the message
                 const statusCode = result.message === 'Incorrect password' ? 401 : // Unauthorized
-                                result.message === 'Invalid password' ? 403 : // Forbidden
-                                result.message === 'Maximum number of attempts' ? 429 : // Too Many Requests
-                                500; // Internal Server Error for other errors
+                    result.message === 'Invalid password' ? 403 : // Forbidden
+                        result.message === 'Maximum number of attempts' ? 429 : // Too Many Requests
+                            500; // Internal Server Error for other errors
                 res.status(statusCode).send(result.message);
             }
         } catch (err) {

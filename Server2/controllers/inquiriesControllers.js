@@ -2,21 +2,21 @@ console.log('Loading inquiriesController.js');
 // const Controller = require('./controllers.js');
 const inquiriesServices = require('../services/inquiriesServices.js');
 
-class InquiryControllers{// extends Controller {
-//     constructor(Service) {
-//         super(Service);
-//         console.log(Service)
-//     }
+class InquiryControllers {// extends Controller {
+    //     constructor(Service) {
+    //         super(Service);
+    //         console.log(Service)
+    //     }
     async create(req, res, next) {
         try {
             const userId = req.params.userId;
-            console.log("userId= "+userId) ;
-            console.log("profile2= "+req.session.profile);
+            console.log("userId= " + userId);
+            console.log("profile2= " + req.session.profile);
             const newData = {
-                patientId: userId, 
-                inquiryText:req.body.inquiryText,
-                files:req.body.files||null,
-              };
+                patientId: userId,
+                inquiryText: req.body.inquiryText,
+                files: req.body.files || null,
+            };
             const result = await inquiriesServices.create(newData);
             res.status(201).send(result);
         } catch (err) {
@@ -33,9 +33,9 @@ class InquiryControllers{// extends Controller {
 
     async getAll(req, res, next) {
         try {
-            if (req.session.profile  !== 1) { // Check for profile 1 (doctor)
+            if (req.session.profile !== 1) { // Check for profile 1 (doctor)
                 return res.status(403).send('Forbidden - Only doctors can access all inquiries');
-              }
+            }
             const result = await inquiriesServices.getAll();
             res.status(200).send(result);
         } catch (err) {
@@ -65,12 +65,11 @@ class InquiryControllers{// extends Controller {
         }
     }
 
-    async getByItemId(req, res,next)
-    {
+    async getByItemId(req, res, next) {
         try {
             const userId = req.params.userId;
-            const id=req.params.id;
-            const result = await inquiriesServices.getByItemId(userId,id);
+            const id = req.params.id;
+            const result = await inquiriesServices.getByItemId(userId, id);
             if (!result) {
                 res.status(404).send('Not found');
             } else {
@@ -88,17 +87,17 @@ class InquiryControllers{// extends Controller {
     }
     async update(req, res, next) {
         try {
-            if(req.session.profile==0)
+            if (req.session.profile == 0)
                 throw new Error('Only doctors can access this information.');
-            const patientId = req.params.userId; 
+            const patientId = req.params.userId;
             const id = req.params.id;
             const updatedData = {
-                file: req.body.file ,
-                answerText:req.body.answerText,
+                file: req.body.file,
+                answerText: req.body.answerText,
                 patientId: patientId,
                 inquiryId: id
-              };
-              const result = await inquiriesServices.update(updatedData);
+            };
+            const result = await inquiriesServices.update(updatedData);
             res.status(200).send(`${id} updated successfully`);
         } catch (err) {
             console.error(err);
@@ -114,8 +113,8 @@ class InquiryControllers{// extends Controller {
     async delete(req, res, next) {
         try {
             const id = req.params.id;
-            const userId=req.params.userId
-            const result = await inquiriesServices.delete(userId,id);
+            const userId = req.params.userId
+            const result = await inquiriesServices.delete(userId, id);
             res.status(200).send(`${id} deleted successfully`);
         } catch (err) {
             console.error(err);

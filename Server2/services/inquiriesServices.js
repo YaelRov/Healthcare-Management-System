@@ -1,20 +1,19 @@
 const Service = require("./services.js");
 const inquiriesAccess = require("../dataAccess/inquiriesAccess.js");
 
-class InquiriesService 
-{
+class InquiriesService {
     async create(data) {
         try {
-            if (!data.patientId||!data.inquiryText ) {
+            if (!data.patientId || !data.inquiryText) {
                 throw new Error('Missing required fields');
             }
-            const fullDataObj={
+            const fullDataObj = {
                 ...data,
                 status: "pending",
-                dateInquiry: new Date(), 
+                dateInquiry: new Date(),
             }
             // Validate inquiry data
-          
+
 
             // Create inquiry in database
             const createdInquiry = await inquiriesAccess.create(fullDataObj);
@@ -27,7 +26,7 @@ class InquiriesService
 
     async update(data) {
         try {
-  
+
             // Validate updated fields
             if (!data.answerText) {
                 throw new Error('Missing answerText');
@@ -64,14 +63,14 @@ class InquiriesService
             return allInquiries;
         } catch (err) {
             console.log("error in inquiriesServies getAll");
-            throw err; 
+            throw err;
         }
     }
-    async getByItemId(userId,id) {
+    async getByItemId(userId, id) {
         try {
             console.log("inquiriesServies getByIdInquriresId");
             // Get inquiries by user ID from database
-            const inquiries = await inquiriesAccess.getByItemId(userId,id);
+            const inquiries = await inquiriesAccess.getByItemId(userId, id);
             return inquiries;
         } catch (err) {
             // Handle errors
@@ -79,11 +78,11 @@ class InquiriesService
             throw err;
         }
     }
-    
-    async delete(userId,id) {
+
+    async delete(userId, id) {
         try {
             // Delete inquiry from database
-            const deletedInquiry = await inquiriesAccess.delete(userId,id);
+            const deletedInquiry = await inquiriesAccess.delete(userId, id);
             return deletedInquiry;
         } catch (err) {
             // Handle errors

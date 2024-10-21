@@ -1,10 +1,10 @@
 
 const usersAccess = require("../dataAccess/usersAccess.js");
 const bcrypt = require('bcrypt');
-const { validateEmail ,Email} = require('../schema.js');
+const { validateEmail, Email } = require('../schema.js');
 const validator = require('validator');
 //  const Email = require("mongoose-type-email");
- 
+
 
 
 
@@ -43,16 +43,16 @@ class UsersService {
             // }
             const emailObject = new Email({ email: data.email });
             // await emailObject.validate(); // This will throw an error if the email is invalid
-        
+
             // Update the data object with the validated email object
             const updatedData = {
-              ...data, // Copy all other fields from data
-              email: emailObject,
-              inquiries:null,
-              appointments:null,
-              visits:null
+                ...data, // Copy all other fields from data
+                email: emailObject,
+                inquiries: null,
+                appointments: null,
+                visits: null
 
-               // Replace the email string with the Email object
+                // Replace the email string with the Email object
             };
             // Create appointment in database
             const createdUser = await usersAccess.create(updatedData);
@@ -79,10 +79,6 @@ class UsersService {
                 }
             };
 
-            // Validate updated fields
-
-            // Check authorization
-            // Implement authorization logic here
 
             // Update appointment in database
             const updatedUser = await usersAccess.update(updatedData);

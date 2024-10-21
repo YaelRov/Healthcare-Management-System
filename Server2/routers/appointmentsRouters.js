@@ -5,10 +5,6 @@ const router = express.Router();
 router.use(express.json());
 
 
-
-// router.post('/', (req, res, next) => {
-//     appointmentsController.create(req, res, next);
-// });
 router.post('/:userId', (req, res, next) => {
     appointmentsController.create(req, res, next);
 });
